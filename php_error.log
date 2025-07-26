@@ -1,0 +1,25 @@
+# Log de Errores PHP - Sistema AgroMonitor
+# ==========================================
+# 
+# Este archivo registra todos los errores PHP del sistema
+# Formato: [FECHA HORA] [TIPO_ERROR] [ARCHIVO:LINEA] MENSAJE
+#
+# Tipos de error:
+# - ERROR: Errores fatales que detienen la ejecuci贸n
+# - WARNING: Advertencias que no detienen la ejecuci贸n
+# - NOTICE: Notificaciones de posibles problemas
+# - DEBUG: Informaci贸n de depuraci贸n
+#
+# ==========================================
+
+[2024-12-14 10:30:00] [INFO] [sistema] Log de errores inicializado
+[2024-12-14 10:30:00] [INFO] [sistema] Sistema AgroMonitor v1.0 iniciado[26-Jul-2025 16:03:28 America/New_York] Error en la consulta SQL: Incorrect number of arguments for PROCEDURE sistemacultivos.sp_login_usuario; expected 2, got 1 (SQL: CALL sp_login_usuario('admin@sistemacultivos.com'))
+[26-Jul-2025 16:03:28 America/New_York] Intento de login fallido para email: admin@sistemacultivos.com - IP: ::1 - Raz髇: Usuario no encontrado
+[26-Jul-2025 17:31:59 America/New_York] Intento de login fallido para email: admin@sistemacultivos.com - IP: ::1 - Raz髇: Usuario no encontrado
+[26-Jul-2025 17:42:48 America/New_York] Intento de login fallido para email: admin@sistemacultivos.com - IP: ::1 - Raz髇: Usuario no encontrado
+[26-Jul-2025 17:54:24 America/New_York] Login exitoso para usuario: admin@sistemacultivos.com - IP: ::1
+[26-Jul-2025 18:00:40 America/New_York] Login exitoso para usuario: admin@sistemacultivos.com - IP: ::1
+[26-Jul-2025 18:15:57 America/New_York] Login exitoso para usuario: admin@sistemacultivos.com - IP: ::1
+[26-Jul-2025 18:26:45 America/New_York] Login exitoso para usuario: admin@sistemacultivos.com - IP: ::1
+[26-Jul-2025 18:41:37 America/New_York] Login exitoso para usuario: admin@sistemacultivos.com - IP: ::1
+[26-Jul-2025 18:43:17 America/New_York] Login exitoso para usuario: admin@sistemacultivos.com - IP: ::1

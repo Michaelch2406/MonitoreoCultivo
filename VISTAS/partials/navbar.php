@@ -14,7 +14,7 @@ $email_usuario = $usuario_logueado ? $_SESSION['user_email'] : '';
 <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
     <div class="container-fluid">
         <!-- Logo y Título -->
-        <a class="navbar-brand d-flex align-items-center" href="<?php echo $usuario_logueado ? 'inicio.php' : 'login.php'; ?>" id="navbar-brand">
+        <a class="navbar-brand d-flex align-items-center" href="inicio.php" id="navbar-brand">
             <i class="fas fa-seedling brand-icon me-2"></i>
             <span class="brand-text">AgroMonitor</span>
         </a>
@@ -31,7 +31,7 @@ $email_usuario = $usuario_logueado ? $_SESSION['user_email'] : '';
             <!-- Menú principal - Solo para usuarios logueados -->
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" href="inicio.php" id="nav-dashboard">
+                    <a class="nav-link active" href="dashboard.php" id="nav-dashboard">
                         <i class="fas fa-tachometer-alt me-1"></i>Dashboard
                     </a>
                 </li>
@@ -143,7 +143,7 @@ $email_usuario = $usuario_logueado ? $_SESSION['user_email'] : '';
                             <i class="fas fa-question-circle me-2"></i>Ayuda
                         </a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item text-danger" href="#" data-action="logout" id="nav-logout">
+                        <li><a class="dropdown-item text-danger" href="logout.php" id="nav-logout">
                             <i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión
                         </a></li>
                     </ul>
@@ -154,7 +154,7 @@ $email_usuario = $usuario_logueado ? $_SESSION['user_email'] : '';
             <!-- Menú para usuarios no logueados -->
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="#inicio">
+                    <a class="nav-link" href="inicio.php">
                         <i class="fas fa-home me-1"></i>Inicio
                     </a>
                 </li>

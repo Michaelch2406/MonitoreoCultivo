@@ -14,8 +14,6 @@ $(document).ready(function() {
     
     // Variables de configuraci�n
     const config = {
-        maxLoginAttempts: 5,
-        lockoutDuration: 15 * 60 * 1000, // 15 minutos
         debounceDelay: 300,
         animationDuration: 300
     };
@@ -24,7 +22,7 @@ $(document).ready(function() {
     function initializeLogin() {
         setupEventListeners();
         checkSavedCredentials();
-        checkLoginAttempts();
+        // Sistema de bloqueo removido
         setupFormValidation();
         startParticleAnimation();
         
@@ -78,10 +76,7 @@ $(document).ready(function() {
             return;
         }
         
-        if (isLoginLocked()) {
-            showAlert('Demasiados intentos fallidos. Intenta de nuevo m�s tarde.', 'warning');
-            return;
-        }
+        // Sistema de bloqueo removido
         
         const formData = getFormData();
         submitLogin(formData);
@@ -110,8 +105,8 @@ $(document).ready(function() {
             dataType: 'json',
             timeout: 10000,
             success: function(response) {
-                if (response.status === 'success') {
-                    handleLoginSuccess(response.data);
+                if (response.success) {
+                    handleLoginSuccess(response);
                 } else {
                     handleLoginError(response.message);
                 }
@@ -125,44 +120,15 @@ $(document).ready(function() {
         });
     }
     
-    // Simular autenticaci�n (solo para demo)
-    function simulateAuthentication(formData) {
-        // Credenciales de demostraci�n
-        const demoCredentials = [
-            { email: 'admin@agromonitor.com', password: 'admin123', role: 'administrador' },
-            { email: 'agricultor@test.com', password: 'agri123', role: 'agricultor' },
-            { email: 'supervisor@test.com', password: 'super123', role: 'supervisor' }
-        ];
-        
-        return demoCredentials.some(cred => 
-            cred.email === formData.email && cred.password === formData.password
-        );
-    }
     
     // Manejar login exitoso
     function handleLoginSuccess(userData) {
         setLoadingState(false);
         
-        // Guardar datos de sesi�n
-        const sessionData = {
-            id: Date.now(),
-            email: userData.email || $emailInput.val(),
-            nombre: userData.nombre || 'Usuario',
-            apellido: userData.apellido || 'Demo',
-            rol: userData.rol || 'agricultor',
-            loginTime: new Date().toISOString(),
-            avatar: userData.avatar || null
-        };
-        
-        // Guardar en localStorage o sessionStorage seg�n "recordar"
-        const storage = $rememberCheckbox.is(':checked') ? localStorage : sessionStorage;
-        storage.setItem('userSession', JSON.stringify(sessionData));
-        
-        // Limpiar intentos de login
-        localStorage.removeItem('loginAttempts');
+        // Sistema de bloqueo removido
         
         // Mostrar mensaje de �xito
-        showAlert(`�Bienvenido, ${sessionData.nombre}!`, 'success');
+        showAlert(`�Bienvenido!`, 'success');
         
         // Animaci�n de �xito
         $loginForm.css({
@@ -170,14 +136,9 @@ $(document).ready(function() {
             'opacity': '0.8'
         });
         
-        // Redireccionar despu�s de un breve delay
+        // Redireccionar al dashboard
         setTimeout(() => {
-            // En producci�n, redirigir al dashboard
-            // window.location.href = 'dashboard.php';
-            
-            // Para demo, mostrar mensaje
-            showAlert('Redirigiendo al dashboard...', 'success');
-            console.log('<� Login exitoso. Datos de sesi�n:', sessionData);
+            window.location.href = 'dashboard.php';
         }, 1500);
     }
     
@@ -185,20 +146,7 @@ $(document).ready(function() {
     function handleLoginError(message = null) {
         setLoadingState(false);
         
-        // Incrementar intentos de login
-        incrementLoginAttempts();
-        
-        const attempts = getLoginAttempts();
-        const remaining = config.maxLoginAttempts - attempts.count;
-        
-        let errorMessage = message || 'Credenciales incorrectas. ';
-        
-        if (remaining > 0) {
-            errorMessage += `Te quedan ${remaining} intentos.`;
-        } else {
-            errorMessage = 'Demasiados intentos fallidos. Cuenta bloqueada temporalmente.';
-            lockLogin();
-        }
+        let errorMessage = message || 'Credenciales incorrectas.';
         
         showAlert(errorMessage, 'danger');
         

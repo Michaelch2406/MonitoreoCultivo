@@ -171,6 +171,4 @@
     </div>
 </footer>
 
-<!-- Scripts necesarios -->
-<script src="../../Bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="JS/footer.js"></script>
+<!-- Los scripts de Bootstrap se cargan en la página principal -->

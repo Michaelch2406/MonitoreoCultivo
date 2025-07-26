@@ -213,7 +213,6 @@
     <script src="../Bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="../PUBLIC/jquery-3.7.1.min.js"></script>
     <script src="partials/JS/navbar.js"></script>
-    <script src="partials/JS/footer.js"></script>
     <script src="JS/login.js"></script>
 </body>
 </html>

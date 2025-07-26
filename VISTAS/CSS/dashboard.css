@@ -1,0 +1,681 @@
+/* Inicio Styles - Sistema de Monitoreo de Cultivos */
+
+:root {
+    --primary-green: #2E7D32;
+    --secondary-green: #4CAF50;
+    --light-green: #81C784;
+    --earth-brown: #8D6E63;
+    --water-blue: #1976D2;
+    --sun-yellow: #FFA726;
+    --white: #FFFFFF;
+    --light-gray: #F5F5F5;
+    --text-gray: #424242;
+    --hover-green: #1B5E20;
+    --shadow-light: rgba(46, 125, 50, 0.1);
+    --shadow-medium: rgba(46, 125, 50, 0.2);
+    --shadow-heavy: rgba(46, 125, 50, 0.3);
+    --error-red: #F44336;
+    --success-green: #4CAF50;
+    --warning-orange: #FF9800;
+    --info-blue: #2196F3;
+}
+
+/* Reset y estilos globales */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--text-gray);
+    background: var(--light-gray);
+    min-height: 100vh;
+}
+
+/* Contenido principal */
+.main-content {
+    margin-top: 80px; /* Espacio para navbar fijo */
+    margin-bottom: 60px; /* Espacio para footer */
+    padding: 2rem 0;
+    min-height: calc(100vh - 160px);
+}
+
+/* Header del Dashboard */
+.dashboard-header {
+    background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+    color: var(--white);
+    border-radius: 15px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 8px 25px var(--shadow-medium);
+    position: relative;
+    overflow: hidden;
+}
+
+.dashboard-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 100%;
+    height: 200%;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M20 20c20 0 20 20 40 20s20-20 40-20v60H20z" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+    transform: rotate(-45deg);
+    animation: floatPattern 20s linear infinite;
+}
+
+@keyframes floatPattern {
+    0% { transform: rotate(-45deg) translateX(0); }
+    100% { transform: rotate(-45deg) translateX(100px); }
+}
+
+.dashboard-header > * {
+    position: relative;
+    z-index: 1;
+}
+
+.dashboard-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.dashboard-subtitle {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin: 0;
+}
+
+.admin-badge {
+    display: inline-block;
+    background: linear-gradient(45deg, var(--sun-yellow), #FFB74D);
+    color: var(--text-dark);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-top: 1rem;
+    box-shadow: 0 2px 8px rgba(255, 167, 38, 0.3);
+}
+
+.dashboard-date, .dashboard-weather {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.9;
+    display: flex;
+    align-items: center;
+}
+
+/* Tarjetas de estadísticas */
+.stats-cards {
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: var(--white);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px var(--shadow-light);
+    transition: all 0.3s ease;
+    border-left: 4px solid transparent;
+    height: 100%;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px var(--shadow-medium);
+}
+
+.stat-card-primary {
+    border-left-color: var(--primary-green);
+}
+
+.stat-card-success {
+    border-left-color: var(--success-green);
+}
+
+.stat-card-warning {
+    border-left-color: var(--warning-orange);
+}
+
+.stat-card-info {
+    border-left-color: var(--info-blue);
+}
+
+.stat-card-body {
+    padding: 1.5rem;
+}
+
+.stat-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.stat-info h3 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--primary-green);
+}
+
+.stat-info p {
+    color: var(--text-gray);
+    font-size: 0.9rem;
+    margin: 0;
+    font-weight: 500;
+}
+
+.stat-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--white);
+    background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+}
+
+.stat-card-success .stat-icon {
+    background: linear-gradient(135deg, var(--success-green), var(--light-green));
+}
+
+.stat-card-warning .stat-icon {
+    background: linear-gradient(135deg, var(--warning-orange), var(--sun-yellow));
+}
+
+.stat-card-info .stat-icon {
+    background: linear-gradient(135deg, var(--info-blue), var(--water-blue));
+}
+
+.stat-progress {
+    height: 4px;
+    background: var(--light-gray);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-green), var(--secondary-green));
+    border-radius: 2px;
+    width: 0%;
+    transition: width 2s ease-in-out;
+}
+
+.stat-card-success .progress-bar {
+    background: linear-gradient(90deg, var(--success-green), var(--light-green));
+}
+
+.stat-card-warning .progress-bar {
+    background: linear-gradient(90deg, var(--warning-orange), var(--sun-yellow));
+}
+
+.stat-card-info .progress-bar {
+    background: linear-gradient(90deg, var(--info-blue), var(--water-blue));
+}
+
+.stat-description {
+    color: var(--text-gray);
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+}
+
+/* Tarjetas del dashboard */
+.dashboard-card {
+    background: var(--white);
+    border-radius: 15px;
+    box-shadow: 0 4px 15px var(--shadow-light);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.dashboard-card:hover {
+    box-shadow: 0 6px 20px var(--shadow-medium);
+}
+
+.card-header {
+    background: linear-gradient(135deg, var(--light-gray), var(--white));
+    padding: 1.5rem;
+    border-bottom: 1px solid #e9ecef;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-title {
+    margin: 0;
+    color: var(--primary-green);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+}
+
+.card-actions .form-select {
+    background: var(--white);
+    border: 1px solid var(--light-green);
+    color: var(--primary-green);
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+/* Tabla de cultivos */
+.table {
+    margin: 0;
+}
+
+.table thead th {
+    background: var(--light-gray);
+    color: var(--primary-green);
+    font-weight: 600;
+    border: none;
+    padding: 1rem;
+}
+
+.table tbody td {
+    padding: 1rem;
+    vertical-align: middle;
+    border-top: 1px solid #e9ecef;
+}
+
+.table-hover tbody tr:hover {
+    background: rgba(46, 125, 50, 0.05);
+}
+
+.cultivo-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-size: 1rem;
+}
+
+.badge {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border-radius: 8px;
+}
+
+/* Panel de alertas */
+.alert-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+    border-bottom: 1px solid #e9ecef;
+    transition: background 0.3s ease;
+}
+
+.alert-item:hover {
+    background: rgba(46, 125, 50, 0.05);
+}
+
+.alert-item:last-child {
+    border-bottom: none;
+}
+
+.alert-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.alert-content {
+    flex: 1;
+}
+
+.alert-content h6 {
+    margin: 0 0 0.25rem 0;
+    color: var(--primary-green);
+    font-weight: 600;
+}
+
+.alert-content p {
+    margin: 0 0 0.25rem 0;
+    font-size: 0.9rem;
+    color: var(--text-gray);
+}
+
+.alert-content small {
+    color: #6c757d;
+}
+
+/* Calendario de actividades */
+.activity-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border-bottom: 1px solid #e9ecef;
+    transition: background 0.3s ease;
+}
+
+.activity-item:hover {
+    background: rgba(46, 125, 50, 0.05);
+}
+
+.activity-item:last-child {
+    border-bottom: none;
+}
+
+.activity-date {
+    background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+    color: var(--white);
+    padding: 0.75rem;
+    border-radius: 10px;
+    text-align: center;
+    min-width: 60px;
+    flex-shrink: 0;
+}
+
+.activity-date .day {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.activity-date .month {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.activity-content h6 {
+    margin: 0 0 0.25rem 0;
+    color: var(--primary-green);
+    font-weight: 600;
+}
+
+.activity-content p {
+    margin: 0;
+    font-size: 0.85rem;
+}
+
+/* Acciones rápidas */
+.btn-outline-primary {
+    border-color: var(--primary-green);
+    color: var(--primary-green);
+}
+
+.btn-outline-primary:hover {
+    background: var(--primary-green);
+    border-color: var(--primary-green);
+}
+
+.btn-outline-success {
+    border-color: var(--success-green);
+    color: var(--success-green);
+}
+
+.btn-outline-success:hover {
+    background: var(--success-green);
+    border-color: var(--success-green);
+}
+
+.btn-outline-warning {
+    border-color: var(--warning-orange);
+    color: var(--warning-orange);
+}
+
+.btn-outline-warning:hover {
+    background: var(--warning-orange);
+    border-color: var(--warning-orange);
+}
+
+.btn-outline-info {
+    border-color: var(--info-blue);
+    color: var(--info-blue);
+}
+
+.btn-outline-info:hover {
+    background: var(--info-blue);
+    border-color: var(--info-blue);
+}
+
+/* Alertas flotantes */
+.alert-container-fixed {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    z-index: 1050;
+    max-width: 400px;
+}
+
+/* Animaciones de entrada */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.stat-card {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.stat-card:nth-child(1) { animation-delay: 0.1s; }
+.stat-card:nth-child(2) { animation-delay: 0.2s; }
+.stat-card:nth-child(3) { animation-delay: 0.3s; }
+.stat-card:nth-child(4) { animation-delay: 0.4s; }
+
+.dashboard-card {
+    animation: fadeInUp 0.6s ease-out 0.5s both;
+}
+
+/* Gráfico responsivo */
+#grafico-produccion {
+    max-height: 400px;
+}
+
+/* Responsive Design */
+@media (max-width: 1199.98px) {
+    .dashboard-title {
+        font-size: 2rem;
+    }
+    
+    .stat-info h3 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .main-content {
+        padding: 1rem 0;
+    }
+    
+    .dashboard-header {
+        padding: 1.5rem;
+        text-align: center;
+    }
+    
+    .dashboard-title {
+        font-size: 1.75rem;
+    }
+    
+    .stat-card-body {
+        padding: 1rem;
+    }
+    
+    .stat-info h3 {
+        font-size: 1.75rem;
+    }
+    
+    .card-header {
+        padding: 1rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .card-actions {
+        width: 100%;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .main-content {
+        margin-top: 70px;
+    }
+    
+    .dashboard-header {
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .dashboard-title {
+        font-size: 1.5rem;
+    }
+    
+    .dashboard-subtitle {
+        font-size: 1rem;
+    }
+    
+    .stat-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .stat-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.25rem;
+    }
+    
+    .table-responsive {
+        font-size: 0.85rem;
+    }
+    
+    .cultivo-icon {
+        width: 30px;
+        height: 30px;
+        font-size: 0.8rem;
+    }
+    
+    .alert-item {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .activity-item {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .activity-date {
+        margin-bottom: 0.5rem;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .dashboard-header {
+        padding: 0.75rem;
+    }
+    
+    .dashboard-title {
+        font-size: 1.25rem;
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
+    
+    .alert-container-fixed {
+        right: 10px;
+        left: 10px;
+        max-width: none;
+    }
+}
+
+/* Efectos de accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Alto contraste */
+@media (prefers-contrast: high) {
+    .stat-card,
+    .dashboard-card {
+        border: 2px solid var(--primary-green);
+    }
+    
+    .table thead th {
+        border: 1px solid var(--primary-green);
+    }
+}
+
+/* Estados de focus para accesibilidad */
+.btn:focus,
+.form-select:focus {
+    outline: 2px solid var(--sun-yellow);
+    outline-offset: 2px;
+}
+
+/* Efectos de loading */
+.loading-stat {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* Tema oscuro (preparado para futuras implementaciones) */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --white: #1a1a1a;
+        --light-gray: #2d2d2d;
+        --text-gray: #e0e0e0;
+    }
+    
+    body {
+        background: var(--light-gray);
+        color: var(--text-gray);
+    }
+    
+    .dashboard-card,
+    .stat-card {
+        background: var(--white);
+        color: var(--text-gray);
+    }
+}

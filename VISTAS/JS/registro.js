@@ -5,19 +5,19 @@
 
 // Variables globales
 let currentStep = 1;
-const totalSteps = 3;
+const totalSteps = 2;
 let emailVerified = false;
 let formData = {};
 
-// Validaciones de fortaleza de contraseña
+// Validaciones de fortaleza de contraseï¿½a
 const passwordRequirements = {
     length: { pattern: /.{8,}/, message: 'Al menos 8 caracteres' },
-    uppercase: { pattern: /[A-Z]/, message: 'Una letra mayúscula' },
-    lowercase: { pattern: /[a-z]/, message: 'Una letra minúscula' },
-    number: { pattern: /\d/, message: 'Un número' }
+    uppercase: { pattern: /[A-Z]/, message: 'Una letra mayï¿½scula' },
+    lowercase: { pattern: /[a-z]/, message: 'Una letra minï¿½scula' },
+    number: { pattern: /\d/, message: 'Un nï¿½mero' }
 };
 
-// Inicialización cuando el documento esté listo
+// Inicializaciï¿½n cuando el documento estï¿½ listo
 $(document).ready(function() {
     initializeForm();
     setupEventListeners();
@@ -37,7 +37,7 @@ function initializeForm() {
     // Animar entrada de elementos
     animateFormElements();
     
-    // Actualizar año actual en footer si existe
+    // Actualizar aï¿½o actual en footer si existe
     updateCurrentYear();
 }
 
@@ -45,40 +45,40 @@ function initializeForm() {
  * Configura todos los event listeners
  */
 function setupEventListeners() {
-    // Navegación entre pasos
+    // Navegaciï¿½n entre pasos
     $('#next-step-1').click(() => handleStepNavigation('next', 1));
     $('#next-step-2').click(() => handleStepNavigation('next', 2));
     $('#prev-step-2').click(() => handleStepNavigation('prev', 2));
     $('#prev-step-3').click(() => handleStepNavigation('prev', 3));
     
-    // Validación de fortaleza de contraseña
+    // Validaciï¿½n de fortaleza de contraseï¿½a
     $('#password').on('input', validatePasswordStrength);
     $('#confirm-password').on('input', validatePasswordMatch);
     
-    // Toggle de contraseñas
+    // Toggle de contraseï¿½as
     $('.toggle-password').click(function() {
         togglePasswordVisibility($(this).data('target'));
     });
     
-    // Verificación de email
+    // Verificaciï¿½n de email
     $('#verify-email-btn').click(handleEmailVerification);
     $('#resend-code').click(handleResendCode);
     
-    // Validación de código de verificación
+    // Validaciï¿½n de cï¿½digo de verificaciï¿½n
     $('#verification-code').on('input', validateVerificationCode);
     
-    // Envío del formulario
+    // Envï¿½o del formulario
     $('#registerForm').submit(handleFormSubmission);
     
-    // Validación en tiempo real de campos
+    // Validaciï¿½n en tiempo real de campos
     $('.form-control').on('blur', function() {
         validateField($(this));
     });
     
-    // Teclas de acceso rápido
+    // Teclas de acceso rï¿½pido
     $(document).keydown(handleKeyboardShortcuts);
     
-    // Prevenir envío accidental del formulario
+    // Prevenir envï¿½o accidental del formulario
     $('.form-control').keypress(function(e) {
         if (e.which === 13 && !$(this).is('textarea')) {
             e.preventDefault();
@@ -88,7 +88,7 @@ function setupEventListeners() {
 }
 
 /**
- * Maneja la navegación entre pasos
+ * Maneja la navegaciï¿½n entre pasos
  */
 function handleStepNavigation(direction, step) {
     if (direction === 'next') {
@@ -158,7 +158,7 @@ function validateCurrentStep(step) {
         }
     });
     
-    // Validaciones específicas por paso
+    // Validaciones especï¿½ficas por paso
     switch (step) {
         case 1:
             isValid = validateStep1() && isValid;
@@ -166,9 +166,7 @@ function validateCurrentStep(step) {
         case 2:
             isValid = validateStep2() && isValid;
             break;
-        case 3:
-            isValid = validateStep3() && isValid;
-            break;
+        // Paso 3 eliminado
     }
     
     if (!isValid) {
@@ -179,7 +177,7 @@ function validateCurrentStep(step) {
 }
 
 /**
- * Validaciones específicas del paso 1
+ * Validaciones especï¿½ficas del paso 1
  */
 function validateStep1() {
     let isValid = true;
@@ -210,10 +208,10 @@ function validateStep1() {
         setFieldSuccess('#rol');
     }
     
-    // Validar teléfono si está presente
+    // Validar telï¿½fono si estï¿½ presente
     const telefono = $('#telefono').val().trim();
     if (telefono && !validatePhone(telefono)) {
-        setFieldError('#telefono', 'Formato de teléfono inválido');
+        setFieldError('#telefono', 'Formato de telï¿½fono invï¿½lido');
         isValid = false;
     } else if (telefono) {
         setFieldSuccess('#telefono');
@@ -223,7 +221,7 @@ function validateStep1() {
 }
 
 /**
- * Validaciones específicas del paso 2
+ * Validaciones especï¿½ficas del paso 2
  */
 function validateStep2() {
     let isValid = true;
@@ -231,50 +229,56 @@ function validateStep2() {
     // Validar email
     const email = $('#email').val().trim();
     if (!validateEmail(email)) {
-        setFieldError('#email', 'Formato de email inválido');
+        setFieldError('#email', 'Formato de email invï¿½lido');
         isValid = false;
     } else {
         setFieldSuccess('#email');
     }
     
-    // Validar contraseña
+    // Validar contraseï¿½a
     const password = $('#password').val();
     if (!validatePassword(password)) {
-        setFieldError('#password', 'La contraseña no cumple con los requisitos');
+        setFieldError('#password', 'La contraseï¿½a no cumple con los requisitos');
         isValid = false;
     } else {
         setFieldSuccess('#password');
     }
     
-    // Validar confirmación de contraseña
+    // Validar confirmaciï¿½n de contraseï¿½a
     const confirmPassword = $('#confirm-password').val();
     if (password !== confirmPassword) {
-        setFieldError('#confirm-password', 'Las contraseñas no coinciden');
+        setFieldError('#confirm-password', 'Las contraseï¿½as no coinciden');
         isValid = false;
     } else if (confirmPassword) {
         setFieldSuccess('#confirm-password');
+    }
+    
+    // Validar tÃ©rminos y condiciones
+    if (!$('#terms').is(':checked')) {
+        showAlert('Debes aceptar los tÃ©rminos y condiciones para continuar', 'warning');
+        isValid = false;
     }
     
     return isValid;
 }
 
 /**
- * Validaciones específicas del paso 3
+ * Validaciones especï¿½ficas del paso 3
  */
 function validateStep3() {
     let isValid = true;
     
-    // Validar términos y condiciones
+    // Validar tï¿½rminos y condiciones
     if (!$('#terms').is(':checked')) {
-        showAlert('Debes aceptar los términos y condiciones para continuar', 'warning');
+        showAlert('Debes aceptar los tï¿½rminos y condiciones para continuar', 'warning');
         isValid = false;
     }
     
-    // Validar código de verificación si está visible
+    // Validar cï¿½digo de verificaciï¿½n si estï¿½ visible
     if ($('#verification-email-section').is(':visible')) {
         const code = $('#verification-code').val().trim();
         if (!code || code.length !== 6) {
-            setFieldError('#verification-code', 'Código de verificación inválido');
+            setFieldError('#verification-code', 'Cï¿½digo de verificaciï¿½n invï¿½lido');
             isValid = false;
         } else {
             setFieldSuccess('#verification-code');
@@ -292,36 +296,36 @@ function validateField($field) {
     const fieldName = $field.attr('name');
     let isValid = true;
     
-    // Validación de campos requeridos
+    // Validaciï¿½n de campos requeridos
     if ($field.attr('required') && !value) {
         setFieldError($field, 'Este campo es requerido');
         return false;
     }
     
-    // Validaciones específicas por tipo
+    // Validaciones especï¿½ficas por tipo
     switch (fieldName) {
         case 'email':
             if (value && !validateEmail(value)) {
-                setFieldError($field, 'Formato de email inválido');
+                setFieldError($field, 'Formato de email invï¿½lido');
                 isValid = false;
             }
             break;
         case 'telefono':
             if (value && !validatePhone(value)) {
-                setFieldError($field, 'Formato de teléfono inválido');
+                setFieldError($field, 'Formato de telï¿½fono invï¿½lido');
                 isValid = false;
             }
             break;
         case 'password':
             if (value && !validatePassword(value)) {
-                setFieldError($field, 'La contraseña no cumple con los requisitos');
+                setFieldError($field, 'La contraseï¿½a no cumple con los requisitos');
                 isValid = false;
             }
             break;
         case 'confirm-password':
             const password = $('#password').val();
             if (value && value !== password) {
-                setFieldError($field, 'Las contraseñas no coinciden');
+                setFieldError($field, 'Las contraseï¿½as no coinciden');
                 isValid = false;
             }
             break;
@@ -335,10 +339,10 @@ function validateField($field) {
 }
 
 /**
- * Configura validación en tiempo real
+ * Configura validaciï¿½n en tiempo real
  */
 function setupRealTimeValidation() {
-    // Validación de email mientras escribe
+    // Validaciï¿½n de email mientras escribe
     $('#email').on('input', function() {
         const email = $(this).val().trim();
         if (email && validateEmail(email)) {
@@ -348,19 +352,19 @@ function setupRealTimeValidation() {
         }
     });
     
-    // Validación de código de verificación
+    // Validaciï¿½n de cï¿½digo de verificaciï¿½n
     $('#verification-code').on('input', function() {
         const code = $(this).val().replace(/\D/g, '').substring(0, 6);
         $(this).val(code);
         
         if (code.length === 6) {
-            // Simular validación del código
+            // Simular validaciï¿½n del cï¿½digo
             setTimeout(() => {
-                if (Math.random() > 0.3) { // 70% de éxito
+                if (Math.random() > 0.3) { // 70% de ï¿½xito
                     setFieldSuccess($(this));
-                    showAlert('Código verificado correctamente', 'success');
+                    showAlert('Cï¿½digo verificado correctamente', 'success');
                 } else {
-                    setFieldError($(this), 'Código incorrecto');
+                    setFieldError($(this), 'Cï¿½digo incorrecto');
                 }
             }, 1000);
         }
@@ -368,7 +372,7 @@ function setupRealTimeValidation() {
 }
 
 /**
- * Valida la fortaleza de la contraseña
+ * Valida la fortaleza de la contraseï¿½a
  */
 function validatePasswordStrength() {
     const password = $('#password').val();
@@ -395,19 +399,19 @@ function validatePasswordStrength() {
     // Determinar nivel de fortaleza
     if (score === 0) {
         strengthLevel = '';
-        strengthText.text('Fortaleza de la contraseña');
+        strengthText.text('Fortaleza de la contraseï¿½a');
     } else if (score === 1) {
         strengthLevel = 'weak';
-        strengthText.text('Contraseña débil');
+        strengthText.text('Contraseï¿½a dï¿½bil');
     } else if (score === 2) {
         strengthLevel = 'fair';
-        strengthText.text('Contraseña regular');
+        strengthText.text('Contraseï¿½a regular');
     } else if (score === 3) {
         strengthLevel = 'good';
-        strengthText.text('Contraseña buena');
+        strengthText.text('Contraseï¿½a buena');
     } else if (score === 4) {
         strengthLevel = 'strong';
-        strengthText.text('Contraseña fuerte');
+        strengthText.text('Contraseï¿½a fuerte');
     }
     
     // Actualizar barra visual
@@ -415,27 +419,27 @@ function validatePasswordStrength() {
 }
 
 /**
- * Valida que las contraseñas coincidan
+ * Valida que las contraseï¿½as coincidan
  */
 function validatePasswordMatch() {
     const password = $('#password').val();
     const confirmPassword = $('#confirm-password').val();
     
     if (confirmPassword && password !== confirmPassword) {
-        setFieldError('#confirm-password', 'Las contraseñas no coinciden');
+        setFieldError('#confirm-password', 'Las contraseï¿½as no coinciden');
     } else if (confirmPassword) {
         setFieldSuccess('#confirm-password');
     }
 }
 
 /**
- * Maneja la verificación de email
+ * Maneja la verificaciï¿½n de email
  */
 function handleEmailVerification() {
     const email = $('#email').val().trim();
     
     if (!validateEmail(email)) {
-        showAlert('Por favor ingresa un email válido antes de verificar', 'warning');
+        showAlert('Por favor ingresa un email vï¿½lido antes de verificar', 'warning');
         return;
     }
     
@@ -444,17 +448,17 @@ function handleEmailVerification() {
     const originalHtml = btn.html();
     btn.html('<i class="fas fa-spinner fa-spin"></i>').prop('disabled', true);
     
-    // Simular envío de código
+    // Simular envï¿½o de cï¿½digo
     setTimeout(() => {
         btn.html(originalHtml).prop('disabled', false);
         $('#verification-email-section').slideDown(300);
-        showAlert('Código de verificación enviado a tu email', 'success');
+        showAlert('Cï¿½digo de verificaciï¿½n enviado a tu email', 'success');
         emailVerified = true;
     }, 2000);
 }
 
 /**
- * Maneja el reenvío de código
+ * Maneja el reenvï¿½o de cï¿½digo
  */
 function handleResendCode() {
     const btn = $('#resend-code');
@@ -464,28 +468,28 @@ function handleResendCode() {
     
     setTimeout(() => {
         btn.html(originalHtml).prop('disabled', false);
-        showAlert('Nuevo código enviado', 'info');
+        showAlert('Nuevo cï¿½digo enviado', 'info');
     }, 1500);
 }
 
 /**
- * Valida el código de verificación
+ * Valida el cï¿½digo de verificaciï¿½n
  */
 function validateVerificationCode() {
     const code = $('#verification-code').val().trim();
     if (code.length === 6) {
-        // Aquí iría la validación real del código
+        // Aquï¿½ irï¿½a la validaciï¿½n real del cï¿½digo
         setFieldSuccess('#verification-code');
     }
 }
 
 /**
- * Maneja el envío del formulario
+ * Maneja el envï¿½o del formulario
  */
 function handleFormSubmission(e) {
     e.preventDefault();
     
-    if (!validateCurrentStep(3)) {
+    if (!validateCurrentStep(2)) {
         return;
     }
     
@@ -495,7 +499,7 @@ function handleFormSubmission(e) {
     // Mostrar loading
     showLoadingOverlay('Creando tu cuenta...');
     
-    // Deshabilitar botón de envío
+    // Deshabilitar botï¿½n de envï¿½o
     const submitBtn = $('#register-btn');
     submitBtn.find('.btn-text').hide();
     submitBtn.find('.btn-loading').show();
@@ -503,12 +507,24 @@ function handleFormSubmission(e) {
     
     // Simular proceso de registro
     setTimeout(() => {
-        // Simular éxito o error aleatorio
-        if (Math.random() > 0.2) { // 80% de éxito
-            handleRegistrationSuccess();
-        } else {
-            handleRegistrationError('Error en el servidor. Por favor intenta nuevamente.');
-        }
+        // Simular ï¿½xito o error aleatorio
+        // Enviar datos al servidor vÃ­a AJAX
+        $.ajax({
+            url: '../AJAX/registro_ajax.php',
+            type: 'POST',
+            data: formData,
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    handleRegistrationSuccess();
+                } else {
+                    handleRegistrationError(response.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                handleRegistrationError('Error de conexiÃ³n. Por favor intenta nuevamente.');
+            }
+        });
     }, 3000);
 }
 
@@ -520,31 +536,30 @@ function collectFormData() {
         nombre: $('#nombre').val().trim(),
         apellido: $('#apellido').val().trim(),
         telefono: $('#telefono').val().trim(),
-        rol: $('#rol').val(),
+        rol: $('#rol').val() || 'agricultor',
         email: $('#email').val().trim(),
         password: $('#password').val(),
-        verificacion_codigo: $('#verification-code').val().trim(),
-        terminos_aceptados: $('#terms').is(':checked'),
-        newsletter: $('#newsletter').is(':checked'),
-        fecha_registro: new Date().toISOString()
+        'confirm-password': $('#confirm-password').val(),
+        terms: $('#terms').is(':checked'),
+        newsletter: $('#newsletter').is(':checked')
     };
 }
 
 /**
- * Maneja el éxito del registro
+ * Maneja el ï¿½xito del registro
  */
 function handleRegistrationSuccess() {
     hideLoadingOverlay();
     
-    // Mostrar mensaje de éxito
-    showAlert('¡Cuenta creada exitosamente! Redirigiendo al login...', 'success');
+    // Mostrar mensaje de ï¿½xito
+    showAlert('ï¿½Cuenta creada exitosamente! Redirigiendo al dashboard...', 'success');
     
-    // Animar éxito
+    // Animar ï¿½xito
     $('.register-panel').addClass('animate__animated animate__pulse');
     
-    // Redirigir al login después de un delay
+    // Redirigir al dashboard despuï¿½s de un delay (ya hay sesiï¿½n creada)
     setTimeout(() => {
-        window.location.href = 'login.php';
+        window.location.href = 'dashboard.php';
     }, 2000);
 }
 
@@ -554,7 +569,7 @@ function handleRegistrationSuccess() {
 function handleRegistrationError(message) {
     hideLoadingOverlay();
     
-    // Restaurar botón
+    // Restaurar botï¿½n
     const submitBtn = $('#register-btn');
     submitBtn.find('.btn-loading').hide();
     submitBtn.find('.btn-text').show();
@@ -571,7 +586,7 @@ function handleRegistrationError(message) {
 }
 
 /**
- * Alterna la visibilidad de la contraseña
+ * Alterna la visibilidad de la contraseï¿½a
  */
 function togglePasswordVisibility(target) {
     const field = $(target);
@@ -588,7 +603,7 @@ function togglePasswordVisibility(target) {
 }
 
 /**
- * Maneja teclas de acceso rápido
+ * Maneja teclas de acceso rï¿½pido
  */
 function handleKeyboardShortcuts(e) {
     // Escape para cerrar alertas
@@ -596,7 +611,7 @@ function handleKeyboardShortcuts(e) {
         $('.alert').fadeOut();
     }
     
-    // Ctrl+Enter para enviar formulario si está en el último paso
+    // Ctrl+Enter para enviar formulario si estï¿½ en el ï¿½ltimo paso
     if (e.ctrlKey && e.key === 'Enter' && currentStep === totalSteps) {
         e.preventDefault();
         $('#registerForm').submit();
@@ -624,13 +639,13 @@ function handleEnterKey() {
             handleStepNavigation('next', currentStep);
         }
     } else {
-        // En el último paso, enviar formulario
+        // En el ï¿½ltimo paso, enviar formulario
         $('#registerForm').submit();
     }
 }
 
 /**
- * Funciones de validación
+ * Funciones de validaciï¿½n
  */
 function validateEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -734,12 +749,12 @@ function debounce(func, wait) {
     };
 }
 
-// Configurar validación con debounce para mejor rendimiento
+// Configurar validaciï¿½n con debounce para mejor rendimiento
 const debouncedValidation = debounce(function(field) {
     validateField($(field));
 }, 300);
 
-// Aplicar debounce a validación en tiempo real
+// Aplicar debounce a validaciï¿½n en tiempo real
 $(document).on('input', '.form-control', function() {
     debouncedValidation(this);
 });
@@ -751,7 +766,7 @@ $(window).on('beforeunload', function(e) {
     // Advertir si hay datos sin guardar
     if (currentStep > 1 && Object.keys(formData).length === 0) {
         e.preventDefault();
-        return 'Tienes un formulario de registro sin completar. ¿Estás seguro de que quieres salir?';
+        return 'Tienes un formulario de registro sin completar. ï¿½Estï¿½s seguro de que quieres salir?';
     }
 });
 
@@ -773,7 +788,7 @@ function enhanceAccessibility() {
     $('.form-step').attr('role', 'tabpanel');
     $('.step-indicator').attr('role', 'tablist');
     
-    // Configurar navegación por teclado
+    // Configurar navegaciï¿½n por teclado
     $('.step').attr('tabindex', '0').keypress(function(e) {
         if (e.which === 13 || e.which === 32) {
             const stepNumber = $(this).data('step');

@@ -1,29 +1,47 @@
 // JavaScript para Navbar - Sistema de Monitoreo de Cultivos
 
+// OptimizaciÃ³n: usar funciÃ³n debounce para scroll
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     
-    // Elementos del DOM
+    // Elementos del DOM - optimizado para evitar bÃºsquedas repetidas
     const navbar = document.querySelector('.navbar-custom');
     const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
     const dropdownItems = document.querySelectorAll('.dropdown-item');
     const notificationBadge = document.getElementById('notification-count');
-    const logoutBtn = document.getElementById('logout-btn');
-    const usernameDisplay = document.getElementById('username-display');
+    const logoutBtn = document.getElementById('nav-logout');
     
-    // Efecto de scroll en navbar
-    let lastScrollTop = 0;
+    // Efecto de scroll en navbar optimizado con debounce
+    let ticking = false;
     
-    window.addEventListener('scroll', function() {
+    function updateNavbar() {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         
         if (scrollTop > 50) {
-            navbar.classList.add('scrolled');
+            navbar?.classList.add('scrolled');
         } else {
-            navbar.classList.remove('scrolled');
+            navbar?.classList.remove('scrolled');
         }
-        
-        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-    });
+        ticking = false;
+    }
+    
+    const debouncedScroll = debounce(() => {
+        if (!ticking) {
+            requestAnimationFrame(updateNavbar);
+            ticking = true;
+        }
+    }, 10);
     
     // Manejo de enlaces activos
     function setActiveLink(clickedLink) {
@@ -38,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Event listeners para los enlaces de navegación
+    // Event listeners optimizados para los enlaces de navegaciï¿½n
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             // Solo para enlaces que no son dropdowns
@@ -50,16 +68,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 localStorage.setItem('activeNavLink', linkId);
             }
         });
-        
-        // Efecto hover mejorado
-        link.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-2px) scale(1.02)';
-        });
-        
-        link.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0) scale(1)';
-        });
     });
+    
+    // Agregar event listener para scroll optimizado
+    window.addEventListener('scroll', debouncedScroll, { passive: true });
     
     // Restaurar enlace activo desde localStorage
     const savedActiveLink = localStorage.getItem('activeNavLink');
@@ -71,36 +83,28 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Animación para items del dropdown
-    dropdownItems.forEach(item => {
-        item.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateX(8px) scale(1.02)';
+    // Manejo directo del logout sin confirmaciÃ³n
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
             
-            // Efecto de onda
-            const ripple = document.createElement('span');
-            ripple.classList.add('ripple-effect');
-            this.appendChild(ripple);
+            // Limpiar localStorage
+            localStorage.removeItem('activeNavLink');
+            localStorage.removeItem('userSession');
             
-            setTimeout(() => {
-                if (ripple.parentNode) {
-                    ripple.parentNode.removeChild(ripple);
-                }
-            }, 600);
+            // Redireccionar directamente al logout.php
+            window.location.href = 'logout.php';
         });
-        
-        item.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateX(0) scale(1)';
-        });
-    });
+    }
     
-    // Gestión de notificaciones
+    // Gestiï¿½n de notificaciones
     function updateNotificationCount(count) {
         if (notificationBadge) {
             if (count > 0) {
                 notificationBadge.textContent = count > 99 ? '99+' : count;
                 notificationBadge.style.display = 'flex';
                 
-                // Animación de nueva notificación
+                // Animaciï¿½n de nueva notificaciï¿½n
                 notificationBadge.style.animation = 'none';
                 setTimeout(() => {
                     notificationBadge.style.animation = 'pulse 2s infinite, newNotification 0.5s ease-out';
@@ -111,13 +115,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Simulación de nuevas notificaciones (se conectará con el backend)
+    // Simulaciï¿½n de nuevas notificaciones (se conectarï¿½ con el backend)
     function simulateNewNotification() {
         const currentCount = parseInt(notificationBadge?.textContent || '0');
         updateNotificationCount(currentCount + 1);
         
-        // Mostrar toast de nueva notificación
-        showNotificationToast('Nueva notificación recibida', 'info');
+        // Mostrar toast de nueva notificaciï¿½n
+        showNotificationToast('Nueva notificaciï¿½n recibida', 'info');
     }
     
     // Sistema de toast para notificaciones
@@ -153,12 +157,12 @@ document.addEventListener('DOMContentLoaded', function() {
         
         document.body.appendChild(toast);
         
-        // Animación de entrada
+        // Animaciï¿½n de entrada
         setTimeout(() => {
             toast.style.transform = 'translateX(0)';
         }, 10);
         
-        // Auto-eliminar después de 5 segundos
+        // Auto-eliminar despuï¿½s de 5 segundos
         setTimeout(() => {
             if (toast.parentNode) {
                 toast.style.animation = 'slideOutRight 0.3s ease-out';
@@ -196,29 +200,14 @@ document.addEventListener('DOMContentLoaded', function() {
         logoutBtn.addEventListener('click', function(e) {
             e.preventDefault();
             
-            // Mostrar confirmación
-            if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
-                // Animación de logout
-                this.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Cerrando sesión...';
-                
-                // Limpiar datos locales
-                localStorage.removeItem('activeNavLink');
-                localStorage.removeItem('userSession');
-                
-                // Simular tiempo de logout
-                setTimeout(() => {
-                    showNotificationToast('Sesión cerrada exitosamente', 'success');
-                    
-                    // Redireccionar después de un breve delay
-                    setTimeout(() => {
-                        window.location.href = '../login.php';
-                    }, 1000);
-                }, 1500);
-            }
+            // Logout directo sin confirmaciÃ³n
+            localStorage.removeItem('activeNavLink');
+            localStorage.removeItem('userSession');
+            window.location.href = 'logout.php';
         });
     }
     
-    // Gestión de sesión de usuario
+    // Gestiï¿½n de sesiï¿½n de usuario
     function initializeUserSession() {
         // Obtener datos del usuario desde sessionStorage o localStorage
         const userData = JSON.parse(localStorage.getItem('userSession') || 'null');
@@ -226,7 +215,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (userData && usernameDisplay) {
             usernameDisplay.textContent = userData.nombre || 'Usuario';
             
-            // Actualizar avatar si está disponible
+            // Actualizar avatar si estï¿½ disponible
             const userAvatar = document.querySelector('.user-avatar');
             if (userAvatar && userData.avatar) {
                 userAvatar.src = userData.avatar;
@@ -234,12 +223,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Verificar permisos según el rol del usuario
+    // Verificar permisos segï¿½n el rol del usuario
     function checkUserPermissions() {
         const userData = JSON.parse(localStorage.getItem('userSession') || 'null');
         
         if (userData && userData.rol) {
-            // Ocultar elementos según el rol
+            // Ocultar elementos segï¿½n el rol
             const adminElements = document.querySelectorAll('[data-role="administrador"]');
             const supervisorElements = document.querySelectorAll('[data-role="supervisor"]');
             
@@ -257,11 +246,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Actualización automática de notificaciones
+    // Actualizaciï¿½n automï¿½tica de notificaciones
     function setupNotificationPolling() {
-        // Simulación - se conectará con el backend real
+        // Simulaciï¿½n - se conectarï¿½ con el backend real
         setInterval(() => {
-            // Aquí se haría una llamada AJAX para obtener nuevas notificaciones
+            // Aquï¿½ se harï¿½a una llamada AJAX para obtener nuevas notificaciones
             // fetch('/api/notifications/check')
             //     .then(response => response.json())
             //     .then(data => {
@@ -288,27 +277,27 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('a[href^="http"]').forEach(link => {
         link.addEventListener('click', function(e) {
             if (this.hostname !== window.location.hostname) {
-                if (!confirm('Este enlace te llevará a un sitio externo. ¿Deseas continuar?')) {
+                if (!confirm('Este enlace te llevarï¿½ a un sitio externo. ï¿½Deseas continuar?')) {
                     e.preventDefault();
                 }
             }
         });
     });
     
-    // Inicialización
+    // Inicializaciï¿½n
     showNavbarLoadingEffect();
     initializeUserSession();
     checkUserPermissions();
     setupNotificationPolling();
     
-    // Simular notificación inicial (para demostración)
+    // Simular notificaciï¿½n inicial (para demostraciï¿½n)
     setTimeout(() => {
         updateNotificationCount(3);
     }, 2000);
     
-    // Event listener para cambios de tamaño de ventana
+    // Event listener para cambios de tamaï¿½o de ventana
     window.addEventListener('resize', function() {
-        // Ajustar navbar en dispositivos móviles
+        // Ajustar navbar en dispositivos mï¿½viles
         if (window.innerWidth <= 991.98) {
             navbar.classList.add('mobile-navbar');
         } else {
@@ -347,7 +336,7 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('<1 Navbar del Sistema de Monitoreo de Cultivos inicializado correctamente');
 });
 
-// Estilos CSS adicionales para efectos dinámicos
+// Estilos CSS adicionales para efectos dinï¿½micos
 const additionalStyles = `
     <style>
     .ripple-effect {

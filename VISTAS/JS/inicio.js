@@ -1,733 +1,600 @@
 /**
- * Inicio JS - Sistema de Monitoreo de Cultivos
- * Dashboard principal de AgroMonitor
+ * Inicio Landing Page JS - Sistema AgroMonitor
+ * JavaScript para la página de presentación del sistema
  */
 
-// Variables globales del dashboard
-let graficosInicializados = false;
-let intervalosActivos = [];
-let datosEnTiempoReal = {
-    cultivos: [],
-    alertas: [],
-    actividades: []
-};
+// Variables globales
+let animationsInitialized = false;
+let statsAnimated = false;
 
-// Configuración del dashboard
-const DASHBOARD_CONFIG = {
-    actualizacionDatos: 30000, // 30 segundos
-    animacionContadores: 2000, // 2 segundos
-    coloresGrafico: [
-        'rgba(46, 125, 50, 0.8)',
-        'rgba(76, 175, 80, 0.8)',
-        'rgba(129, 199, 132, 0.8)',
-        'rgba(255, 167, 38, 0.8)'
-    ]
+// Configuración
+const CONFIG = {
+    animationDuration: 1500,
+    counterSpeed: 2000,
+    scrollOffset: 100
 };
 
 /**
  * =====================================================
- * INICIALIZACIÓN DEL DASHBOARD
+ * INICIALIZACIÓN
  * =====================================================
  */
 
 $(document).ready(function() {
-    inicializarDashboard();
+    initializeLandingPage();
 });
 
 /**
- * Inicializar todas las funcionalidades del dashboard
+ * Inicializar todas las funcionalidades de la landing page
  */
-function inicializarDashboard() {
-    AgroMonitor.log('Inicializando Dashboard AgroMonitor...', 'info');
+function initializeLandingPage() {
+    console.log('🌱 Inicializando AgroMonitor Landing Page...');
     
-    // Inicializar componentes básicos
-    configurarFechaActual();
-    inicializarContadores();
-    inicializarGraficos();
-    configurarEventListeners();
+    // Inicializar animaciones
+    initializeAnimations();
     
-    // Cargar datos iniciales
-    cargarDatosIniciales();
+    // Configurar event listeners
+    setupEventListeners();
     
-    // Configurar actualizaciones automáticas
-    configurarActualizacionesAutomaticas();
+    // Configurar scroll effects
+    setupScrollEffects();
     
-    // Aplicar animaciones de entrada
-    aplicarAnimacionesEntrada();
+    // Inicializar partículas si están disponibles
+    initializeParticles();
     
-    AgroMonitor.log('Dashboard inicializado correctamente', 'success');
+    // Configurar smooth scrolling
+    setupSmoothScrolling();
+    
+    console.log('✅ Landing Page inicializada correctamente');
 }
 
 /**
  * =====================================================
- * CONFIGURACIÓN INICIAL
+ * ANIMACIONES
  * =====================================================
  */
 
 /**
- * Configurar fecha actual
+ * Inicializar animaciones AOS
  */
-function configurarFechaActual() {
-    const opciones = { 
-        weekday: 'long', 
-        year: 'numeric', 
-        month: 'long', 
-        day: 'numeric' 
-    };
-    
-    const fechaActual = new Date().toLocaleDateString('es-ES', opciones);
-    $('#fecha-actual').text(fechaActual);
-    
-    // Actualizar cada minuto
-    setInterval(() => {
-        const nuevaFecha = new Date().toLocaleDateString('es-ES', opciones);
-        $('#fecha-actual').text(nuevaFecha);
-    }, 60000);
+function initializeAnimations() {
+    if (typeof AOS !== 'undefined') {
+        AOS.init({
+            duration: 1000,
+            easing: 'ease-out-cubic',
+            once: true,
+            offset: 120,
+            delay: 100
+        });
+        animationsInitialized = true;
+        console.log('🎨 Animaciones AOS inicializadas');
+    } else {
+        console.warn('⚠️ AOS no está disponible');
+        // Fallback animations
+        setupFallbackAnimations();
+    }
 }
+
+/**
+ * Configurar animaciones de respaldo si AOS no está disponible
+ */
+function setupFallbackAnimations() {
+    // Animación simple para elementos visibles
+    $('.feature-card, .stat-item').each(function(index) {
+        $(this).css({
+            'opacity': '0',
+            'transform': 'translateY(30px)',
+            'transition': 'all 0.6s ease-out'
+        });
+        
+        setTimeout(() => {
+            $(this).css({
+                'opacity': '1',
+                'transform': 'translateY(0)'
+            });
+        }, index * 100);
+    });
+}
+
+/**
+ * Animar contadores de estadísticas
+ */
+function animateStatsCounters() {
+    if (statsAnimated) return;
+    
+    $('.stat-number').each(function() {
+        const $counter = $(this);
+        const target = parseInt($counter.data('target'));
+        
+        if (!target) return;
+        
+        let current = 0;
+        const increment = target / (CONFIG.counterSpeed / 16);
+        
+        const timer = setInterval(() => {
+            current += increment;
+            
+            if (current >= target) {
+                current = target;
+                clearInterval(timer);
+            }
+            
+            $counter.text(Math.floor(current));
+        }, 16);
+        
+        $counter.addClass('animate');
+    });
+    
+    statsAnimated = true;
+    console.log('📊 Contadores de estadísticas animados');
+}
+
+/**
+ * =====================================================
+ * EVENT LISTENERS
+ * =====================================================
+ */
 
 /**
  * Configurar event listeners
  */
-function configurarEventListeners() {
-    // Cambio de período en gráfico de producción
-    $('#periodo-produccion').on('change', function() {
-        const periodo = $(this).val();
-        actualizarGraficoProduccion(periodo);
+function setupEventListeners() {
+    // Scroll indicator
+    $('.scroll-indicator').on('click', function() {
+        scrollToSection('#caracteristicas');
     });
     
-    // Botones de acciones rápidas
-    $('.btn-outline-primary').on('click', function() {
-        const accion = $(this).find('small').text().trim();
-        manejarAccionRapida(accion);
-    });
-    
-    // Botones de alertas
-    $('.alert-item button').on('click', function() {
-        const alertaItem = $(this).closest('.alert-item');
-        manejarAccionAlerta(alertaItem);
-    });
-    
-    // Botones de tabla de cultivos
-    $('#tabla-cultivos button').on('click', function() {
-        const accion = $(this).attr('title');
-        const fila = $(this).closest('tr');
-        manejarAccionCultivo(accion, fila);
-    });
-    
-    // Actualización manual de datos
-    $(document).on('keydown', function(e) {
-        if (e.ctrlKey && e.key === 'r') {
+    // Botones CTA
+    $('.btn-hero, .cta-buttons .btn').on('click', function(e) {
+        const href = $(this).attr('href');
+        
+        // Si es un enlace interno, hacer scroll suave
+        if (href && href.startsWith('#')) {
             e.preventDefault();
-            actualizarDatosManualmente();
+            scrollToSection(href);
         }
-    });
-}
-
-/**
- * =====================================================
- * CONTADORES ANIMADOS
- * =====================================================
- */
-
-/**
- * Inicializar contadores animados
- */
-function inicializarContadores() {
-    $('.stat-number').each(function() {
-        const $contador = $(this);
-        const valorFinal = parseFloat($contador.data('target'));
         
-        // Iniciar animación después de un breve delay
-        setTimeout(() => {
-            animarContador($contador, valorFinal);
-        }, 500);
+        // Efecto visual en el botón
+        addButtonClickEffect($(this));
     });
     
-    // Animar barras de progreso
-    $('.progress-bar').each(function() {
-        const $barra = $(this);
-        const porcentaje = $barra.data('percentage');
-        
-        setTimeout(() => {
-            $barra.css('width', porcentaje + '%');
-        }, 800);
+    // Hover effects para las cards
+    $('.feature-card').on('mouseenter', function() {
+        $(this).find('.feature-icon').css('transform', 'scale(1.1) rotate(5deg)');
+    }).on('mouseleave', function() {
+        $(this).find('.feature-icon').css('transform', 'scale(1) rotate(0deg)');
     });
-}
-
-/**
- * Animar contador numérico
- */
-function animarContador($elemento, valorFinal) {
-    let valorActual = 0;
-    const incremento = valorFinal / (DASHBOARD_CONFIG.animacionContadores / 16);
     
-    const animacion = setInterval(() => {
-        valorActual += incremento;
-        
-        if (valorActual >= valorFinal) {
-            valorActual = valorFinal;
-            clearInterval(animacion);
-        }
-        
-        // Formatear número según tipo
-        let valorMostrar = valorActual;
-        if (valorFinal < 1) {
-            valorMostrar = valorActual.toFixed(1);
-        } else if (valorFinal >= 1000) {
-            valorMostrar = AgroMonitor.utils.formatearNumero(Math.round(valorActual));
-        } else {
-            valorMostrar = Math.round(valorActual);
-        }
-        
-        $elemento.text(valorMostrar);
-    }, 16);
-}
-
-/**
- * =====================================================
- * GRÁFICOS Y VISUALIZACIONES
- * =====================================================
- */
-
-/**
- * Inicializar gráficos
- */
-function inicializarGraficos() {
-    if (typeof Chart !== 'undefined') {
-        crearGraficoProduccion();
-        graficosInicializados = true;
-    } else {
-        AgroMonitor.log('Chart.js no está disponible', 'warning');
+    // Click effects para cards
+    $('.feature-card').on('click', function() {
+        const title = $(this).find('.feature-title').text();
+        showFeatureModal(title, $(this));
+    });
+    
+    // Navbar scroll effect
+    $(window).on('scroll', handleNavbarScroll);
+    
+    // Parallax effect para hero
+    if (!isMobileDevice()) {
+        $(window).on('scroll', handleParallaxEffect);
     }
+    
+    // Resize handler
+    $(window).on('resize', debounce(handleWindowResize, 250));
+    
+    console.log('🎯 Event listeners configurados');
 }
 
 /**
- * Crear gráfico de producción
+ * =====================================================
+ * SCROLL EFFECTS
+ * =====================================================
  */
-function crearGraficoProduccion() {
-    const ctx = document.getElementById('grafico-produccion');
-    if (!ctx) return;
-    
-    const datosEjemplo = {
-        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-        datasets: [{
-            label: 'Producción (Kg)',
-            data: [650, 590, 800, 810, 560, 950, 1200, 1100, 900, 750, 680, 847],
-            backgroundColor: 'rgba(46, 125, 50, 0.1)',
-            borderColor: 'rgba(46, 125, 50, 0.8)',
-            borderWidth: 3,
-            fill: true,
-            tension: 0.4,
-            pointBackgroundColor: 'rgba(46, 125, 50, 1)',
-            pointBorderColor: '#fff',
-            pointBorderWidth: 2,
-            pointRadius: 6,
-            pointHoverRadius: 8
-        }]
-    };
-    
-    const opciones = {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                display: false
-            },
-            tooltip: {
-                backgroundColor: 'rgba(46, 125, 50, 0.9)',
-                titleColor: '#fff',
-                bodyColor: '#fff',
-                borderColor: 'rgba(46, 125, 50, 1)',
-                borderWidth: 1,
-                cornerRadius: 8,
-                displayColors: false
-            }
-        },
-        scales: {
-            y: {
-                beginAtZero: true,
-                grid: {
-                    color: 'rgba(0, 0, 0, 0.1)'
-                },
-                ticks: {
-                    color: '#666',
-                    callback: function(value) {
-                        return value + ' kg';
+
+/**
+ * Configurar efectos de scroll
+ */
+function setupScrollEffects() {
+    // Intersection Observer para animaciones
+    if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const target = entry.target;
+                    
+                    // Animar estadísticas cuando entren en viewport
+                    if (target.classList.contains('stats-section')) {
+                        setTimeout(animateStatsCounters, 300);
                     }
+                    
+                    // Agregar clase para animaciones CSS
+                    target.classList.add('animate-in');
                 }
-            },
-            x: {
-                grid: {
-                    display: false
-                },
-                ticks: {
-                    color: '#666'
-                }
-            }
-        },
-        elements: {
-            point: {
-                hoverBackgroundColor: 'rgba(76, 175, 80, 1)'
-            }
-        }
-    };
-    
-    window.graficoProduccion = new Chart(ctx, {
-        type: 'line',
-        data: datosEjemplo,
-        options: opciones
-    });
-}
-
-/**
- * Actualizar gráfico según período seleccionado
- */
-function actualizarGraficoProduccion(periodo) {
-    if (!window.graficoProduccion) return;
-    
-    AgroMonitor.log(`Actualizando gráfico para período: ${periodo}`, 'info');
-    
-    // Simular diferentes datos según período
-    let nuevasDatos = [];
-    let etiquetas = [];
-    
-    switch (periodo) {
-        case '6m':
-            etiquetas = ['Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-            nuevasDatos = [1200, 1100, 900, 750, 680, 847];
-            break;
-        case '1y':
-            etiquetas = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-            nuevasDatos = [650, 590, 800, 810, 560, 950, 1200, 1100, 900, 750, 680, 847];
-            break;
-        case '2y':
-            etiquetas = ['2023', 'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-            nuevasDatos = [8500, 650, 590, 800, 810, 560, 950, 1200, 1100, 900, 750, 680, 847];
-            break;
-    }
-    
-    window.graficoProduccion.data.labels = etiquetas;
-    window.graficoProduccion.data.datasets[0].data = nuevasDatos;
-    window.graficoProduccion.update('active');
-    
-    AgroMonitor.alerta('Gráfico actualizado correctamente', 'success', 2000);
-}
-
-/**
- * =====================================================
- * GESTIÓN DE DATOS Y ACTUALIZACIONES
- * =====================================================
- */
-
-/**
- * Cargar datos iniciales del dashboard
- */
-function cargarDatosIniciales() {
-    AgroMonitor.log('Cargando datos iniciales...', 'info');
-    
-    // En producción, estos serían llamadas AJAX reales
-    setTimeout(() => {
-        cargarEstadisticasCultivos();
-        cargarAlertasRecientes();
-        cargarActividadesProgramadas();
-        
-        AgroMonitor.log('Datos iniciales cargados', 'success');
-    }, 1000);
-}
-
-/**
- * Cargar estadísticas de cultivos
- */
-function cargarEstadisticasCultivos() {
-    // Simular datos de API
-    datosEnTiempoReal.cultivos = [
-        { tipo: 'Tomates Cherry', estado: 'Floración', sector: 'A', lote: 3, actividad: 'Riego', tiempo: '2 horas' },
-        { tipo: 'Zanahorias', estado: 'Crecimiento', sector: 'B', lote: 1, actividad: 'Fertilización', tiempo: '1 día' },
-        { tipo: 'Lechuga', estado: 'Desarrollo', sector: 'C', lote: 2, actividad: 'Monitoreo', tiempo: '3 horas' }
-    ];
-    
-    // Actualizar tabla si es necesario
-    actualizarTablaCultivos();
-}
-
-/**
- * Cargar alertas recientes
- */
-function cargarAlertasRecientes() {
-    datosEnTiempoReal.alertas = [
-        { tipo: 'warning', titulo: 'Riego Pendiente', mensaje: 'Tomates en Sector A necesitan riego', tiempo: '30 minutos' },
-        { tipo: 'success', titulo: 'Monitoreo Completado', mensaje: 'Revisión semanal finalizada', tiempo: '2 horas' },
-        { tipo: 'info', titulo: 'Previsión Climática', mensaje: 'Lluvia esperada mañana', tiempo: '1 hora' }
-    ];
-}
-
-/**
- * Cargar actividades programadas
- */
-function cargarActividadesProgramadas() {
-    datosEnTiempoReal.actividades = [
-        { fecha: '15', mes: 'Dic', titulo: 'Cosecha de Tomates', ubicacion: 'Sector A - Lote 3' },
-        { fecha: '18', mes: 'Dic', titulo: 'Fertilización', ubicacion: 'Todos los sectores' },
-        { fecha: '22', mes: 'Dic', titulo: 'Nueva Siembra', ubicacion: 'Sector D - Preparación' }
-    ];
-}
-
-/**
- * Configurar actualizaciones automáticas
- */
-function configurarActualizacionesAutomaticas() {
-    // Actualizar datos cada 30 segundos
-    const intervaloActualizacion = setInterval(() => {
-        actualizarDatosEnTiempoReal();
-    }, DASHBOARD_CONFIG.actualizacionDatos);
-    
-    intervalosActivos.push(intervaloActualizacion);
-    
-    // Limpiar intervalos al salir de la página
-    $(window).on('beforeunload', () => {
-        intervalosActivos.forEach(intervalo => clearInterval(intervalo));
-    });
-}
-
-/**
- * Actualizar datos en tiempo real
- */
-function actualizarDatosEnTiempoReal() {
-    AgroMonitor.log('Actualizando datos en tiempo real...', 'info');
-    
-    // Simular cambios en los datos
-    actualizarContadoresEnTiempoReal();
-    actualizarEstadoAlertas();
-    
-    // Mostrar indicador de actualización
-    mostrarIndicadorActualizacion();
-}
-
-/**
- * Actualizar contadores en tiempo real
- */
-function actualizarContadoresEnTiempoReal() {
-    // Simular pequeños cambios en las estadísticas
-    $('.stat-number').each(function() {
-        const $contador = $(this);
-        const valorActual = parseInt($contador.text().replace(/[^0-9]/g, ''));
-        const variacion = Math.floor(Math.random() * 3) - 1; // -1, 0, o 1
-        const nuevoValor = Math.max(0, valorActual + variacion);
-        
-        if (variacion !== 0) {
-            $contador.text(nuevoValor);
-            
-            // Efecto visual de cambio
-            $contador.parent().parent().addClass('stat-updated');
-            setTimeout(() => {
-                $contador.parent().parent().removeClass('stat-updated');
-            }, 1000);
-        }
-    });
-}
-
-/**
- * Actualizar estado de alertas
- */
-function actualizarEstadoAlertas() {
-    const $contadorAlertas = $('#notification-count');
-    const contadorActual = parseInt($contadorAlertas.text());
-    
-    // Simular nuevas alertas ocasionalmente
-    if (Math.random() < 0.1) { // 10% de probabilidad
-        $contadorAlertas.text(contadorActual + 1);
-        $contadorAlertas.addClass('notification-new');
-        
-        setTimeout(() => {
-            $contadorAlertas.removeClass('notification-new');
-        }, 2000);
-        
-        AgroMonitor.alerta('Nueva notificación recibida', 'info', 3000);
-    }
-}
-
-/**
- * Mostrar indicador de actualización
- */
-function mostrarIndicadorActualizacion() {
-    const $indicador = $('<div class="update-indicator"><i class="fas fa-sync fa-spin"></i></div>');
-    $('body').append($indicador);
-    
-    setTimeout(() => {
-        $indicador.remove();
-    }, 1000);
-}
-
-/**
- * Actualización manual de datos
- */
-function actualizarDatosManualmente() {
-    AgroMonitor.alerta('Actualizando datos...', 'info', 2000);
-    
-    // Mostrar loading en todas las tarjetas
-    $('.stat-number').addClass('loading-stat');
-    
-    setTimeout(() => {
-        $('.stat-number').removeClass('loading-stat');
-        cargarDatosIniciales();
-        AgroMonitor.alerta('Datos actualizados correctamente', 'success', 3000);
-    }, 1500);
-}
-
-/**
- * =====================================================
- * MANEJO DE ACCIONES DEL USUARIO
- * =====================================================
- */
-
-/**
- * Manejar acciones rápidas
- */
-function manejarAccionRapida(accion) {
-    AgroMonitor.log(`Acción rápida: ${accion}`, 'info');
-    
-    switch (accion) {
-        case 'Nuevo Cultivo':
-            abrirModalNuevoCultivo();
-            break;
-        case 'Monitoreo':
-            iniciarMonitoreo();
-            break;
-        case 'Programar Riego':
-            abrirProgramadorRiego();
-            break;
-        case 'Generar Reporte':
-            generarReporte();
-            break;
-        default:
-            AgroMonitor.alerta(`Función "${accion}" en desarrollo`, 'info');
-    }
-}
-
-/**
- * Manejar acciones de alertas
- */
-function manejarAccionAlerta(alertaItem) {
-    const titulo = alertaItem.find('h6').text();
-    const accionBtn = alertaItem.find('button').text().trim();
-    
-    AgroMonitor.log(`Acción en alerta: ${accionBtn} - ${titulo}`, 'info');
-    
-    if (accionBtn === 'Marcar como leído') {
-        alertaItem.fadeOut(300, function() {
-            $(this).remove();
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
         });
-        AgroMonitor.alerta('Alerta marcada como leída', 'success', 2000);
+        
+        // Observar secciones
+        document.querySelectorAll('.features-section, .stats-section, .cta-section').forEach(section => {
+            observer.observe(section);
+        });
+        
+        console.log('👁️ Intersection Observer configurado');
+    }
+}
+
+/**
+ * Manejar scroll del navbar
+ */
+function handleNavbarScroll() {
+    const scrollTop = $(window).scrollTop();
+    const $navbar = $('.navbar');
+    
+    if (scrollTop > 100) {
+        $navbar.addClass('navbar-scrolled');
     } else {
-        AgroMonitor.alerta(`Abriendo detalles de: ${titulo}`, 'info');
+        $navbar.removeClass('navbar-scrolled');
     }
 }
 
 /**
- * Manejar acciones de cultivos
+ * Efecto parallax para hero
  */
-function manejarAccionCultivo(accion, fila) {
-    const nombreCultivo = fila.find('.fw-bold').text();
+function handleParallaxEffect() {
+    const scrollTop = $(window).scrollTop();
+    const parallaxSpeed = 0.5;
     
-    AgroMonitor.log(`Acción en cultivo: ${accion} - ${nombreCultivo}`, 'info');
+    $('.hero-particles').css('transform', `translateY(${scrollTop * parallaxSpeed}px)`);
+    $('.hero-background').css('transform', `translateY(${scrollTop * 0.3}px)`);
+}
+
+/**
+ * =====================================================
+ * SMOOTH SCROLLING
+ * =====================================================
+ */
+
+/**
+ * Configurar smooth scrolling
+ */
+function setupSmoothScrolling() {
+    // Smooth scroll para enlaces internos
+    $('a[href^="#"]').not('.dropdown-toggle').on('click', function(e) {
+        const href = $(this).attr('href');
+        
+        if (href !== '#') {
+            e.preventDefault();
+            scrollToSection(href);
+        }
+    });
+}
+
+/**
+ * Scroll suave a una sección
+ */
+function scrollToSection(target) {
+    const $target = $(target);
     
-    switch (accion) {
-        case 'Ver detalles':
-            verDetallesCultivo(nombreCultivo, fila);
-            break;
-        case 'Editar':
-            editarCultivo(nombreCultivo, fila);
-            break;
-        default:
-            AgroMonitor.alerta(`Acción "${accion}" en desarrollo`, 'info');
+    if ($target.length) {
+        const offsetTop = $target.offset().top - 80; // Compensar navbar
+        
+        $('html, body').animate({
+            scrollTop: offsetTop
+        }, 800, 'easeInOutCubic');
+        
+        // Agregar efecto visual al target
+        $target.addClass('section-highlight');
+        setTimeout(() => {
+            $target.removeClass('section-highlight');
+        }, 2000);
     }
 }
 
 /**
  * =====================================================
- * FUNCIONES ESPECÍFICAS DE ACCIONES
+ * EFECTOS INTERACTIVOS
  * =====================================================
  */
 
 /**
- * Abrir modal para nuevo cultivo
+ * Agregar efecto de click a botones
  */
-function abrirModalNuevoCultivo() {
-    AgroMonitor.alerta('Abriendo formulario de nuevo cultivo...', 'info');
-    // Aquí se abriría un modal o se redirigiría a la página correspondiente
-}
-
-/**
- * Iniciar proceso de monitoreo
- */
-function iniciarMonitoreo() {
-    AgroMonitor.alerta('Iniciando proceso de monitoreo...', 'info');
-    // Aquí se iniciaría el proceso de monitoreo
-}
-
-/**
- * Abrir programador de riego
- */
-function abrirProgramadorRiego() {
-    AgroMonitor.alerta('Abriendo programador de riego...', 'info');
-    // Aquí se abriría el programador de riego
-}
-
-/**
- * Generar reporte
- */
-function generarReporte() {
-    AgroMonitor.loading.mostrar('Generando reporte...');
+function addButtonClickEffect($button) {
+    $button.addClass('btn-clicked');
     
     setTimeout(() => {
-        AgroMonitor.loading.ocultar();
-        AgroMonitor.alerta('Reporte generado exitosamente', 'success');
-    }, 2000);
+        $button.removeClass('btn-clicked');
+    }, 200);
 }
 
 /**
- * Ver detalles de cultivo
+ * Mostrar modal de característica (simulado)
  */
-function verDetallesCultivo(nombre, fila) {
-    const ubicacion = fila.find('td:nth-child(2)').text();
-    const estado = fila.find('.badge').text();
+function showFeatureModal(title, $card) {
+    const description = $card.find('.feature-description').text();
     
-    const detalles = `
-        <strong>${nombre}</strong><br>
-        Ubicación: ${ubicacion}<br>
-        Estado: ${estado}
+    // Crear modal dinámico
+    const modalHtml = `
+        <div class="modal fade" id="featureModal" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title">
+                            <i class="fas fa-star me-2"></i>${title}
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="lead">${description}</p>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>Beneficios principales:</h6>
+                                <ul class="list-unstyled">
+                                    <li><i class="fas fa-check text-success me-2"></i>Facilidad de uso</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Resultados inmediatos</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Soporte 24/7</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>¿Cómo funciona?</h6>
+                                <p class="text-muted">
+                                    Nuestro sistema utiliza tecnología avanzada para brindarte 
+                                    la mejor experiencia en el monitoreo de tus cultivos.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <a href="registro.php" class="btn btn-primary">Comenzar ahora</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     `;
     
-    AgroMonitor.alerta(detalles, 'info', 5000);
-}
-
-/**
- * Editar cultivo
- */
-function editarCultivo(nombre, fila) {
-    AgroMonitor.alerta(`Abriendo editor para: ${nombre}`, 'info');
-    // Aquí se abriría el formulario de edición
+    // Remover modal existente
+    $('#featureModal').remove();
+    
+    // Agregar nuevo modal
+    $('body').append(modalHtml);
+    
+    // Mostrar modal
+    const modal = new bootstrap.Modal(document.getElementById('featureModal'));
+    modal.show();
+    
+    console.log(`📋 Modal abierto para: ${title}`);
 }
 
 /**
  * =====================================================
- * ACTUALIZACIÓN DE COMPONENTES DE UI
+ * PARTÍCULAS Y EFECTOS VISUALES
  * =====================================================
  */
 
 /**
- * Actualizar tabla de cultivos
+ * Inicializar partículas
  */
-function actualizarTablaCultivos() {
-    // Esta función se llamaría cuando lleguen nuevos datos del servidor
-    AgroMonitor.log('Tabla de cultivos actualizada', 'info');
+function initializeParticles() {
+    // Crear partículas dinámicas en el hero
+    createFloatingParticles();
+    
+    console.log('✨ Partículas inicializadas');
 }
 
 /**
- * Aplicar animaciones de entrada
+ * Crear partículas flotantes
  */
-function aplicarAnimacionesEntrada() {
-    // Las animaciones CSS ya están definidas, aquí podríamos agregar lógica adicional
+function createFloatingParticles() {
+    const $heroSection = $('.hero-section');
+    const particleCount = isMobileDevice() ? 10 : 20;
+    
+    for (let i = 0; i < particleCount; i++) {
+        const $particle = $('<div class="floating-particle"></div>');
+        
+        // Posición aleatoria
+        const left = Math.random() * 100;
+        const animationDuration = 10 + Math.random() * 20;
+        const size = 2 + Math.random() * 4;
+        const delay = Math.random() * 20;
+        
+        $particle.css({
+            position: 'absolute',
+            left: left + '%',
+            bottom: '-10px',
+            width: size + 'px',
+            height: size + 'px',
+            background: 'rgba(255, 255, 255, 0.3)',
+            borderRadius: '50%',
+            animation: `floatUp ${animationDuration}s linear infinite ${delay}s`,
+            pointerEvents: 'none',
+            zIndex: '1'
+        });
+        
+        $heroSection.append($particle);
+    }
+}
+
+/**
+ * =====================================================
+ * UTILIDADES
+ * =====================================================
+ */
+
+/**
+ * Detectar dispositivo móvil
+ */
+function isMobileDevice() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+
+/**
+ * Función debounce para optimizar performance
+ */
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+/**
+ * Manejar redimensionamiento de ventana
+ */
+function handleWindowResize() {
+    // Reinicializar animaciones si es necesario
+    if (animationsInitialized && typeof AOS !== 'undefined') {
+        AOS.refresh();
+    }
+    
+    // Recalcular posiciones de partículas
+    $('.floating-particle').remove();
+    if (!isMobileDevice()) {
+        createFloatingParticles();
+    }
+}
+
+/**
+ * Mostrar/ocultar loading
+ */
+function toggleLoading(show = true) {
+    if (show) {
+        $('body').addClass('loading');
+    } else {
+        $('body').removeClass('loading');
+    }
+}
+
+/**
+ * =====================================================
+ * EASTER EGG Y EXTRAS
+ * =====================================================
+ */
+
+/**
+ * Easter egg para desarrolladores
+ */
+$(document).ready(function() {
+    let konamiCode = [];
+    const correctCode = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65]; // ↑↑↓↓←→←→BA
+    
+    $(document).on('keydown', function(e) {
+        konamiCode.push(e.keyCode);
+        
+        if (konamiCode.length > 10) {
+            konamiCode.shift();
+        }
+        
+        if (konamiCode.join(',') === correctCode.join(',')) {
+            activateEasterEgg();
+            konamiCode = [];
+        }
+    });
+});
+
+/**
+ * Activar easter egg
+ */
+function activateEasterEgg() {
+    console.log('🎉 Easter egg activado!');
+    
+    // Efecto especial
+    $('body').addClass('easter-egg-active');
+    
+    // Mensaje especial
+    const message = `
+        🌱 ¡Felicidades! Has encontrado el Easter Egg de AgroMonitor 🌱
+        
+        Gracias por explorar nuestro código. 
+        Los desarrolladores apreciamos la curiosidad técnica.
+        
+        ¿Te gustaría unirte a nuestro equipo?
+        Visita: careers@agromonitor.com
+    `;
+    
+    console.log(message);
+    
+    // Efecto visual
+    createConfetti();
+    
     setTimeout(() => {
-        $('.stat-card').addClass('animate-in');
-    }, 100);
+        $('body').removeClass('easter-egg-active');
+    }, 5000);
+}
+
+/**
+ * Crear confetti
+ */
+function createConfetti() {
+    for (let i = 0; i < 50; i++) {
+        const confetti = $('<div class="confetti"></div>');
+        
+        confetti.css({
+            position: 'fixed',
+            left: Math.random() * 100 + '%',
+            top: '-10px',
+            width: '10px',
+            height: '10px',
+            background: `hsl(${Math.random() * 360}, 50%, 50%)`,
+            animation: `confettiFall ${2 + Math.random() * 3}s ease-out forwards`,
+            zIndex: '9999',
+            borderRadius: '50%'
+        });
+        
+        $('body').append(confetti);
+        
+        setTimeout(() => {
+            confetti.remove();
+        }, 5000);
+    }
 }
 
 /**
  * =====================================================
- * UTILIDADES DEL DASHBOARD
+ * INTEGRACIÓN CON SISTEMA GLOBAL
  * =====================================================
  */
 
-/**
- * Obtener resumen de estadísticas
- */
-function obtenerResumenEstadisticas() {
-    const estadisticas = {
-        cultivosActivos: parseInt($('.stat-number').eq(0).text()),
-        hectareasCultivadas: parseFloat($('.stat-number').eq(1).text()),
-        kgCosechados: parseInt($('.stat-number').eq(2).text()),
-        saludGeneral: parseInt($('.stat-number').eq(3).text())
-    };
-    
-    AgroMonitor.log('Estadísticas actuales:', estadisticas);
-    return estadisticas;
-}
+// Exponer funciones útiles globalmente
+window.AgroMonitorLanding = {
+    scrollToSection: scrollToSection,
+    animateCounters: animateStatsCounters,
+    showFeatureModal: showFeatureModal,
+    toggleLoading: toggleLoading
+};
 
-/**
- * Exportar datos del dashboard
- */
-function exportarDatosDashboard() {
-    const datos = {
-        fecha: new Date().toISOString(),
-        estadisticas: obtenerResumenEstadisticas(),
-        cultivos: datosEnTiempoReal.cultivos,
-        alertas: datosEnTiempoReal.alertas,
-        actividades: datosEnTiempoReal.actividades
-    };
-    
-    const dataStr = JSON.stringify(datos, null, 2);
-    const dataBlob = new Blob([dataStr], {type: 'application/json'});
-    
-    const url = URL.createObjectURL(dataBlob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `dashboard-agromonitor-${new Date().toISOString().split('T')[0]}.json`;
-    link.click();
-    
-    URL.revokeObjectURL(url);
-    AgroMonitor.alerta('Datos exportados exitosamente', 'success');
-}
-
-/**
- * =====================================================
- * ESTILOS ADICIONALES DINÁMICOS
- * =====================================================
- */
-
-// Agregar estilos CSS adicionales para animaciones dinámicas
-const estilosAdicionales = `
+// CSS adicional para efectos
+const landingStyles = `
     <style>
-    .stat-updated {
-        animation: pulseUpdate 1s ease-in-out;
+    .navbar-scrolled {
+        background: rgba(46, 125, 50, 0.95) !important;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 2px 20px rgba(0,0,0,0.1);
     }
     
-    @keyframes pulseUpdate {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.05); }
-        100% { transform: scale(1); }
+    .section-highlight {
+        animation: sectionPulse 2s ease-out;
     }
     
-    .notification-new {
-        animation: bounce 0.6s ease-in-out;
-        background: var(--warning-orange) !important;
+    @keyframes sectionPulse {
+        0% { background: transparent; }
+        50% { background: rgba(46, 125, 50, 0.1); }
+        100% { background: transparent; }
     }
     
-    @keyframes bounce {
-        0%, 20%, 60%, 100% { transform: scale(1); }
-        40% { transform: scale(1.1); }
-        80% { transform: scale(1.05); }
-    }
-    
-    .update-indicator {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: var(--primary-green);
-        color: white;
-        padding: 10px;
-        border-radius: 50%;
-        z-index: 1060;
-        animation: fadeInOut 1s ease-in-out;
-    }
-    
-    @keyframes fadeInOut {
-        0%, 100% { opacity: 0; }
-        50% { opacity: 1; }
+    .btn-clicked {
+        transform: scale(0.95) !important;
     }
     
     .animate-in {
-        animation: slideInUp 0.6s ease-out;
+        animation: slideInUp 0.8s ease-out;
     }
     
     @keyframes slideInUp {
@@ -740,17 +607,65 @@ const estilosAdicionales = `
             transform: translateY(0);
         }
     }
+    
+    @keyframes floatUp {
+        from {
+            bottom: -10px;
+            opacity: 0;
+        }
+        10% {
+            opacity: 1;
+        }
+        90% {
+            opacity: 1;
+        }
+        to {
+            bottom: 100vh;
+            opacity: 0;
+        }
+    }
+    
+    @keyframes confettiFall {
+        to {
+            transform: translateY(100vh) rotate(720deg);
+            opacity: 0;
+        }
+    }
+    
+    .easter-egg-active {
+        animation: rainbow 2s ease-in-out infinite;
+    }
+    
+    @keyframes rainbow {
+        0% { filter: hue-rotate(0deg); }
+        100% { filter: hue-rotate(360deg); }
+    }
+    
+    /* Mejoras de accesibilidad */
+    @media (prefers-reduced-motion: reduce) {
+        .floating-particle,
+        .confetti,
+        .animate-in {
+            animation: none !important;
+        }
+        
+        .easter-egg-active {
+            animation: none !important;
+        }
+    }
+    
+    /* Loading state */
+    .loading * {
+        pointer-events: none;
+    }
+    
+    .loading .btn {
+        opacity: 0.6;
+    }
     </style>
 `;
 
 // Insertar estilos adicionales
-document.head.insertAdjacentHTML('beforeend', estilosAdicionales);
+document.head.insertAdjacentHTML('beforeend', landingStyles);
 
-// Exponer funciones útiles globalmente
-window.AgroMonitorDashboard = {
-    actualizar: actualizarDatosManualmente,
-    exportar: exportarDatosDashboard,
-    estadisticas: obtenerResumenEstadisticas
-};
-
-AgroMonitor.log('Dashboard JS cargado exitosamente', 'success');
+console.log('🚀 AgroMonitor Landing Page JS cargado exitosamente');

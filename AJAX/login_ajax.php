@@ -8,9 +8,9 @@ ini_set('log_errors', 1);
 ini_set('error_log', '../php_error.log');
 
 try {
-    // Verificar que sea una petición POST
+    // Verificar que sea una peticiï¿½n POST
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-        throw new Exception('Método no permitido');
+        throw new Exception('Mï¿½todo no permitido');
     }
 
     // Incluir el modelo de usuario
@@ -21,11 +21,11 @@ try {
     $password = isset($_POST['password']) ? $_POST['password'] : '';
     $remember = isset($_POST['remember']) ? $_POST['remember'] : false;
 
-    // Validaciones básicas
+    // Validaciones bï¿½sicas
     if (empty($email) || empty($password)) {
         echo json_encode(array(
             'success' => false,
-            'message' => 'Email y contraseña son requeridos'
+            'message' => 'Email y contraseï¿½a son requeridos'
         ));
         exit;
     }
@@ -37,7 +37,7 @@ try {
     if (!$usuario->validarEmail($email)) {
         echo json_encode(array(
             'success' => false,
-            'message' => 'Formato de email inválido'
+            'message' => 'Formato de email invï¿½lido'
         ));
         exit;
     }
@@ -49,7 +49,7 @@ try {
     $resultado = $usuario->loginUsuario($email, $password);
 
     if ($resultado['success']) {
-        // Login exitoso - crear sesión
+        // Login exitoso - crear sesiï¿½n
         $_SESSION['user_id'] = $resultado['user']['usuario_id'];
         $_SESSION['user_name'] = $resultado['user']['nombre'] . ' ' . $resultado['user']['apellido'];
         $_SESSION['user_email'] = $resultado['user']['email'];
@@ -58,11 +58,11 @@ try {
         $_SESSION['logged_in'] = true;
         $_SESSION['login_time'] = time();
 
-        // Si seleccionó "recordar sesión", crear cookie por 30 días
+        // Si seleccionï¿½ "recordar sesiï¿½n", crear cookie por 30 dï¿½as
         if ($remember) {
             $cookie_name = "remember_user";
             $cookie_value = base64_encode($resultado['user']['usuario_id'] . '|' . $resultado['user']['email']);
-            $cookie_expire = time() + (30 * 24 * 60 * 60); // 30 días
+            $cookie_expire = time() + (30 * 24 * 60 * 60); // 30 dï¿½as
             setcookie($cookie_name, $cookie_value, $cookie_expire, '/', '', false, true);
         }
 
@@ -78,12 +78,12 @@ try {
                 'email' => $resultado['user']['email'],
                 'role' => $resultado['user']['rol']
             ),
-            'redirect' => 'inicio.php'
+            'redirect' => 'dashboard.php'
         ));
 
     } else {
         // Login fallido - registrar intento
-        error_log("Intento de login fallido para email: " . $email . " - IP: " . $_SERVER['REMOTE_ADDR'] . " - Razón: " . $resultado['message']);
+        error_log("Intento de login fallido para email: " . $email . " - IP: " . $_SERVER['REMOTE_ADDR'] . " - Razï¿½n: " . $resultado['message']);
 
         // Agregar delay para prevenir ataques de fuerza bruta
         sleep(1);

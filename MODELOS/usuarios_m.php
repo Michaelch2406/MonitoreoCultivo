@@ -14,7 +14,7 @@ class Usuario {
     }
 
     /**
-     * Registrar un nuevo usuario con contraseña hasheada
+     * Registrar un nuevo usuario con contraseï¿½a hasheada
      */
     public function registrarUsuario($nombre, $apellido, $email, $password, $telefono = null, $rol = 'agricultor') {
         try {
@@ -22,11 +22,11 @@ class Usuario {
             if ($this->emailExiste($email)) {
                 return array(
                     'success' => false,
-                    'message' => 'El email ya está registrado en el sistema'
+                    'message' => 'El email ya estï¿½ registrado en el sistema'
                 );
             }
 
-            // Hashear la contraseña usando bcrypt
+            // Hashear la contraseï¿½a usando bcrypt
             $password_hash = password_hash($password, PASSWORD_BCRYPT, ['cost' => 12]);
 
             // Escapar los datos para prevenir SQL injection
@@ -36,22 +36,24 @@ class Usuario {
             $telefono = $telefono ? $this->conexion->getMysqli()->real_escape_string($telefono) : null;
             $rol = $this->conexion->getMysqli()->real_escape_string($rol);
 
-            // Llamar al stored procedure
-            $sql = "CALL sp_registrar_usuario('$nombre', '$apellido', '$email', '$password_hash', " . 
-                   ($telefono ? "'$telefono'" : "NULL") . ", '$rol')";
+            // Insertar usuario directamente en la tabla (nomenclatura BD real)
+            $sql = "INSERT INTO usuarios (usu_nombre, usu_apellido, usu_email, usu_password, usu_telefono, usu_rol, usu_estado, usu_fecha_registro) 
+                    VALUES ('$nombre', '$apellido', '$email', '$password_hash', " . 
+                   ($telefono ? "'$telefono'" : "NULL") . ", '$rol', 'activo', NOW())";
 
-            $resultado = $this->conexion->ejecutarSP($sql);
+            $resultado = $this->conexion->getMysqli()->query($sql);
 
             if ($resultado) {
+                $user_id = $this->conexion->getMysqli()->insert_id;
                 return array(
                     'success' => true,
                     'message' => 'Usuario registrado exitosamente',
-                    'user_id' => $this->conexion->getMysqli()->insert_id
+                    'user_id' => $user_id
                 );
             } else {
                 return array(
                     'success' => false,
-                    'message' => 'Error al registrar el usuario'
+                    'message' => 'Error al registrar el usuario: ' . $this->conexion->getMysqli()->error
                 );
             }
 
@@ -65,39 +67,43 @@ class Usuario {
     }
 
     /**
-     * Autenticar usuario con email y contraseña
+     * Autenticar usuario con email y contraseï¿½a
      */
     public function loginUsuario($email, $password) {
         try {
             $email = $this->conexion->getMysqli()->real_escape_string($email);
             
-            // Llamar al stored procedure para login
-            $sql = "CALL sp_login_usuario('$email')";
-            $resultado = $this->conexion->ejecutarSP($sql);
+            // Consulta directa a la tabla usuarios (nomenclatura BD real)
+            $sql = "SELECT usu_id, usu_nombre, usu_apellido, usu_email, usu_password, usu_rol, usu_estado, usu_fecha_registro 
+                    FROM usuarios 
+                    WHERE usu_email = '$email' AND usu_estado = 'activo'";
+            
+            $resultado = $this->conexion->getMysqli()->query($sql);
 
             if ($resultado && $resultado->num_rows > 0) {
                 $usuario = $resultado->fetch_assoc();
                 
-                // Verificar si el usuario está activo
-                if ($usuario['estado'] !== 'activo') {
-                    return array(
-                        'success' => false,
-                        'message' => 'La cuenta está inactiva. Contacta al administrador.'
-                    );
-                }
 
-                // Verificar la contraseña usando password_verify
-                if (password_verify($password, $usuario['password'])) {
-                    // Actualizar último acceso
-                    $this->actualizarUltimoAcceso($usuario['usuario_id']);
+                // Verificar la contraseï¿½a usando password_verify
+                if (password_verify($password, $usuario['usu_password'])) {
+                    // Actualizar ï¿½ltimo acceso
+                    $this->actualizarUltimoAcceso($usuario['usu_id']);
                     
-                    // Remover la contraseña del array de respuesta por seguridad
-                    unset($usuario['password']);
+                    // Adaptar nombres de campos para compatibilidad
+                    $usuario_adaptado = array(
+                        'usuario_id' => $usuario['usu_id'],
+                        'nombre' => $usuario['usu_nombre'],
+                        'apellido' => $usuario['usu_apellido'],
+                        'email' => $usuario['usu_email'],
+                        'rol' => $usuario['usu_rol'],
+                        'estado' => $usuario['usu_estado'],
+                        'fecha_creacion' => $usuario['usu_fecha_registro']
+                    );
                     
                     return array(
                         'success' => true,
                         'message' => 'Login exitoso',
-                        'user' => $usuario
+                        'user' => $usuario_adaptado
                     );
                 } else {
                     return array(
@@ -127,8 +133,8 @@ class Usuario {
     private function emailExiste($email) {
         try {
             $email = $this->conexion->getMysqli()->real_escape_string($email);
-            $sql = "SELECT usuario_id FROM usuarios WHERE email = '$email' LIMIT 1";
-            $resultado = $this->conexion->ejecutarSP($sql);
+            $sql = "SELECT usu_id FROM usuarios WHERE usu_email = '$email' LIMIT 1";
+            $resultado = $this->conexion->getMysqli()->query($sql);
             
             return ($resultado && $resultado->num_rows > 0);
         } catch (Exception $e) {
@@ -138,32 +144,42 @@ class Usuario {
     }
 
     /**
-     * Actualizar el último acceso del usuario
+     * Actualizar el ï¿½ltimo acceso del usuario
      */
     private function actualizarUltimoAcceso($usuario_id) {
         try {
-            $sql = "UPDATE usuarios SET ultimo_acceso = NOW() WHERE usuario_id = $usuario_id";
-            $this->conexion->ejecutarSP($sql);
+            $sql = "UPDATE usuarios SET usu_fecha_actualizacion = NOW() WHERE usu_id = $usuario_id";
+            $this->conexion->getMysqli()->query($sql);
         } catch (Exception $e) {
             error_log("Error en actualizarUltimoAcceso: " . $e->getMessage());
         }
     }
 
     /**
-     * Obtener información del usuario por ID
+     * Obtener informaciï¿½n del usuario por ID
      */
     public function obtenerUsuario($usuario_id) {
         try {
-            $sql = "CALL sp_obtener_usuario($usuario_id)";
-            $resultado = $this->conexion->ejecutarSP($sql);
+            $sql = "SELECT usu_id, usu_nombre, usu_apellido, usu_email, usu_telefono, usu_rol, usu_estado, usu_fecha_registro FROM usuarios WHERE usu_id = $usuario_id";
+            $resultado = $this->conexion->getMysqli()->query($sql);
 
             if ($resultado && $resultado->num_rows > 0) {
                 $usuario = $resultado->fetch_assoc();
-                unset($usuario['password']); // Remover contraseña por seguridad
+                // Adaptar nombres de campos para compatibilidad
+                $usuario_adaptado = array(
+                    'usuario_id' => $usuario['usu_id'],
+                    'nombre' => $usuario['usu_nombre'],
+                    'apellido' => $usuario['usu_apellido'],
+                    'email' => $usuario['usu_email'],
+                    'telefono' => $usuario['usu_telefono'],
+                    'rol' => $usuario['usu_rol'],
+                    'estado' => $usuario['usu_estado'],
+                    'fecha_creacion' => $usuario['usu_fecha_registro']
+                );
                 
                 return array(
                     'success' => true,
-                    'user' => $usuario
+                    'user' => $usuario_adaptado
                 );
             } else {
                 return array(
@@ -182,41 +198,41 @@ class Usuario {
     }
 
     /**
-     * Cambiar contraseña del usuario
+     * Cambiar contraseï¿½a del usuario
      */
     public function cambiarPassword($usuario_id, $password_actual, $password_nueva) {
         try {
-            // Primero obtener la contraseña actual hasheada
-            $sql = "SELECT password FROM usuarios WHERE usuario_id = $usuario_id";
-            $resultado = $this->conexion->ejecutarSP($sql);
+            // Primero obtener la contraseï¿½a actual hasheada
+            $sql = "SELECT usu_password FROM usuarios WHERE usu_id = $usuario_id";
+            $resultado = $this->conexion->getMysqli()->query($sql);
 
             if ($resultado && $resultado->num_rows > 0) {
                 $usuario = $resultado->fetch_assoc();
                 
-                // Verificar contraseña actual
-                if (password_verify($password_actual, $usuario['password'])) {
-                    // Hashear nueva contraseña
+                // Verificar contraseï¿½a actual
+                if (password_verify($password_actual, $usuario['usu_password'])) {
+                    // Hashear nueva contraseï¿½a
                     $password_hash = password_hash($password_nueva, PASSWORD_BCRYPT, ['cost' => 12]);
                     
-                    // Llamar stored procedure para cambiar contraseña
-                    $sql = "CALL sp_cambiar_password($usuario_id, '$password_hash')";
-                    $resultado = $this->conexion->ejecutarSP($sql);
+                    // Llamar stored procedure para cambiar contraseï¿½a
+                    $sql = "UPDATE usuarios SET usu_password = '$password_hash', usu_fecha_actualizacion = NOW() WHERE usu_id = $usuario_id";
+                    $resultado = $this->conexion->getMysqli()->query($sql);
 
                     if ($resultado) {
                         return array(
                             'success' => true,
-                            'message' => 'Contraseña actualizada exitosamente'
+                            'message' => 'Contraseï¿½a actualizada exitosamente'
                         );
                     } else {
                         return array(
                             'success' => false,
-                            'message' => 'Error al actualizar la contraseña'
+                            'message' => 'Error al actualizar la contraseï¿½a'
                         );
                     }
                 } else {
                     return array(
                         'success' => false,
-                        'message' => 'La contraseña actual es incorrecta'
+                        'message' => 'La contraseï¿½a actual es incorrecta'
                     );
                 }
             } else {
@@ -236,7 +252,7 @@ class Usuario {
     }
 
     /**
-     * Actualizar información del usuario
+     * Actualizar informaciï¿½n del usuario
      */
     public function actualizarUsuario($usuario_id, $nombre, $apellido, $telefono = null) {
         try {
@@ -244,10 +260,10 @@ class Usuario {
             $apellido = $this->conexion->getMysqli()->real_escape_string($apellido);
             $telefono = $telefono ? $this->conexion->getMysqli()->real_escape_string($telefono) : null;
 
-            $sql = "CALL sp_actualizar_usuario($usuario_id, '$nombre', '$apellido', " . 
-                   ($telefono ? "'$telefono'" : "NULL") . ")";
+            $sql = "UPDATE usuarios SET usu_nombre = '$nombre', usu_apellido = '$apellido', usu_telefono = " .
+                   ($telefono ? "'$telefono'" : "NULL") . ", usu_fecha_actualizacion = NOW() WHERE usu_id = $usuario_id";
 
-            $resultado = $this->conexion->ejecutarSP($sql);
+            $resultado = $this->conexion->getMysqli()->query($sql);
 
             if ($resultado) {
                 return array(
@@ -278,10 +294,10 @@ class Usuario {
     }
 
     /**
-     * Validar fortaleza de contraseña
+     * Validar fortaleza de contraseï¿½a
      */
     public function validarPassword($password) {
-        // Mínimo 8 caracteres, al menos una mayúscula, una minúscula y un número
+        // Mï¿½nimo 8 caracteres, al menos una mayï¿½scula, una minï¿½scula y un nï¿½mero
         $pattern = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d@$!%*?&]{8,}$/';
         return preg_match($pattern, $password);
     }
@@ -294,7 +310,7 @@ class Usuario {
     }
 
     /**
-     * Destructor para cerrar conexión
+     * Destructor para cerrar conexiï¿½n
      */
     public function __destruct() {
         if ($this->conexion) {

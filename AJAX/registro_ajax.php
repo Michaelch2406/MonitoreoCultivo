@@ -8,9 +8,9 @@ ini_set('log_errors', 1);
 ini_set('error_log', '../php_error.log');
 
 try {
-    // Verificar que sea una petición POST
+    // Verificar que sea una peticiï¿½n POST
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-        throw new Exception('Método no permitido');
+        throw new Exception('Mï¿½todo no permitido');
     }
 
     // Incluir el modelo de usuario
@@ -27,7 +27,7 @@ try {
     $terms = isset($_POST['terms']) ? $_POST['terms'] : false;
     $newsletter = isset($_POST['newsletter']) ? $_POST['newsletter'] : false;
 
-    // Validaciones básicas
+    // Validaciones bï¿½sicas
     $errores = array();
 
     if (empty($nombre)) {
@@ -47,18 +47,18 @@ try {
     }
 
     if (empty($password)) {
-        $errores[] = 'La contraseña es requerida';
+        $errores[] = 'La contraseï¿½a es requerida';
     }
 
     if ($password !== $confirm_password) {
-        $errores[] = 'Las contraseñas no coinciden';
+        $errores[] = 'Las contraseï¿½as no coinciden';
     }
 
     if (!$terms) {
-        $errores[] = 'Debes aceptar los términos y condiciones';
+        $errores[] = 'Debes aceptar los tï¿½rminos y condiciones';
     }
 
-    // Si hay errores básicos, devolver inmediatamente
+    // Si hay errores bï¿½sicos, devolver inmediatamente
     if (!empty($errores)) {
         echo json_encode(array(
             'success' => false,
@@ -74,27 +74,27 @@ try {
     if (!$usuario->validarEmail($email)) {
         echo json_encode(array(
             'success' => false,
-            'message' => 'Formato de email inválido'
+            'message' => 'Formato de email invï¿½lido'
         ));
         exit;
     }
 
-    // Validar fortaleza de contraseña
+    // Validar fortaleza de contraseï¿½a
     if (!$usuario->validarPassword($password)) {
         echo json_encode(array(
             'success' => false,
-            'message' => 'La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número'
+            'message' => 'La contraseï¿½a debe tener al menos 8 caracteres, una mayï¿½scula, una minï¿½scula y un nï¿½mero'
         ));
         exit;
     }
 
-    // Validar teléfono si está presente
+    // Validar telï¿½fono si estï¿½ presente
     if (!empty($telefono)) {
         $telefono_limpio = preg_replace('/[^0-9+]/', '', $telefono);
         if (strlen($telefono_limpio) < 10) {
             echo json_encode(array(
                 'success' => false,
-                'message' => 'Formato de teléfono inválido'
+                'message' => 'Formato de telï¿½fono invï¿½lido'
             ));
             exit;
         }
@@ -121,7 +121,7 @@ try {
         // Registrar evento en logs
         error_log("Registro exitoso para usuario: " . $email . " - IP: " . $_SERVER['REMOTE_ADDR']);
 
-        // Opcional: Crear sesión automáticamente después del registro
+        // Opcional: Crear sesiï¿½n automï¿½ticamente despuï¿½s del registro
         $_SESSION['user_id'] = $resultado['user_id'];
         $_SESSION['user_name'] = $nombre . ' ' . $apellido;
         $_SESSION['user_email'] = $email;
@@ -130,10 +130,10 @@ try {
         $_SESSION['logged_in'] = true;
         $_SESSION['login_time'] = time();
 
-        // Si se suscribió al newsletter, registrarlo
+        // Si se suscribiï¿½ al newsletter, registrarlo
         if ($newsletter) {
-            // Aquí podrías agregar la lógica para suscribir al newsletter
-            error_log("Usuario " . $email . " se suscribió al newsletter");
+            // Aquï¿½ podrï¿½as agregar la lï¿½gica para suscribir al newsletter
+            error_log("Usuario " . $email . " se suscribiï¿½ al newsletter");
         }
 
         echo json_encode(array(
@@ -146,12 +146,12 @@ try {
                 'role' => $rol
             ),
             'auto_login' => true,
-            'redirect' => 'inicio.php'
+            'redirect' => 'dashboard.php'
         ));
 
     } else {
         // Registro fallido
-        error_log("Intento de registro fallido para email: " . $email . " - IP: " . $_SERVER['REMOTE_ADDR'] . " - Razón: " . $resultado['message']);
+        error_log("Intento de registro fallido para email: " . $email . " - IP: " . $_SERVER['REMOTE_ADDR'] . " - Razï¿½n: " . $resultado['message']);
 
         echo json_encode(array(
             'success' => false,
