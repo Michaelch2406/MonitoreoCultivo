@@ -1,5 +1,6 @@
 <?php
-require_once(dirname(__FILE__) . "/../CONFIG/auth.php");
+session_start();
+require_once(dirname(__FILE__) . "/../CONFIG/global.php");
 require_once(dirname(__FILE__) . "/../CONFIG/roles.php");
 require_once(dirname(__FILE__) . "/../MODELOS/cultivos_m.php");
 

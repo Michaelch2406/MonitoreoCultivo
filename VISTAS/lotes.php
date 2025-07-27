@@ -5,7 +5,10 @@ require_once('../MODELOS/lotes_m.php');
 require_once('../MODELOS/fincas_m.php');
 
 // Verificar que el usuario esté logueado
-requiereLogin('login.php');
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header("Location: login.php");
+    exit();
+}
 
 $usuario_actual = obtenerUsuarioActual();
 $lote_modelo = new Lote();

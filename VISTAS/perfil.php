@@ -4,7 +4,10 @@ require_once '../CONFIG/roles.php';
 require_once '../MODELOS/usuarios_m.php';
 
 // Verificar que el usuario esté logueado
-requiereLogin('login.php');
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header("Location: login.php");
+    exit();
+}
 
 $usuario_modelo = new Usuario();
 $usuario_actual = obtenerUsuarioActual();

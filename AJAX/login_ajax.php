@@ -12,8 +12,11 @@ try {
         throw new Exception('M�todo no permitido');
     }
 
+    // Iniciar sesión
+    session_start();
+    
     // Incluir dependencias
-    require_once('../CONFIG/auth.php');
+    require_once('../CONFIG/global.php');
     require_once('../MODELOS/usuarios_m.php');
 
     // Obtener y validar datos del POST
@@ -49,7 +52,7 @@ try {
     $resultado = $usuario->loginUsuario($email, $password);
 
     if ($resultado['success']) {
-        // Login exitoso - crear sesi�n
+        // Login exitoso - crear sesión (compatibilidad con sistema existente)
         $_SESSION['user_id'] = $resultado['user']['usuario_id'];
         $_SESSION['user_name'] = $resultado['user']['nombre'] . ' ' . $resultado['user']['apellido'];
         $_SESSION['user_email'] = $resultado['user']['email'];
@@ -57,6 +60,12 @@ try {
         $_SESSION['user_estado'] = $resultado['user']['estado'];
         $_SESSION['logged_in'] = true;
         $_SESSION['login_time'] = time();
+        
+        // Variables adicionales para compatibilidad con el sistema de roles
+        $_SESSION['rol'] = $resultado['user']['rol'];
+        $_SESSION['nombre'] = $resultado['user']['nombre'];
+        $_SESSION['apellido'] = $resultado['user']['apellido'];
+        $_SESSION['email'] = $resultado['user']['email'];
 
         // Si seleccion� "recordar sesi�n", crear cookie por 30 d�as
         if ($remember) {

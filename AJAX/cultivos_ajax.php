@@ -1,10 +1,14 @@
 <?php
-require_once '../CONFIG/auth.php';
+session_start();
 require_once '../CONFIG/global.php';
+require_once '../CONFIG/roles.php';
 require_once '../MODELOS/cultivos_m.php';
 
 // Verificar que la sesión esté iniciada
-verificarSesion();
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    echo json_encode(['success' => false, 'message' => 'Sesión no válida']);
+    exit();
+}
 
 // Configurar headers para JSON
 header('Content-Type: application/json; charset=utf-8');
@@ -16,7 +20,8 @@ $cultivoModel = new Cultivo();
 $action = $_REQUEST['action'] ?? '';
 
 // Obtener permisos del usuario
-$permisos = obtenerPermisosUsuario($_SESSION['rol']);
+$usuario_actual = obtenerUsuarioActual();
+$permisos = obtenerPermisosUsuario($usuario_actual['rol']);
 
 try {
     switch ($action) {
@@ -71,7 +76,7 @@ try {
  * Listar todos los cultivos
  */
 function listarCultivos() {
-    global $cultivoModel, $permisos;
+    global $cultivoModel, $permisos, $usuario_actual;
     
     if (!isset($permisos['cultivos']['ver']) || !$permisos['cultivos']['ver']) {
         echo json_encode([
@@ -85,7 +90,7 @@ function listarCultivos() {
     $resultado = $cultivoModel->obtenerTodosTiposCultivos($categoria);
     
     if ($resultado['success']) {
-        logOperation('Listar cultivos', $_SESSION['user_id'], "Categoría: " . ($categoria ?: 'todas'));
+        logOperation('Listar cultivos', $usuario_actual['id'], "Categoría: " . ($categoria ?: 'todas'));
     }
     
     echo json_encode($resultado);

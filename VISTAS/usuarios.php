@@ -4,7 +4,16 @@ require_once('../CONFIG/roles.php');
 require_once('../MODELOS/usuarios_m.php');
 
 // Verificar que sea administrador
-requiereAdmin('login.php');
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header("Location: login.php");
+    exit();
+}
+
+$usuario_actual = obtenerUsuarioActual();
+if ($usuario_actual['rol'] !== 'administrador') {
+    header("Location: login.php");
+    exit();
+}
 
 $usuario_modelo = new Usuario();
 $usuarios = $usuario_modelo->listarUsuarios();

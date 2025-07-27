@@ -6,14 +6,17 @@ session_start();
 require_once '../CONFIG/roles.php';
 
 // Verificar que el usuario esté logueado
-requiereLogin('login.php');
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header("Location: login.php");
+    exit();
+}
 
 // Obtener datos del usuario
 $usuario = obtenerUsuarioActual();
-$usuario_id = $usuario['id'];
-$nombre_usuario = $usuario['nombre'];
-$rol_usuario = $usuario['rol'];
-$email_usuario = $usuario['email'];
+$usuario_id = $usuario['id'] ?? $_SESSION['user_id'];
+$nombre_usuario = $usuario['nombre'] ?? $_SESSION['user_name'];
+$rol_usuario = $usuario['rol'] ?? $_SESSION['rol'];
+$email_usuario = $usuario['email'] ?? $_SESSION['user_email'];
 
 // Incluir conexión para estadísticas
 require_once '../CONFIG/Conexion.php';

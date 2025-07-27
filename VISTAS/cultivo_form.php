@@ -1,9 +1,14 @@
 <?php
-require_once '../CONFIG/auth.php';
+session_start();
 require_once '../CONFIG/global.php';
+require_once '../CONFIG/roles.php';
 require_once '../MODELOS/cultivos_m.php';
 
-verificarSesion();
+// Verificar sesión simple
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header("Location: login.php");
+    exit();
+}
 
 // Obtener permisos del usuario
 $permisos = obtenerPermisosUsuario($_SESSION['rol']);

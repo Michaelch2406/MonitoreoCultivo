@@ -4,7 +4,7 @@ $usuario_logueado = isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === 
 
 if ($usuario_logueado) {
     $nombre_usuario = $_SESSION['user_name'] ?? '';
-    $rol_usuario = $_SESSION['user_role'] ?? '';
+    $rol_usuario = $_SESSION['rol'] ?? $_SESSION['user_role'] ?? '';
     $email_usuario = $_SESSION['user_email'] ?? '';
 } else {
     $nombre_usuario = '';
