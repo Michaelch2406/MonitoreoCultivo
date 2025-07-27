@@ -2,17 +2,18 @@
 // Iniciar sesión
 session_start();
 
-// Verificar si el usuario está logueado
-if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
-    header('Location: login.php');
-    exit;
-}
+// Incluir sistema de roles
+require_once '../CONFIG/roles.php';
+
+// Verificar que el usuario esté logueado
+requiereLogin('login.php');
 
 // Obtener datos del usuario
-$usuario_id = $_SESSION['user_id'];
-$nombre_usuario = $_SESSION['user_name'];
-$rol_usuario = $_SESSION['user_role'];
-$email_usuario = $_SESSION['user_email'];
+$usuario = obtenerUsuarioActual();
+$usuario_id = $usuario['id'];
+$nombre_usuario = $usuario['nombre'];
+$rol_usuario = $usuario['rol'];
+$email_usuario = $usuario['email'];
 
 // Incluir conexión para estadísticas
 require_once '../CONFIG/Conexion.php';
@@ -43,16 +44,34 @@ $conexion = new Conexion();
             <div class="dashboard-header">
                 <div class="row align-items-center">
                     <div class="col-md-8">
-                        <h1 class="dashboard-title">
-                            <i class="fas fa-crown me-2"></i>
-                            Panel de Administración - <?php echo htmlspecialchars(explode(' ', $nombre_usuario)[0]); ?>
-                        </h1>
-                        <p class="dashboard-subtitle">
-                            Control total del sistema AgroMonitor - Gestión de usuarios, cultivos y configuración global
-                        </p>
+                        <?php if ($rol_usuario == 'administrador'): ?>
+                            <h1 class="dashboard-title">
+                                <i class="fas fa-crown me-2"></i>
+                                Panel de Administración - <?php echo htmlspecialchars(explode(' ', $nombre_usuario)[0]); ?>
+                            </h1>
+                            <p class="dashboard-subtitle">
+                                Control total del sistema AgroMonitor - Gestión de usuarios, cultivos y configuración global
+                            </p>
+                        <?php elseif ($rol_usuario == 'agricultor'): ?>
+                            <h1 class="dashboard-title">
+                                <i class="fas fa-seedling me-2"></i>
+                                Panel del Agricultor - <?php echo htmlspecialchars(explode(' ', $nombre_usuario)[0]); ?>
+                            </h1>
+                            <p class="dashboard-subtitle">
+                                Gestiona tus fincas, cultivos y monitorea tu producción agrícola
+                            </p>
+                        <?php elseif ($rol_usuario == 'supervisor'): ?>
+                            <h1 class="dashboard-title">
+                                <i class="fas fa-binoculars me-2"></i>
+                                Panel de Supervisión - <?php echo htmlspecialchars(explode(' ', $nombre_usuario)[0]); ?>
+                            </h1>
+                            <p class="dashboard-subtitle">
+                                Supervisa múltiples fincas y monitorea el progreso de los cultivos
+                            </p>
+                        <?php endif; ?>
                         <div class="admin-badge">
                             <i class="fas fa-shield-alt me-1"></i>
-                            <?php echo ucfirst($rol_usuario); ?>
+                            <?php echo obtenerTextoRol($rol_usuario); ?>
                         </div>
                     </div>
                     <div class="col-md-4 text-end">
@@ -408,35 +427,87 @@ $conexion = new Conexion();
                         <div class="card-header">
                             <h5 class="card-title">
                                 <i class="fas fa-cogs me-2"></i>
-                                Panel de Control
+                                <?php echo $rol_usuario == 'administrador' ? 'Panel de Control' : 'Acciones Rápidas'; ?>
                             </h5>
                         </div>
                         <div class="card-body">
                             <div class="row g-2">
-                                <div class="col-6">
-                                    <button class="btn btn-outline-primary w-100">
-                                        <i class="fas fa-users mb-1"></i>
-                                        <br><small>Gestionar Usuarios</small>
-                                    </button>
-                                </div>
-                                <div class="col-6">
-                                    <button class="btn btn-outline-success w-100">
-                                        <i class="fas fa-map-marked-alt mb-1"></i>
-                                        <br><small>Gestionar Fincas</small>
-                                    </button>
-                                </div>
-                                <div class="col-6">
-                                    <button class="btn btn-outline-warning w-100">
-                                        <i class="fas fa-chart-bar mb-1"></i>
-                                        <br><small>Reportes Sistema</small>
-                                    </button>
-                                </div>
-                                <div class="col-6">
-                                    <button class="btn btn-outline-info w-100">
-                                        <i class="fas fa-cog mb-1"></i>
-                                        <br><small>Configuración</small>
-                                    </button>
-                                </div>
+                                <?php if ($rol_usuario == 'administrador'): ?>
+                                    <div class="col-6">
+                                        <a href="admin/usuarios.php" class="btn btn-outline-primary w-100">
+                                            <i class="fas fa-users mb-1"></i>
+                                            <br><small>Gestionar Usuarios</small>
+                                        </a>
+                                    </div>
+                                    <div class="col-6">
+                                        <a href="admin/fincas.php" class="btn btn-outline-success w-100">
+                                            <i class="fas fa-map-marked-alt mb-1"></i>
+                                            <br><small>Gestionar Fincas</small>
+                                        </a>
+                                    </div>
+                                    <div class="col-6">
+                                        <a href="admin/reportes.php" class="btn btn-outline-warning w-100">
+                                            <i class="fas fa-chart-bar mb-1"></i>
+                                            <br><small>Reportes Sistema</small>
+                                        </a>
+                                    </div>
+                                    <div class="col-6">
+                                        <a href="admin/configuracion.php" class="btn btn-outline-info w-100">
+                                            <i class="fas fa-cog mb-1"></i>
+                                            <br><small>Configuración</small>
+                                        </a>
+                                    </div>
+                                <?php elseif ($rol_usuario == 'agricultor'): ?>
+                                    <div class="col-6">
+                                        <a href="fincas/index.php" class="btn btn-outline-success w-100">
+                                            <i class="fas fa-map-marked-alt mb-1"></i>
+                                            <br><small>Mis Fincas</small>
+                                        </a>
+                                    </div>
+                                    <div class="col-6">
+                                        <a href="siembras/index.php" class="btn btn-outline-primary w-100">
+                                            <i class="fas fa-seedling mb-1"></i>
+                                            <br><small>Mis Siembras</small>
+                                        </a>
+                                    </div>
+                                    <div class="col-6">
+                                        <a href="monitoreo/index.php" class="btn btn-outline-warning w-100">
+                                            <i class="fas fa-eye mb-1"></i>
+                                            <br><small>Monitoreo</small>
+                                        </a>
+                                    </div>
+                                    <div class="col-6">
+                                        <a href="cosechas/index.php" class="btn btn-outline-info w-100">
+                                            <i class="fas fa-apple-alt mb-1"></i>
+                                            <br><small>Cosechas</small>
+                                        </a>
+                                    </div>
+                                <?php elseif ($rol_usuario == 'supervisor'): ?>
+                                    <div class="col-6">
+                                        <a href="supervisor/agricultores.php" class="btn btn-outline-primary w-100">
+                                            <i class="fas fa-users mb-1"></i>
+                                            <br><small>Agricultores</small>
+                                        </a>
+                                    </div>
+                                    <div class="col-6">
+                                        <a href="supervisor/fincas.php" class="btn btn-outline-success w-100">
+                                            <i class="fas fa-map-marked-alt mb-1"></i>
+                                            <br><small>Fincas Supervisadas</small>
+                                        </a>
+                                    </div>
+                                    <div class="col-6">
+                                        <a href="supervisor/monitoreo.php" class="btn btn-outline-warning w-100">
+                                            <i class="fas fa-binoculars mb-1"></i>
+                                            <br><small>Supervisión</small>
+                                        </a>
+                                    </div>
+                                    <div class="col-6">
+                                        <a href="supervisor/reportes.php" class="btn btn-outline-info w-100">
+                                            <i class="fas fa-clipboard-list mb-1"></i>
+                                            <br><small>Reportes</small>
+                                        </a>
+                                    </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>

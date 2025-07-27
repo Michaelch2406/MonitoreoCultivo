@@ -1,5 +1,4 @@
 <?php
-session_start();
 header('Content-Type: application/json; charset=utf-8');
 
 // Configurar manejo de errores
@@ -13,7 +12,8 @@ try {
         throw new Exception('M�todo no permitido');
     }
 
-    // Incluir el modelo de usuario
+    // Incluir dependencias
+    require_once('../CONFIG/auth.php');
     require_once('../MODELOS/usuarios_m.php');
 
     // Obtener y validar datos del POST

@@ -1,14 +1,26 @@
 <?php
-// Iniciar sesión si no está iniciada
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
+// Verificar si el usuario está logueado de forma simple
+$usuario_logueado = isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true;
+
+if ($usuario_logueado) {
+    $nombre_usuario = $_SESSION['user_name'] ?? '';
+    $rol_usuario = $_SESSION['user_role'] ?? '';
+    $email_usuario = $_SESSION['user_email'] ?? '';
+} else {
+    $nombre_usuario = '';
+    $rol_usuario = '';
+    $email_usuario = '';
 }
 
-// Verificar si el usuario está logueado
-$usuario_logueado = isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true;
-$nombre_usuario = $usuario_logueado ? $_SESSION['user_name'] : '';
-$rol_usuario = $usuario_logueado ? $_SESSION['user_role'] : '';
-$email_usuario = $usuario_logueado ? $_SESSION['user_email'] : '';
+// Función simple para obtener texto del rol
+function obtenerTextoRolSimple($rol) {
+    $roles = array(
+        'administrador' => 'Administrador',
+        'agricultor' => 'Agricultor',
+        'supervisor' => 'Supervisor'
+    );
+    return isset($roles[$rol]) ? $roles[$rol] : $rol;
+}
 ?>
 
 <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
@@ -35,43 +47,102 @@ $email_usuario = $usuario_logueado ? $_SESSION['user_email'] : '';
                         <i class="fas fa-tachometer-alt me-1"></i>Dashboard
                     </a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownCultivos" role="button" 
-                       data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-leaf me-1"></i>Cultivos
-                    </a>
-                    <ul class="dropdown-menu dropdown-custom">
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-plus-circle me-2"></i>Nuevo Cultivo</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-list me-2"></i>Listar Cultivos</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-chart-line me-2"></i>Estadísticas</a></li>
-                    </ul>
-                </li>
+                
+                <?php if ($rol_usuario == 'administrador'): ?>
+                    <!-- Menú específico para Administradores -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAdmin" role="button" 
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-crown me-1"></i>Administración
+                        </a>
+                        <ul class="dropdown-menu dropdown-custom">
+                            <li><a class="dropdown-item" href="admin/usuarios.php"><i class="fas fa-users me-2"></i>Gestión de Usuarios</a></li>
+                            <li><a class="dropdown-item" href="admin/configuracion.php"><i class="fas fa-cogs me-2"></i>Configuración Sistema</a></li>
+                            <li><a class="dropdown-item" href="admin/backup.php"><i class="fas fa-database me-2"></i>Backup</a></li>
+                        </ul>
+                    </li>
+                <?php endif; ?>
+                
+                <?php if ($rol_usuario == 'administrador' || $rol_usuario == 'agricultor'): ?>
+                    <!-- Menú de Cultivos - Para Administradores y Agricultores -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownCultivos" role="button" 
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-leaf me-1"></i>Cultivos
+                        </a>
+                        <ul class="dropdown-menu dropdown-custom">
+                            <li><a class="dropdown-item" href="siembras/nueva.php"><i class="fas fa-plus-circle me-2"></i>Nueva Siembra</a></li>
+                            <li><a class="dropdown-item" href="siembras/index.php"><i class="fas fa-list me-2"></i>Mis Siembras</a></li>
+                            <li><a class="dropdown-item" href="cosechas/index.php"><i class="fas fa-apple-alt me-2"></i>Cosechas</a></li>
+                        </ul>
+                    </li>
+                    
+                    <!-- Menú de Fincas - Para Administradores y Agricultores -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownFincas" role="button" 
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-map-marked-alt me-1"></i>Fincas
+                        </a>
+                        <ul class="dropdown-menu dropdown-custom">
+                            <li><a class="dropdown-item" href="fincas/nueva.php"><i class="fas fa-plus me-2"></i>Nueva Finca</a></li>
+                            <li><a class="dropdown-item" href="fincas/index.php"><i class="fas fa-list-ul me-2"></i>Mis Fincas</a></li>
+                            <li><a class="dropdown-item" href="lotes/index.php"><i class="fas fa-th-large me-2"></i>Mis Lotes</a></li>
+                        </ul>
+                    </li>
+                <?php endif; ?>
+                
+                <!-- Menú de Monitoreo - Para todos los roles -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMonitoreo" role="button" 
                        data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-eye me-1"></i>Monitoreo
                     </a>
                     <ul class="dropdown-menu dropdown-custom">
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-clipboard-check me-2"></i>Registrar Observación</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-history me-2"></i>Historial</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-exclamation-triangle me-2"></i>Alertas</a></li>
+                        <?php if ($rol_usuario == 'administrador' || $rol_usuario == 'agricultor'): ?>
+                            <li><a class="dropdown-item" href="monitoreo/nuevo.php"><i class="fas fa-clipboard-check me-2"></i>Nuevo Monitoreo</a></li>
+                        <?php endif; ?>
+                        <li><a class="dropdown-item" href="monitoreo/index.php"><i class="fas fa-history me-2"></i>Historial</a></li>
+                        <li><a class="dropdown-item" href="alertas/index.php"><i class="fas fa-exclamation-triangle me-2"></i>Alertas</a></li>
+                        <?php if ($rol_usuario == 'supervisor'): ?>
+                            <li><a class="dropdown-item" href="supervisor/monitoreo.php"><i class="fas fa-binoculars me-2"></i>Supervisión</a></li>
+                        <?php endif; ?>
                     </ul>
                 </li>
+                
+                <?php if ($rol_usuario == 'supervisor'): ?>
+                    <!-- Menú específico para Supervisores -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownSupervisor" role="button" 
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-binoculars me-1"></i>Supervisión
+                        </a>
+                        <ul class="dropdown-menu dropdown-custom">
+                            <li><a class="dropdown-item" href="supervisor/agricultores.php"><i class="fas fa-users me-2"></i>Agricultores</a></li>
+                            <li><a class="dropdown-item" href="supervisor/fincas.php"><i class="fas fa-map-marked-alt me-2"></i>Fincas Supervisadas</a></li>
+                            <li><a class="dropdown-item" href="supervisor/reportes.php"><i class="fas fa-clipboard-list me-2"></i>Reportes</a></li>
+                        </ul>
+                    </li>
+                <?php endif; ?>
+                
+                <!-- Menú de Reportes - Para todos los roles -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownFincas" role="button" 
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownReportes" role="button" 
                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-map-marked-alt me-1"></i>Fincas
-                    </a>
-                    <ul class="dropdown-menu dropdown-custom">
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-plus me-2"></i>Nueva Finca</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-list-ul me-2"></i>Mis Fincas</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-map me-2"></i>Ubicaciones</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" id="nav-reportes">
                         <i class="fas fa-file-alt me-1"></i>Reportes
                     </a>
+                    <ul class="dropdown-menu dropdown-custom">
+                        <?php if ($rol_usuario == 'administrador'): ?>
+                            <li><a class="dropdown-item" href="admin/reportes.php"><i class="fas fa-chart-bar me-2"></i>Reportes Globales</a></li>
+                        <?php endif; ?>
+                        <?php if ($rol_usuario == 'agricultor'): ?>
+                            <li><a class="dropdown-item" href="reportes/mis_cultivos.php"><i class="fas fa-seedling me-2"></i>Mis Cultivos</a></li>
+                            <li><a class="dropdown-item" href="reportes/produccion.php"><i class="fas fa-chart-line me-2"></i>Producción</a></li>
+                            <li><a class="dropdown-item" href="gastos/index.php"><i class="fas fa-money-bill-wave me-2"></i>Gastos</a></li>
+                        <?php endif; ?>
+                        <?php if ($rol_usuario == 'supervisor'): ?>
+                            <li><a class="dropdown-item" href="supervisor/reportes.php"><i class="fas fa-clipboard-list me-2"></i>Reportes Supervisión</a></li>
+                        <?php endif; ?>
+                    </ul>
                 </li>
             </ul>
 
@@ -119,7 +190,7 @@ $email_usuario = $usuario_logueado ? $_SESSION['user_email'] : '';
                         <img src="../PUBLIC/Img/user.png" alt="Usuario" class="user-avatar me-2" width="32" height="32">
                         <div class="user-info d-none d-md-block">
                             <span class="user-name"><?php echo htmlspecialchars($nombre_usuario); ?></span>
-                            <small class="user-role d-block text-muted"><?php echo ucfirst($rol_usuario); ?></small>
+                            <small class="user-role d-block text-muted"><?php echo obtenerTextoRolSimple($rol_usuario); ?></small>
                         </div>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end user-dropdown">

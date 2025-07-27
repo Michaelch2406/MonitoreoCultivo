@@ -149,7 +149,7 @@
                                         Recordar mi sesión
                                     </label>
                                 </div>
-                                <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
+                                <span class="text-muted small">¿Olvidaste tu contraseña? Contacta al administrador</span>
                             </div>
                             
                             <button type="submit" class="btn btn-login" id="loginButton">

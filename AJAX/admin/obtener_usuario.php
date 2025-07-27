@@ -1,0 +1,48 @@
+<?php
+session_start();
+header('Content-Type: application/json; charset=utf-8');
+require_once('../../CONFIG/roles.php');
+require_once('../../MODELOS/usuarios_m.php');
+
+try {
+    // Verificar que sea administrador
+    if (!esAdministrador()) {
+        echo json_encode(array(
+            'success' => false,
+            'message' => 'Acceso denegado'
+        ));
+        exit;
+    }
+
+    // Verificar método POST
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        throw new Exception('Método no permitido');
+    }
+
+    // Obtener ID del usuario
+    $usuario_id = isset($_POST['usuario_id']) ? (int)$_POST['usuario_id'] : 0;
+
+    if (!$usuario_id) {
+        echo json_encode(array(
+            'success' => false,
+            'message' => 'ID de usuario no válido'
+        ));
+        exit;
+    }
+
+    // Crear instancia del modelo
+    $usuario_modelo = new Usuario();
+
+    // Obtener usuario
+    $resultado = $usuario_modelo->obtenerUsuario($usuario_id);
+
+    echo json_encode($resultado);
+
+} catch (Exception $e) {
+    error_log("Error en obtener_usuario.php: " . $e->getMessage());
+    echo json_encode(array(
+        'success' => false,
+        'message' => 'Error interno del servidor'
+    ));
+}
+?>
