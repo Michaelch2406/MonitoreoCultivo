@@ -63,12 +63,19 @@ function obtenerTextoRolSimple($rol) {
                     </li>
                 <?php endif; ?>
                 
+                <!-- Menú de Catálogo de Cultivos - Para todos los roles -->
+                <li class="nav-item">
+                    <a class="nav-link" href="cultivos.php" id="nav-cultivos">
+                        <i class="fas fa-seedling me-1"></i>Catálogo de Cultivos
+                    </a>
+                </li>
+                
                 <?php if ($rol_usuario == 'administrador' || $rol_usuario == 'agricultor'): ?>
                     <!-- Menú de Cultivos - Para Administradores y Agricultores -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownCultivos" role="button" 
                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-leaf me-1"></i>Cultivos
+                            <i class="fas fa-leaf me-1"></i>Mis Cultivos
                         </a>
                         <ul class="dropdown-menu dropdown-custom">
                             <li><a class="dropdown-item" href="siembras/nueva.php"><i class="fas fa-plus-circle me-2"></i>Nueva Siembra</a></li>

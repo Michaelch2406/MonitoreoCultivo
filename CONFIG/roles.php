@@ -199,58 +199,214 @@ function generarHTMLMenu() {
 }
 
 /**
+ * Obtener permisos completos del usuario según su rol
+ */
+function obtenerPermisosUsuario($rol) {
+    switch ($rol) {
+        case 'administrador':
+            return array(
+                'cultivos' => array(
+                    'ver' => true,
+                    'crear' => true,
+                    'editar' => true,
+                    'eliminar' => true,
+                    'categorizar' => true,
+                    'exportar' => true
+                ),
+                'fincas' => array(
+                    'ver' => true,
+                    'crear' => true,
+                    'editar' => true,
+                    'eliminar' => true
+                ),
+                'lotes' => array(
+                    'ver' => true,
+                    'crear' => true,
+                    'editar' => true,
+                    'eliminar' => true
+                ),
+                'siembras' => array(
+                    'ver' => true,
+                    'crear' => true,
+                    'editar' => true,
+                    'eliminar' => true
+                ),
+                'monitoreo' => array(
+                    'ver' => true,
+                    'crear' => true,
+                    'editar' => true,
+                    'eliminar' => true
+                ),
+                'actividades' => array(
+                    'ver' => true,
+                    'crear' => true,
+                    'editar' => true,
+                    'eliminar' => true
+                ),
+                'cosechas' => array(
+                    'ver' => true,
+                    'crear' => true,
+                    'editar' => true,
+                    'eliminar' => true
+                ),
+                'usuarios' => array(
+                    'ver' => true,
+                    'crear' => true,
+                    'editar' => true,
+                    'eliminar' => true,
+                    'cambiar_estado' => true
+                ),
+                'reportes' => array(
+                    'ver' => true,
+                    'crear' => true,
+                    'exportar' => true
+                )
+            );
+            
+        case 'agricultor':
+            return array(
+                'cultivos' => array(
+                    'ver' => true,
+                    'crear' => false,
+                    'editar' => false,
+                    'eliminar' => false,
+                    'categorizar' => false,
+                    'exportar' => false
+                ),
+                'fincas' => array(
+                    'ver' => true,
+                    'crear' => true,
+                    'editar' => true,
+                    'eliminar' => true
+                ),
+                'lotes' => array(
+                    'ver' => true,
+                    'crear' => true,
+                    'editar' => true,
+                    'eliminar' => true
+                ),
+                'siembras' => array(
+                    'ver' => true,
+                    'crear' => true,
+                    'editar' => true,
+                    'eliminar' => true
+                ),
+                'monitoreo' => array(
+                    'ver' => true,
+                    'crear' => true,
+                    'editar' => true,
+                    'eliminar' => false
+                ),
+                'actividades' => array(
+                    'ver' => true,
+                    'crear' => true,
+                    'editar' => true,
+                    'eliminar' => true
+                ),
+                'cosechas' => array(
+                    'ver' => true,
+                    'crear' => true,
+                    'editar' => true,
+                    'eliminar' => true
+                ),
+                'usuarios' => array(
+                    'ver' => false,
+                    'crear' => false,
+                    'editar' => false,
+                    'eliminar' => false,
+                    'cambiar_estado' => false
+                ),
+                'reportes' => array(
+                    'ver' => true,
+                    'crear' => true,
+                    'exportar' => true
+                )
+            );
+            
+        case 'supervisor':
+            return array(
+                'cultivos' => array(
+                    'ver' => true,
+                    'crear' => false,
+                    'editar' => false,
+                    'eliminar' => false,
+                    'categorizar' => false,
+                    'exportar' => false
+                ),
+                'fincas' => array(
+                    'ver' => true,
+                    'crear' => false,
+                    'editar' => false,
+                    'eliminar' => false
+                ),
+                'lotes' => array(
+                    'ver' => true,
+                    'crear' => false,
+                    'editar' => false,
+                    'eliminar' => false
+                ),
+                'siembras' => array(
+                    'ver' => true,
+                    'crear' => false,
+                    'editar' => false,
+                    'eliminar' => false
+                ),
+                'monitoreo' => array(
+                    'ver' => true,
+                    'crear' => true,
+                    'editar' => true,
+                    'eliminar' => false
+                ),
+                'actividades' => array(
+                    'ver' => true,
+                    'crear' => false,
+                    'editar' => false,
+                    'eliminar' => false
+                ),
+                'cosechas' => array(
+                    'ver' => true,
+                    'crear' => false,
+                    'editar' => false,
+                    'eliminar' => false
+                ),
+                'usuarios' => array(
+                    'ver' => true,
+                    'crear' => false,
+                    'editar' => false,
+                    'eliminar' => false,
+                    'cambiar_estado' => false
+                ),
+                'reportes' => array(
+                    'ver' => true,
+                    'crear' => true,
+                    'exportar' => true
+                )
+            );
+            
+        default:
+            return array();
+    }
+}
+
+/**
  * Verificar permisos específicos según el contexto
  */
 function verificarPermisoRecurso($recurso, $accion, $propietario_id = null) {
     $rol = obtenerRolUsuario();
     $usuario = obtenerUsuarioActual();
+    $permisos = obtenerPermisosUsuario($rol);
     
-    switch ($rol) {
-        case 'administrador':
-            // Los administradores tienen acceso total
-            return true;
-            
-        case 'agricultor':
-            // Los agricultores solo pueden acceder a sus propios recursos
-            if ($propietario_id && $propietario_id != $usuario['id']) {
-                return false;
-            }
-            
-            // Permisos específicos para agricultores
-            $permisos_agricultor = array(
-                'fincas' => array('ver', 'crear', 'editar', 'eliminar'),
-                'lotes' => array('ver', 'crear', 'editar', 'eliminar'),
-                'siembras' => array('ver', 'crear', 'editar', 'eliminar'),
-                'monitoreo' => array('ver', 'crear', 'editar'),
-                'actividades' => array('ver', 'crear', 'editar', 'eliminar'),
-                'cosechas' => array('ver', 'crear', 'editar', 'eliminar'),
-                'gastos' => array('ver', 'crear', 'editar', 'eliminar'),
-                'perfil' => array('ver', 'editar')
-            );
-            
-            return isset($permisos_agricultor[$recurso]) && 
-                   in_array($accion, $permisos_agricultor[$recurso]);
-            
-        case 'supervisor':
-            // Los supervisores pueden ver datos de agricultores supervisados
-            $permisos_supervisor = array(
-                'fincas' => array('ver'),
-                'lotes' => array('ver'),
-                'siembras' => array('ver'),
-                'monitoreo' => array('ver', 'crear'),
-                'actividades' => array('ver'),
-                'cosechas' => array('ver'),
-                'gastos' => array('ver'),
-                'reportes' => array('ver', 'crear'),
-                'perfil' => array('ver', 'editar')
-            );
-            
-            return isset($permisos_supervisor[$recurso]) && 
-                   in_array($accion, $permisos_supervisor[$recurso]);
-            
-        default:
-            return false;
+    // Verificar si tiene el permiso básico
+    if (!isset($permisos[$recurso][$accion]) || !$permisos[$recurso][$accion]) {
+        return false;
     }
+    
+    // Para agricultores, verificar que sea propietario del recurso
+    if ($rol === 'agricultor' && $propietario_id && $propietario_id != $usuario['id']) {
+        return false;
+    }
+    
+    return true;
 }
 
 /**

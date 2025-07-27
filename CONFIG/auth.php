@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 require_once "Conexion.php";
 
 class Auth {
@@ -16,7 +18,12 @@ class Auth {
         // Regenerar ID de sesión para prevenir fijación de sesión
         session_regenerate_id(true);
         
-        // Establecer variables de sesión
+        // Establecer variables de sesión (compatibilidad con sistema existente)
+        $_SESSION['logged_in'] = true;
+        $_SESSION['user_id'] = $usuario_data['usuario_id'];
+        $_SESSION['user_name'] = $usuario_data['nombre'];
+        $_SESSION['user_email'] = $usuario_data['email'];
+        $_SESSION['user_role'] = $usuario_data['rol'];
         $_SESSION['usuario_id'] = $usuario_data['usuario_id'];
         $_SESSION['nombre'] = $usuario_data['nombre'];
         $_SESSION['apellido'] = $usuario_data['apellido'];
@@ -46,8 +53,8 @@ class Auth {
      * Verificar si el usuario está autenticado
      */
     public static function estaAutenticado() {
-        // Verificar sesión activa
-        if (isset($_SESSION['usuario_id'])) {
+        // Verificar sesión activa (compatibilidad con sistema existente)
+        if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true && isset($_SESSION['usuario_id'])) {
             // Verificar integridad de la sesión
             if (self::verificarIntegridadSesion()) {
                 return true;
@@ -405,9 +412,95 @@ class Auth {
     }
 }
 
-// Configuración de sesión segura
-ini_set('session.cookie_httponly', 1);
-ini_set('session.cookie_secure', 1);
-ini_set('session.use_only_cookies', 1);
-ini_set('session.cookie_samesite', 'Strict');
+// Configuración de sesión segura (solo si no hay sesión activa)
+if (session_status() == PHP_SESSION_NONE) {
+    ini_set('session.cookie_httponly', 1);
+    ini_set('session.cookie_secure', 0); // Cambiar a 1 en producción con HTTPS
+    ini_set('session.use_only_cookies', 1);
+    ini_set('session.cookie_samesite', 'Strict');
+    session_start();
+}
+
+// FUNCIONES GLOBALES PARA COMPATIBILIDAD
+
+/**
+ * Verificar si el usuario está logueado
+ */
+function verificarSesion() {
+    if (!Auth::estaAutenticado()) {
+        header("Location: login.php");
+        exit();
+    }
+}
+
+/**
+ * Obtener usuario actual de forma simple
+ */
+function obtenerUsuarioActual() {
+    return Auth::getUsuario();
+}
+
+/**
+ * Verificar si está autenticado
+ */
+function estaLogueado() {
+    return Auth::estaAutenticado();
+}
+
+/**
+ * Obtener rol del usuario
+ */
+function obtenerRolUsuario() {
+    $usuario = Auth::getUsuario();
+    return $usuario ? $usuario['rol'] : null;
+}
+
+/**
+ * Verificar si tiene rol específico
+ */
+function tieneRol($rol) {
+    return Auth::tieneRol($rol);
+}
+
+/**
+ * Requerir autenticación
+ */
+function requiereLogin($redirigir_a = 'login.php') {
+    Auth::requiereAuth($redirigir_a);
+}
+
+/**
+ * Requerir rol específico
+ */
+function requiereRol($rol, $redirigir_a = 'dashboard.php') {
+    Auth::requiereRol($rol, $redirigir_a);
+}
+
+/**
+ * Requerir administrador
+ */
+function requiereAdmin($redirigir_a = 'dashboard.php') {
+    Auth::requiereAdmin($redirigir_a);
+}
+
+/**
+ * Generar token CSRF
+ */
+function generarCSRF() {
+    return Auth::generarCSRF();
+}
+
+/**
+ * Validar token CSRF
+ */
+function validarCSRF($token) {
+    return Auth::validarCSRF($token);
+}
+
+/**
+ * Cerrar sesión
+ */
+function cerrarSesion() {
+    Auth::cerrarSesion();
+}
 ?>

@@ -141,4 +141,36 @@ SQL Actualizar Lote: UPDATE lotes SET lot_nombre = 'Conjunto', lot_area = 50, lo
                     FROM lotes l
                     INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
                     INNER JOIN usuarios u ON f.fin_propietario = u.usu_id
-                    WHERE 1=1 ORDER BY l.lot_fecha_registro DESC
+                    WHERE 1=1 ORDER BY l.lot_fecha_registro DESC[27-Jul-2025 18:06:18 America/New_York] PHP Warning:  ini_set(): Session ini settings cannot be changed when a session is active in C:\inetpub\wwwroot\MonitoreoCultivo\CONFIG\auth.php on line 409
+[27-Jul-2025 18:06:18 America/New_York] PHP Warning:  ini_set(): Session ini settings cannot be changed when a session is active in C:\inetpub\wwwroot\MonitoreoCultivo\CONFIG\auth.php on line 410
+[27-Jul-2025 18:06:18 America/New_York] PHP Warning:  ini_set(): Session ini settings cannot be changed when a session is active in C:\inetpub\wwwroot\MonitoreoCultivo\CONFIG\auth.php on line 411
+[27-Jul-2025 18:06:19 America/New_York] Login exitoso para usuario: admin@sistemacultivos.com - IP: ::1
+[27-Jul-2025 18:11:52 America/New_York] PHP Warning:  ini_set(): Session ini settings cannot be changed when a session is active in C:\inetpub\wwwroot\MonitoreoCultivo\CONFIG\auth.php on line 409
+[27-Jul-2025 18:11:52 America/New_York] PHP Warning:  ini_set(): Session ini settings cannot be changed when a session is active in C:\inetpub\wwwroot\MonitoreoCultivo\CONFIG\auth.php on line 410
+[27-Jul-2025 18:11:52 America/New_York] PHP Warning:  ini_set(): Session ini settings cannot be changed when a session is active in C:\inetpub\wwwroot\MonitoreoCultivo\CONFIG\auth.php on line 411
+[27-Jul-2025 18:11:52 America/New_York] PHP Fatal error:  Uncaught Error: Call to undefined function verificarSesion() in C:\inetpub\wwwroot\MonitoreoCultivo\CONTROLADORES\cultivos_c.php:10
+Stack trace:
+#0 C:\inetpub\wwwroot\MonitoreoCultivo\CONTROLADORES\cultivos_c.php(515): CultivosController->__construct()
+#1 C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\cultivos.php(4): require_once('...')
+#2 {main}
+  thrown in C:\inetpub\wwwroot\MonitoreoCultivo\CONTROLADORES\cultivos_c.php on line 10
+[27-Jul-2025 18:12:29 America/New_York] PHP Warning:  ini_set(): Session ini settings cannot be changed when a session is active in C:\inetpub\wwwroot\MonitoreoCultivo\CONFIG\auth.php on line 409
+[27-Jul-2025 18:12:29 America/New_York] PHP Warning:  ini_set(): Session ini settings cannot be changed when a session is active in C:\inetpub\wwwroot\MonitoreoCultivo\CONFIG\auth.php on line 410
+[27-Jul-2025 18:12:29 America/New_York] PHP Warning:  ini_set(): Session ini settings cannot be changed when a session is active in C:\inetpub\wwwroot\MonitoreoCultivo\CONFIG\auth.php on line 411
+[27-Jul-2025 18:12:29 America/New_York] PHP Fatal error:  Uncaught Error: Call to undefined function verificarSesion() in C:\inetpub\wwwroot\MonitoreoCultivo\CONTROLADORES\cultivos_c.php:10
+Stack trace:
+#0 C:\inetpub\wwwroot\MonitoreoCultivo\CONTROLADORES\cultivos_c.php(515): CultivosController->__construct()
+#1 C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\cultivos.php(4): require_once('...')
+#2 {main}
+  thrown in C:\inetpub\wwwroot\MonitoreoCultivo\CONTROLADORES\cultivos_c.php on line 10
+[27-Jul-2025 18:14:12 America/New_York] PHP Warning:  ini_set(): Session ini settings cannot be changed when a session is active in C:\inetpub\wwwroot\MonitoreoCultivo\CONFIG\auth.php on line 409
+[27-Jul-2025 18:14:12 America/New_York] PHP Warning:  ini_set(): Session ini settings cannot be changed when a session is active in C:\inetpub\wwwroot\MonitoreoCultivo\CONFIG\auth.php on line 410
+[27-Jul-2025 18:14:12 America/New_York] PHP Warning:  ini_set(): Session ini settings cannot be changed when a session is active in C:\inetpub\wwwroot\MonitoreoCultivo\CONFIG\auth.php on line 411
+[27-Jul-2025 18:14:12 America/New_York] PHP Fatal error:  Uncaught Error: Call to undefined function verificarSesion() in C:\inetpub\wwwroot\MonitoreoCultivo\CONTROLADORES\cultivos_c.php:10
+Stack trace:
+#0 C:\inetpub\wwwroot\MonitoreoCultivo\CONTROLADORES\cultivos_c.php(515): CultivosController->__construct()
+#1 C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\cultivos.php(4): require_once('...')
+#2 {main}
+  thrown in C:\inetpub\wwwroot\MonitoreoCultivo\CONTROLADORES\cultivos_c.php on line 10
+[27-Jul-2025 18:21:59 America/New_York] PHP Fatal error:  Cannot redeclare estaLogueado() (previously declared in C:\inetpub\wwwroot\MonitoreoCultivo\CONFIG\auth.php:447) in C:\inetpub\wwwroot\MonitoreoCultivo\CONFIG\roles.php on line 9
+[27-Jul-2025 18:22:01 America/New_York] PHP Fatal error:  Cannot redeclare estaLogueado() (previously declared in C:\inetpub\wwwroot\MonitoreoCultivo\CONFIG\auth.php:447) in C:\inetpub\wwwroot\MonitoreoCultivo\CONFIG\roles.php on line 9
