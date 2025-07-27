@@ -225,13 +225,21 @@ class Finca {
             }
             
             if (isset($datos['latitud'])) {
-                $latitud = floatval($datos['latitud']);
-                $campos[] = "fin_latitud = $latitud";
+                if (empty($datos['latitud'])) {
+                    $campos[] = "fin_latitud = NULL";
+                } else {
+                    $latitud = floatval($datos['latitud']);
+                    $campos[] = "fin_latitud = $latitud";
+                }
             }
             
             if (isset($datos['longitud'])) {
-                $longitud = floatval($datos['longitud']);
-                $campos[] = "fin_longitud = $longitud";
+                if (empty($datos['longitud'])) {
+                    $campos[] = "fin_longitud = NULL";
+                } else {
+                    $longitud = floatval($datos['longitud']);
+                    $campos[] = "fin_longitud = $longitud";
+                }
             }
             
             if (isset($datos['area_total'])) {
@@ -242,26 +250,6 @@ class Finca {
             if (isset($datos['descripcion'])) {
                 $descripcion = $this->conexion->getMysqli()->real_escape_string($datos['descripcion']);
                 $campos[] = "fin_descripcion = " . ($descripcion ? "'$descripcion'" : "NULL");
-            }
-            
-            if (isset($datos['tipo_clima'])) {
-                $tipo_clima = $this->conexion->getMysqli()->real_escape_string($datos['tipo_clima']);
-                $campos[] = "fin_tipo_clima = " . ($tipo_clima ? "'$tipo_clima'" : "NULL");
-            }
-            
-            if (isset($datos['acceso_agua'])) {
-                $acceso_agua = $this->conexion->getMysqli()->real_escape_string($datos['acceso_agua']);
-                $campos[] = "fin_acceso_agua = " . ($acceso_agua ? "'$acceso_agua'" : "NULL");
-            }
-            
-            if (isset($datos['infraestructura'])) {
-                $infraestructura = $this->conexion->getMysqli()->real_escape_string($datos['infraestructura']);
-                $campos[] = "fin_infraestructura = " . ($infraestructura ? "'$infraestructura'" : "NULL");
-            }
-            
-            if (isset($datos['estado_legal'])) {
-                $estado_legal = $this->conexion->getMysqli()->real_escape_string($datos['estado_legal']);
-                $campos[] = "fin_estado_legal = " . ($estado_legal ? "'$estado_legal'" : "NULL");
             }
 
             // Solo administradores pueden cambiar propietario y estado
@@ -275,11 +263,6 @@ class Finca {
                     $estado = $this->conexion->getMysqli()->real_escape_string($datos['estado']);
                     $campos[] = "fin_estado = '$estado'";
                 }
-
-                if (isset($datos['supervisor_id'])) {
-                    $supervisor_id = intval($datos['supervisor_id']);
-                    $campos[] = "fin_supervisor = " . ($supervisor_id > 0 ? $supervisor_id : "NULL");
-                }
             }
 
             if (empty($campos)) {
@@ -289,10 +272,11 @@ class Finca {
                 );
             }
 
-            $campos[] = "fin_fecha_actualizacion = NOW()";
             $campos_sql = implode(', ', $campos);
-
             $sql = "UPDATE fincas SET $campos_sql WHERE fin_id = $finca_id";
+            
+            error_log("SQL Update Finca: " . $sql); // Debug log
+            
             $resultado = $this->conexion->getMysqli()->query($sql);
 
             if ($resultado) {
@@ -301,9 +285,10 @@ class Finca {
                     'message' => 'Finca actualizada exitosamente'
                 );
             } else {
+                error_log("Error MySQL en actualizarFinca: " . $this->conexion->getMysqli()->error);
                 return array(
                     'success' => false,
-                    'message' => 'Error al actualizar la finca'
+                    'message' => 'Error al actualizar la finca: ' . $this->conexion->getMysqli()->error
                 );
             }
         } catch (Exception $e) {

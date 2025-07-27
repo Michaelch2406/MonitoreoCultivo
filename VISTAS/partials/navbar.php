@@ -85,7 +85,7 @@ function obtenerTextoRolSimple($rol) {
                         </a>
                         <ul class="dropdown-menu dropdown-custom">
                             <li><a class="dropdown-item" href="fincas.php"><i class="fas fa-map-marked-alt me-2"></i>Gestión de Fincas</a></li>
-                            <li><a class="dropdown-item" href="lotes/index.php"><i class="fas fa-th-large me-2"></i>Mis Lotes</a></li>
+                            <li><a class="dropdown-item" href="lotes.php"><i class="fas fa-th-large me-2"></i>Gestión de Lotes</a></li>
                         </ul>
                     </li>
                 <?php endif; ?>
@@ -118,6 +118,7 @@ function obtenerTextoRolSimple($rol) {
                         <ul class="dropdown-menu dropdown-custom">
                             <li><a class="dropdown-item" href="supervisor/agricultores.php"><i class="fas fa-users me-2"></i>Agricultores</a></li>
                             <li><a class="dropdown-item" href="fincas.php"><i class="fas fa-map-marked-alt me-2"></i>Fincas Supervisadas</a></li>
+                            <li><a class="dropdown-item" href="lotes.php"><i class="fas fa-th-large me-2"></i>Lotes Supervisados</a></li>
                             <li><a class="dropdown-item" href="supervisor/reportes.php"><i class="fas fa-clipboard-list me-2"></i>Reportes</a></li>
                         </ul>
                     </li>

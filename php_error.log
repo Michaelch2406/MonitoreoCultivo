@@ -51,3 +51,94 @@
 [27-Jul-2025 10:43:04 America/New_York] PHP Warning:  ini_set(): Session ini settings cannot be changed when a session is active in C:\inetpub\wwwroot\MonitoreoCultivo\CONFIG\auth.php on line 410
 [27-Jul-2025 10:43:04 America/New_York] PHP Warning:  ini_set(): Session ini settings cannot be changed when a session is active in C:\inetpub\wwwroot\MonitoreoCultivo\CONFIG\auth.php on line 411
 [27-Jul-2025 10:43:04 America/New_York] Login exitoso para usuario: admin@sistemacultivos.com - IP: ::1
+[27-Jul-2025 11:10:17 America/New_York] PHP Warning:  ini_set(): Session ini settings cannot be changed when a session is active in C:\inetpub\wwwroot\MonitoreoCultivo\CONFIG\auth.php on line 409
+[27-Jul-2025 11:10:17 America/New_York] PHP Warning:  ini_set(): Session ini settings cannot be changed when a session is active in C:\inetpub\wwwroot\MonitoreoCultivo\CONFIG\auth.php on line 410
+[27-Jul-2025 11:10:17 America/New_York] PHP Warning:  ini_set(): Session ini settings cannot be changed when a session is active in C:\inetpub\wwwroot\MonitoreoCultivo\CONFIG\auth.php on line 411
+[27-Jul-2025 11:10:18 America/New_York] Login exitoso para usuario: maicolchasiguano@gmail.com - IP: ::1
+[27-Jul-2025 11:35:32 America/New_York] PHP Warning:  ini_set(): Session ini settings cannot be changed when a session is active in C:\inetpub\wwwroot\MonitoreoCultivo\CONFIG\auth.php on line 409
+[27-Jul-2025 11:35:32 America/New_York] PHP Warning:  ini_set(): Session ini settings cannot be changed when a session is active in C:\inetpub\wwwroot\MonitoreoCultivo\CONFIG\auth.php on line 410
+[27-Jul-2025 11:35:32 America/New_York] PHP Warning:  ini_set(): Session ini settings cannot be changed when a session is active in C:\inetpub\wwwroot\MonitoreoCultivo\CONFIG\auth.php on line 411
+[27-Jul-2025 11:35:32 America/New_York] Login exitoso para usuario: admin@sistemacultivos.com - IP: ::1
+SQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
+                           u.usu_nombre, u.usu_apellido, u.usu_email
+                    FROM lotes l
+                    INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
+                    INNER JOIN usuarios u ON f.fin_propietario = u.usu_id
+                    WHERE 1=1 ORDER BY l.lot_fecha_registro DESCSQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
+                           u.usu_nombre, u.usu_apellido, u.usu_email
+                    FROM lotes l
+                    INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
+                    INNER JOIN usuarios u ON f.fin_propietario = u.usu_id
+                    WHERE 1=1 ORDER BY l.lot_fecha_registro DESCSQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
+                           u.usu_nombre, u.usu_apellido, u.usu_email
+                    FROM lotes l
+                    INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
+                    INNER JOIN usuarios u ON f.fin_propietario = u.usu_id
+                    WHERE 1=1 ORDER BY l.lot_fecha_registro DESCSQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
+                           u.usu_nombre, u.usu_apellido, u.usu_email
+                    FROM lotes l
+                    INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
+                    INNER JOIN usuarios u ON f.fin_propietario = u.usu_id
+                    WHERE 1=1 ORDER BY l.lot_fecha_registro DESCCreando lote - Datos recibidos: Array
+(
+    [nombre] => Conjunto
+    [finca_id] => 1
+    [area] => 600
+    [tipo_suelo] => humifero
+    [ph_suelo] => 6.0
+    [descripcion] => 
+    [action] => crear
+)
+Creando lote - Datos recibidos: Array
+(
+    [nombre] => Conjunto
+    [finca_id] => 1
+    [area] => 50
+    [tipo_suelo] => humifero
+    [ph_suelo] => 6.0
+    [descripcion] => 
+    [action] => crear
+)
+SQL Crear Lote: INSERT INTO lotes (
+                        lot_nombre, lot_finca_id, lot_area, lot_tipo_suelo, 
+                        lot_ph_suelo, lot_descripcion, lot_estado
+                    ) VALUES (
+                        'Conjunto', 1, 50, 'humifero', 6, NULL, 
+                        'disponible'
+                    )SQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
+                           u.usu_nombre, u.usu_apellido, u.usu_email
+                    FROM lotes l
+                    INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
+                    INNER JOIN usuarios u ON f.fin_propietario = u.usu_id
+                    WHERE 1=1 ORDER BY l.lot_fecha_registro DESCDatos recibidos para actualizar lote ID 1: Array
+(
+    [lote_id] => 1
+    [nombre] => Conjunto
+    [area] => 50.00
+    [tipo_suelo] => humifero
+    [ph_suelo] => 6.8
+    [estado] => disponible
+    [descripcion] => 
+    [action] => actualizar
+)
+SQL Actualizar Lote: UPDATE lotes SET lot_nombre = 'Conjunto', lot_area = 50, lot_tipo_suelo = 'humifero', lot_ph_suelo = 6.8, lot_descripcion = NULL, lot_estado = 'disponible' WHERE lot_id = 1SQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
+                           u.usu_nombre, u.usu_apellido, u.usu_email
+                    FROM lotes l
+                    INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
+                    INNER JOIN usuarios u ON f.fin_propietario = u.usu_id
+                    WHERE 1=1 ORDER BY l.lot_fecha_registro DESCSQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
+                           u.usu_nombre, u.usu_apellido, u.usu_email
+                    FROM lotes l
+                    INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
+                    INNER JOIN usuarios u ON f.fin_propietario = u.usu_id
+                    WHERE 1=1 ORDER BY l.lot_fecha_registro DESCSQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
+                           u.usu_nombre, u.usu_apellido, u.usu_email
+                    FROM lotes l
+                    INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
+                    INNER JOIN usuarios u ON f.fin_propietario = u.usu_id
+                    WHERE 1=1 ORDER BY l.lot_fecha_registro DESCSQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
+                           u.usu_nombre, u.usu_apellido, u.usu_email
+                    FROM lotes l
+                    INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
+                    INNER JOIN usuarios u ON f.fin_propietario = u.usu_id
+                    WHERE 1=1 ORDER BY l.lot_fecha_registro DESC

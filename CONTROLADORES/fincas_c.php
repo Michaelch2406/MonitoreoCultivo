@@ -186,8 +186,10 @@ function actualizarFinca() {
     // Preparar datos para actualización
     $datos = array();
     
-    $campos_editables = ['nombre', 'ubicacion', 'area_total', 
-                        'descripcion', 'tipo_clima', 'acceso_agua', 'infraestructura', 'estado_legal'];
+    $campos_editables = ['nombre', 'ubicacion', 'area_total', 'descripcion', 'estado'];
+    
+    // Debug log
+    error_log("Datos recibidos para actualizar finca ID $finca_id: " . print_r($_POST, true));
     
     foreach ($campos_editables as $campo) {
         if (isset($_POST[$campo])) {
@@ -197,21 +199,25 @@ function actualizarFinca() {
     
     // Validar coordenadas si se proporcionan
     if (isset($_POST['latitud'])) {
-        $latitud = floatval($_POST['latitud']);
-        if ($latitud < -90 || $latitud > 90) {
-            echo json_encode(['success' => false, 'message' => 'La latitud debe estar entre -90 y 90']);
-            return;
+        if (!empty($_POST['latitud'])) {
+            $latitud = floatval($_POST['latitud']);
+            if ($latitud < -90 || $latitud > 90) {
+                echo json_encode(['success' => false, 'message' => 'La latitud debe estar entre -90 y 90']);
+                return;
+            }
         }
-        $datos['latitud'] = $latitud;
+        $datos['latitud'] = $_POST['latitud'];
     }
     
     if (isset($_POST['longitud'])) {
-        $longitud = floatval($_POST['longitud']);
-        if ($longitud < -180 || $longitud > 180) {
-            echo json_encode(['success' => false, 'message' => 'La longitud debe estar entre -180 y 180']);
-            return;
+        if (!empty($_POST['longitud'])) {
+            $longitud = floatval($_POST['longitud']);
+            if ($longitud < -180 || $longitud > 180) {
+                echo json_encode(['success' => false, 'message' => 'La longitud debe estar entre -180 y 180']);
+                return;
+            }
         }
-        $datos['longitud'] = $longitud;
+        $datos['longitud'] = $_POST['longitud'];
     }
     
     // Validar área total si se proporciona
@@ -228,14 +234,6 @@ function actualizarFinca() {
     if ($usuario_actual['rol'] == 'administrador') {
         if (isset($_POST['propietario_id'])) {
             $datos['propietario_id'] = $_POST['propietario_id'];
-        }
-        
-        if (isset($_POST['estado'])) {
-            $datos['estado'] = $_POST['estado'];
-        }
-        
-        if (isset($_POST['supervisor_id'])) {
-            $datos['supervisor_id'] = $_POST['supervisor_id'];
         }
     }
     

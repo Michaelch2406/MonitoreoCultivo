@@ -6,7 +6,20 @@ $(document).ready(function() {
     // Configuración de DataTables en español
     const dataTableConfig = {
         language: {
-            url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
+            "processing": "Procesando...",
+            "lengthMenu": "Mostrar _MENU_ registros",
+            "zeroRecords": "No se encontraron resultados",
+            "emptyTable": "Ningún dato disponible en esta tabla",
+            "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+            "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "search": "Buscar:",
+            "paginate": {
+                "first": "Primero",
+                "last": "Último",
+                "next": "Siguiente",
+                "previous": "Anterior"
+            }
         },
         responsive: true,
         order: [[0, 'desc']],
@@ -133,7 +146,7 @@ $(document).ready(function() {
         btnSubmit.html('<i class="fas fa-spinner fa-spin me-2"></i>Creando...').prop('disabled', true);
         
         $.ajax({
-            url: '../../AJAX/admin/crear_usuario.php',
+            url: '../AJAX/admin/crear_usuario.php',
             method: 'POST',
             data: $(this).serialize(),
             dataType: 'json',
@@ -179,7 +192,7 @@ $(document).ready(function() {
         $(this).html('<i class="fas fa-spinner fa-spin"></i>').prop('disabled', true);
         
         $.ajax({
-            url: '../../AJAX/admin/obtener_usuario.php',
+            url: '../AJAX/admin/obtener_usuario.php',
             method: 'POST',
             data: { usuario_id: userId },
             dataType: 'json',
@@ -224,7 +237,7 @@ $(document).ready(function() {
         btnSubmit.html('<i class="fas fa-spinner fa-spin me-2"></i>Guardando...').prop('disabled', true);
         
         $.ajax({
-            url: '../../AJAX/admin/editar_usuario.php',
+            url: '../AJAX/admin/editar_usuario.php',
             method: 'POST',
             data: $(this).serialize(),
             dataType: 'json',
@@ -281,7 +294,7 @@ $(document).ready(function() {
                 btn.html('<i class="fas fa-spinner fa-spin"></i>').prop('disabled', true);
                 
                 $.ajax({
-                    url: '../../AJAX/admin/cambiar_estado_usuario.php',
+                    url: '../AJAX/admin/cambiar_estado_usuario.php',
                     method: 'POST',
                     data: { 
                         usuario_id: userId,
@@ -354,7 +367,7 @@ $(document).ready(function() {
                     btn.html('<i class="fas fa-spinner fa-spin"></i>').prop('disabled', true);
                     
                     $.ajax({
-                        url: '../../AJAX/admin/resetear_password.php',
+                        url: '../AJAX/admin/resetear_password.php',
                         method: 'POST',
                         data: { 
                             usuario_id: userId,
@@ -407,7 +420,7 @@ $(document).ready(function() {
                 btn.html('<i class="fas fa-spinner fa-spin"></i>').prop('disabled', true);
                 
                 $.ajax({
-                    url: '../../AJAX/admin/eliminar_usuario.php',
+                    url: '../AJAX/admin/eliminar_usuario.php',
                     method: 'POST',
                     data: { usuario_id: userId },
                     dataType: 'json',

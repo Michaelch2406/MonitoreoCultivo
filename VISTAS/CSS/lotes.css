@@ -1,4 +1,4 @@
-/* Estilos para el módulo de gestión de fincas */
+/* Estilos para el módulo de gestión de lotes */
 /* Usando la paleta de colores de AgroMonitor */
 
 :root {
@@ -18,10 +18,11 @@
     --error-red: #F44336;          /* Rojo Error - Alertas */
     --success-green: #4CAF50;      /* Verde Éxito - Confirmaciones */
     --warning-orange: #FF9800;     /* Naranja Advertencia - Precauciones */
+    --info-blue: #2196F3;          /* Azul Información */
 }
 
-/* Header de Fincas */
-.fincas-header {
+/* Header de Lotes */
+.lotes-header {
     background: linear-gradient(135deg, var(--primary-green) 0%, var(--earth-brown) 100%);
     color: var(--white);
     padding: 2rem;
@@ -32,14 +33,26 @@
     overflow: hidden;
 }
 
-.fincas-header::before {
+.lotes-header::before {
     content: '';
     position: absolute;
     top: -50%;
-    right: -20%;
-    width: 300px;
-    height: 300px;
+    left: -20%;
+    width: 250px;
+    height: 250px;
     background: radial-gradient(circle, var(--light-green) 0%, transparent 70%);
+    opacity: 0.15;
+    border-radius: 50%;
+}
+
+.lotes-header::after {
+    content: '';
+    position: absolute;
+    bottom: -30%;
+    right: -15%;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, var(--sun-yellow) 0%, transparent 70%);
     opacity: 0.1;
     border-radius: 50%;
 }
@@ -60,7 +73,7 @@
     z-index: 1;
 }
 
-/* Tarjetas de Estadísticas */
+/* Tarjetas de Estadísticas - Específicas para Lotes */
 .stats-card {
     background: var(--white);
     border-radius: 15px;
@@ -85,6 +98,22 @@
     background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
 }
 
+.stats-card:nth-child(1) .stats-icon {
+    background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+}
+
+.stats-card:nth-child(2) .stats-icon {
+    background: linear-gradient(135deg, var(--earth-brown), var(--sun-yellow));
+}
+
+.stats-card:nth-child(3) .stats-icon {
+    background: linear-gradient(135deg, var(--success-green), var(--light-green));
+}
+
+.stats-card:nth-child(4) .stats-icon {
+    background: linear-gradient(135deg, var(--water-blue), var(--info-blue));
+}
+
 .stats-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 30px var(--shadow-medium);
@@ -94,7 +123,6 @@
     width: 60px;
     height: 60px;
     border-radius: 12px;
-    background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
     display: flex;
     align-items: center;
     justify-content: center;
@@ -151,7 +179,7 @@
     margin: 0;
 }
 
-/* Tabla de Fincas */
+/* Tabla de Lotes */
 .table {
     margin-bottom: 0;
 }
@@ -184,18 +212,20 @@
     border-color: rgba(46, 125, 50, 0.1);
 }
 
-/* Información de Finca en Tabla */
-.finca-info strong {
+/* Información específica de Lotes en Tabla */
+.lote-info strong {
     color: var(--primary-green);
     font-weight: 600;
 }
 
-.ubicacion-info {
-    line-height: 1.4;
+.finca-info strong {
+    color: var(--earth-brown);
+    font-weight: 600;
 }
 
-.ubicacion-info i {
-    color: var(--earth-brown);
+.finca-info small {
+    color: var(--text-gray);
+    font-size: 0.8rem;
 }
 
 .propietario-info strong {
@@ -210,6 +240,25 @@
     border-radius: 20px;
     font-weight: 600;
     font-size: 0.875rem;
+    display: inline-block;
+}
+
+/* Badges de Estado específicos para Lotes */
+.badge.bg-success {
+    background: linear-gradient(135deg, var(--success-green) 0%, var(--hover-green) 100%) !important;
+}
+
+.badge.bg-info {
+    background: linear-gradient(135deg, var(--water-blue) 0%, var(--info-blue) 100%) !important;
+}
+
+.badge.bg-warning {
+    background: linear-gradient(135deg, var(--sun-yellow) 0%, var(--warning-orange) 100%) !important;
+    color: var(--white) !important;
+}
+
+.badge.bg-secondary {
+    background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%) !important;
 }
 
 /* Botones de Acción */
@@ -294,6 +343,11 @@
     transform: translateY(-1px);
 }
 
+.form-control.is-invalid {
+    border-color: var(--error-red);
+    box-shadow: 0 0 0 0.2rem rgba(244, 67, 54, 0.2);
+}
+
 .form-label {
     font-weight: 600;
     color: var(--text-gray);
@@ -328,24 +382,16 @@
     padding: 2rem;
 }
 
-/* Badges */
-.badge {
-    font-size: 0.8rem;
-    padding: 0.4em 0.8em;
-    font-weight: 500;
-    border-radius: 20px;
+/* Filtros específicos para Lotes */
+.filtros-lotes .form-label {
+    font-size: 0.875rem;
+    margin-bottom: 0.25rem;
 }
 
-.bg-success {
-    background: linear-gradient(135deg, var(--success-green) 0%, var(--hover-green) 100%) !important;
-}
-
-.bg-danger {
-    background: linear-gradient(135deg, var(--error-red) 0%, #c82333 100%) !important;
-}
-
-.bg-info {
-    background: linear-gradient(135deg, var(--water-blue) 0%, #0c63e4 100%) !important;
+.filtros-lotes .form-control,
+.filtros-lotes .form-select {
+    font-size: 0.875rem;
+    padding: 0.5rem 0.75rem;
 }
 
 /* DataTables Personalización */
@@ -387,10 +433,10 @@
     }
 }
 
-@keyframes slideInRight {
+@keyframes slideInLeft {
     from {
         opacity: 0;
-        transform: translateX(30px);
+        transform: translateX(-30px);
     }
     to {
         opacity: 1;
@@ -402,8 +448,8 @@
     animation: fadeInUp 0.6s ease-out;
 }
 
-.stats-card:nth-child(even) {
-    animation: slideInRight 0.6s ease-out;
+.stats-card:nth-child(odd) {
+    animation: slideInLeft 0.6s ease-out;
 }
 
 /* Contenedor principal con margen para el navbar fijo */
@@ -425,13 +471,42 @@
     }
 }
 
+/* Estados de carga */
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    z-index: 10;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid var(--primary-green);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .main-container {
         padding-top: 120px !important; /* Más espacio en móvil */
     }
     
-    .fincas-header {
+    .lotes-header {
         padding: 1.5rem;
         text-align: center;
     }
@@ -474,10 +549,16 @@
     .table .d-none.d-md-table-cell {
         display: none !important;
     }
+    
+    /* Filtros apilados */
+    .filtros-lotes .col-md-3,
+    .filtros-lotes .col-md-2 {
+        margin-bottom: 0.75rem;
+    }
 }
 
 @media (max-width: 576px) {
-    .fincas-header {
+    .lotes-header {
         border-radius: 10px;
         margin-bottom: 1rem;
     }
@@ -490,139 +571,16 @@
     .form-control, .form-select {
         border-radius: 6px;
         padding: 0.625rem;
+        font-size: 16px; /* Prevenir zoom en iOS */
     }
     
     .btn-primary {
         border-radius: 8px;
         padding: 0.625rem 1.25rem;
     }
-}
-
-/* Estados de carga */
-.loading-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(255, 255, 255, 0.9);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 15px;
-    z-index: 10;
-}
-
-.loading-spinner {
-    width: 40px;
-    height: 40px;
-    border: 4px solid #f3f3f3;
-    border-top: 4px solid var(--primary-green);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-/* Efectos hover mejorados */
-.card:hover .card-header {
-    background: linear-gradient(135deg, var(--shadow-light) 0%, rgba(233, 236, 239, 0.8) 100%);
-}
-
-.table tbody tr:hover .finca-info strong {
-    color: var(--hover-green);
-}
-
-.form-control:hover, .form-select:hover {
-    border-color: var(--light-green);
-    box-shadow: 0 2px 8px var(--shadow-light);
-}
-
-/* Tooltips personalizados */
-.tooltip .tooltip-inner {
-    background-color: var(--primary-green);
-    border-radius: 6px;
-}
-
-/* Mejoras de responsividad para DataTables */
-.dataTables_wrapper {
-    overflow-x: auto;
-}
-
-.table-responsive {
-    border-radius: 15px;
-    box-shadow: 0 4px 16px var(--shadow-light);
-}
-
-@media (max-width: 768px) {
-    .fincas-header {
-        padding: 1.5rem 1rem;
-        text-align: center;
-    }
     
-    .page-title {
-        font-size: 1.8rem;
-    }
-    
-    .page-subtitle {
-        font-size: 0.9rem;
-    }
-    
-    .btn-responsive {
-        width: 100%;
-        margin-top: 1rem;
-    }
-    
-    /* Ocultar columnas menos importantes en móviles */
-    .table td:nth-child(4), 
-    .table th:nth-child(4) {
-        display: none;
-    }
-    
-    .table td:nth-child(7), 
-    .table th:nth-child(7) {
-        display: none;
-    }
-    
-    /* Ajustar tamaño de botones de acción */
-    .btn-group-actions .btn {
-        padding: 0.375rem 0.5rem;
-        margin: 0 1px;
-    }
-    
-    .area-badge {
-        font-size: 0.8rem;
-    }
-    
-    .user-avatar {
-        width: 25px;
-        height: 25px;
-    }
-    
-    /* Mejorar modales en móviles */
-    .modal-lg {
-        max-width: 95%;
-    }
-    
-    .modal-body {
-        padding: 1rem;
-    }
-    
-    .form-control, .form-select {
-        font-size: 16px; /* Prevenir zoom en iOS */
-    }
-}
-
-@media (max-width: 576px) {
     .container-fluid {
         padding: 0.5rem;
-    }
-    
-    .card {
-        margin-bottom: 1rem;
     }
     
     .card-body {
@@ -635,18 +593,26 @@
         font-size: 0.875rem;
     }
     
-    .finca-info strong {
+    .lote-info strong {
         font-size: 0.9rem;
     }
     
-    .finca-info small {
+    .lote-info small {
         font-size: 0.75rem;
     }
     
-    /* Filtros apilados */
-    .row > .col-md-3,
-    .row > .col-md-2 {
-        margin-bottom: 0.5rem;
+    .area-badge {
+        font-size: 0.8rem;
+        padding: 0.3rem 0.6rem;
+    }
+    
+    /* Mejorar modales en móviles */
+    .modal-lg {
+        max-width: 95%;
+    }
+    
+    .modal-body {
+        padding: 1rem;
     }
 }
 
@@ -699,8 +665,84 @@ table.dataTable.dtr-inline.collapsed > tbody > tr.parent > th:first-child:before
         margin: 0.5rem 0;
         font-size: 0.875rem;
     }
+    
+    /* Ocultar columnas específicas en móviles */
+    .table th:nth-child(5),
+    .table td:nth-child(5) {
+        display: none !important; /* Tipo de Suelo */
+    }
+    
+    .table th:nth-child(6),
+    .table td:nth-child(6) {
+        display: none !important; /* pH Suelo */
+    }
+    
+    .table th:nth-child(8),
+    .table td:nth-child(8) {
+        display: none !important; /* Propietario */
+    }
+}
+
+/* Efectos hover mejorados */
+.card:hover .card-header {
+    background: linear-gradient(135deg, var(--shadow-light) 0%, rgba(233, 236, 239, 0.8) 100%);
+}
+
+.table tbody tr:hover .lote-info strong {
+    color: var(--hover-green);
+}
+
+.table tbody tr:hover .finca-info strong {
+    color: var(--primary-green);
+}
+
+.form-control:hover, .form-select:hover {
+    border-color: var(--light-green);
+    box-shadow: 0 2px 8px var(--shadow-light);
+}
+
+/* Tooltips personalizados */
+.tooltip .tooltip-inner {
+    background-color: var(--primary-green);
+    border-radius: 6px;
 }
 
 .tooltip .tooltip-arrow::before {
     border-top-color: var(--primary-green);
+}
+
+/* Mejoras de responsividad para DataTables */
+.dataTables_wrapper {
+    overflow-x: auto;
+}
+
+.table-responsive {
+    border-radius: 15px;
+    box-shadow: 0 4px 16px var(--shadow-light);
+}
+
+/* Indicadores especiales para tipos de suelo */
+.tipo-suelo-arcilloso {
+    color: var(--earth-brown);
+    font-weight: 600;
+}
+
+.tipo-suelo-arenoso {
+    color: var(--sun-yellow);
+    font-weight: 600;
+}
+
+.tipo-suelo-limoso {
+    color: var(--water-blue);
+    font-weight: 600;
+}
+
+.tipo-suelo-franco {
+    color: var(--success-green);
+    font-weight: 600;
+}
+
+.tipo-suelo-humifero {
+    color: var(--primary-green);
+    font-weight: 600;
 }

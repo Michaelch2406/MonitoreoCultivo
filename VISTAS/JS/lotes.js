@@ -1,5 +1,5 @@
 /**
- * JavaScript para el módulo de gestión de fincas
+ * JavaScript para el módulo de gestión de lotes
  * AgroMonitor - Sistema de Monitoreo de Cultivos
  */
 
@@ -12,18 +12,18 @@ $(document).ready(function() {
     initEventListeners();
     
     // Cargar datos iniciales
-    cargarFincas();
+    cargarLotes();
 });
 
 /**
- * Inicializar DataTable para fincas
+ * Inicializar DataTable para lotes
  */
 function initDataTable() {
-    if ($.fn.DataTable.isDataTable('#tablaFincas')) {
-        $('#tablaFincas').DataTable().destroy();
+    if ($.fn.DataTable.isDataTable('#tablaLotes')) {
+        $('#tablaLotes').DataTable().destroy();
     }
     
-    $('#tablaFincas').DataTable({
+    $('#tablaLotes').DataTable({
         language: {
             "processing": "Procesando...",
             "lengthMenu": "Mostrar _MENU_ registros",
@@ -80,37 +80,37 @@ function initDataTable() {
  */
 function initEventListeners() {
     
-    // Formulario nueva finca
-    $('#formNuevaFinca').on('submit', function(e) {
+    // Formulario nuevo lote
+    $('#formNuevoLote').on('submit', function(e) {
         e.preventDefault();
-        guardarNuevaFinca();
+        guardarNuevoLote();
     });
     
-    // Formulario editar finca
-    $('#formEditarFinca').on('submit', function(e) {
+    // Formulario editar lote
+    $('#formEditarLote').on('submit', function(e) {
         e.preventDefault();
-        actualizarFinca();
+        actualizarLote();
     });
     
     // Botones de acciones en tabla
-    $(document).on('click', '.btn-ver-finca', function() {
-        const fincaId = $(this).data('id');
-        verDetallesFinca(fincaId);
+    $(document).on('click', '.btn-ver-lote', function() {
+        const loteId = $(this).data('id');
+        verDetallesLote(loteId);
     });
     
-    $(document).on('click', '.btn-editar-finca', function() {
-        const fincaId = $(this).data('id');
-        editarFinca(fincaId);
+    $(document).on('click', '.btn-editar-lote', function() {
+        const loteId = $(this).data('id');
+        editarLote(loteId);
     });
     
-    $(document).on('click', '.btn-eliminar-finca', function() {
-        const fincaId = $(this).data('id');
-        const nombreFinca = $(this).data('nombre');
-        eliminarFinca(fincaId, nombreFinca);
+    $(document).on('click', '.btn-eliminar-lote', function() {
+        const loteId = $(this).data('id');
+        const nombreLote = $(this).data('nombre');
+        eliminarLote(loteId, nombreLote);
     });
     
     // Filtros
-    $('#filtroPropietario, #filtroEstado').on('change', function() {
+    $('#filtroFinca, #filtroEstado, #filtroTipoSuelo').on('change', function() {
         aplicarFiltros();
     });
     
@@ -122,9 +122,9 @@ function initEventListeners() {
         limpiarFiltros();
     });
     
-    // Validación en tiempo real para coordenadas
-    $('#nuevaLatitud, #nuevaLongitud').on('input', function() {
-        validarCoordenadas();
+    // Validación en tiempo real para pH
+    $('#nuevoPHSuelo, #editarPHSuelo').on('input', function() {
+        validarPH($(this));
     });
     
     // Tooltips
@@ -132,37 +132,38 @@ function initEventListeners() {
 }
 
 /**
- * Guardar nueva finca
+ * Guardar nuevo lote
  */
-function guardarNuevaFinca() {
+function guardarNuevoLote() {
     
     // Validar formulario
-    if (!validarFormularioFinca()) {
+    if (!validarFormularioLote('#formNuevoLote')) {
         return;
     }
     
     // Mostrar loading
-    mostrarLoading('#modalNuevaFinca .modal-body');
+    mostrarLoading('#modalNuevoLote .modal-body');
     
-    const formData = new FormData($('#formNuevaFinca')[0]);
+    const formData = new FormData($('#formNuevoLote')[0]);
     
     // Añadir action
     formData.set('action', 'crear');
     
-    // Si no es administrador, usar el ID del usuario actual
-    if (window.usuarioActual && window.usuarioActual.rol !== 'administrador') {
-        formData.set('propietario_id', window.usuarioActual.id);
+    // Debug - log datos que se envían
+    console.log('Enviando datos del lote:');
+    for (let [key, value] of formData.entries()) {
+        console.log(key, value);
     }
     
     $.ajax({
-        url: '../CONTROLADORES/fincas_c.php',
+        url: '../CONTROLADORES/lotes_c.php',
         type: 'POST',
         data: formData,
         processData: false,
         contentType: false,
         dataType: 'json',
         success: function(response) {
-            ocultarLoading('#modalNuevaFinca .modal-body');
+            ocultarLoading('#modalNuevoLote .modal-body');
             
             if (response.success) {
                 Swal.fire({
@@ -171,9 +172,9 @@ function guardarNuevaFinca() {
                     text: response.message,
                     confirmButtonColor: '#2E7D32'
                 }).then(() => {
-                    $('#modalNuevaFinca').modal('hide');
-                    $('#formNuevaFinca')[0].reset();
-                    // Recargar la página para mostrar la nueva finca
+                    $('#modalNuevoLote').modal('hide');
+                    $('#formNuevoLote')[0].reset();
+                    // Recargar la página para mostrar el nuevo lote
                     window.location.reload();
                 });
             } else {
@@ -186,7 +187,7 @@ function guardarNuevaFinca() {
             }
         },
         error: function(xhr, status, error) {
-            ocultarLoading('#modalNuevaFinca .modal-body');
+            ocultarLoading('#modalNuevoLote .modal-body');
             console.error('Error AJAX:', error);
             Swal.fire({
                 icon: 'error',
@@ -199,25 +200,25 @@ function guardarNuevaFinca() {
 }
 
 /**
- * Ver detalles de una finca
+ * Ver detalles de un lote
  */
-function verDetallesFinca(fincaId) {
+function verDetallesLote(loteId) {
     
     mostrarLoading('body');
     
     $.ajax({
-        url: '../CONTROLADORES/fincas_c.php',
+        url: '../CONTROLADORES/lotes_c.php',
         type: 'GET',
         data: {
             action: 'obtener',
-            finca_id: fincaId
+            lote_id: loteId
         },
         dataType: 'json',
         success: function(response) {
             ocultarLoading('body');
             
             if (response.success) {
-                mostrarModalDetalles(response.finca);
+                mostrarModalDetalles(response.lote);
             } else {
                 Swal.fire({
                     icon: 'error',
@@ -233,7 +234,7 @@ function verDetallesFinca(fincaId) {
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
-                text: 'Error al cargar los detalles de la finca',
+                text: 'Error al cargar los detalles del lote',
                 confirmButtonColor: '#2E7D32'
             });
         }
@@ -241,22 +242,20 @@ function verDetallesFinca(fincaId) {
 }
 
 /**
- * Mostrar modal con detalles de finca
+ * Mostrar modal con detalles de lote
  */
-function mostrarModalDetalles(finca) {
+function mostrarModalDetalles(lote) {
     
-    const coordenadas = (finca.fin_latitud && finca.fin_longitud) 
-        ? `${finca.fin_latitud}, ${finca.fin_longitud}` 
-        : 'No registradas';
+    const estadoBadge = getEstadoBadge(lote.lot_estado);
     
     const modalHTML = `
-        <div class="modal fade" id="modalDetallesFinca" tabindex="-1">
+        <div class="modal fade" id="modalDetallesLote" tabindex="-1">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">
-                            <i class="fas fa-map-marked-alt me-2"></i>
-                            Detalles de Finca: ${finca.fin_nombre}
+                            <i class="fas fa-th-large me-2"></i>
+                            Detalles del Lote: ${lote.lot_nombre}
                         </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
@@ -265,64 +264,54 @@ function mostrarModalDetalles(finca) {
                             <div class="col-md-6">
                                 <h6 class="text-primary"><i class="fas fa-info-circle me-2"></i>Información General</h6>
                                 <table class="table table-sm">
-                                    <tr><td><strong>Nombre:</strong></td><td>${finca.fin_nombre}</td></tr>
-                                    <tr><td><strong>Área Total:</strong></td><td>${finca.fin_area_total} hectáreas</td></tr>
-                                    <tr><td><strong>Estado:</strong></td><td>
-                                        <span class="badge ${finca.fin_estado === 'activa' ? 'bg-success' : 'bg-danger'}">
-                                            ${finca.fin_estado.charAt(0).toUpperCase() + finca.fin_estado.slice(1)}
-                                        </span>
-                                    </td></tr>
-                                    <tr><td><strong>Fecha Registro:</strong></td><td>${new Date(finca.fin_fecha_registro).toLocaleDateString('es-CO')}</td></tr>
+                                    <tr><td><strong>Nombre:</strong></td><td>${lote.lot_nombre}</td></tr>
+                                    <tr><td><strong>Área:</strong></td><td>${parseFloat(lote.lot_area).toFixed(4)} hectáreas</td></tr>
+                                    <tr><td><strong>Estado:</strong></td><td>${estadoBadge}</td></tr>
+                                    <tr><td><strong>Fecha Registro:</strong></td><td>${new Date(lote.lot_fecha_registro).toLocaleDateString('es-CO')}</td></tr>
                                 </table>
                             </div>
                             <div class="col-md-6">
-                                <h6 class="text-primary"><i class="fas fa-map-marker-alt me-2"></i>Ubicación</h6>
+                                <h6 class="text-primary"><i class="fas fa-seedling me-2"></i>Información del Suelo</h6>
                                 <table class="table table-sm">
-                                    <tr><td><strong>Ubicación:</strong></td><td>${finca.fin_ubicacion || 'No especificada'}</td></tr>
-                                    <tr><td><strong>Coordenadas:</strong></td><td>${coordenadas}</td></tr>
+                                    <tr><td><strong>Tipo de Suelo:</strong></td><td>${lote.lot_tipo_suelo || 'No especificado'}</td></tr>
+                                    <tr><td><strong>pH del Suelo:</strong></td><td>${lote.lot_ph_suelo ? parseFloat(lote.lot_ph_suelo).toFixed(1) : 'No medido'}</td></tr>
                                 </table>
                             </div>
                         </div>
                         
-                        ${finca.fin_descripcion ? `
+                        ${lote.lot_descripcion ? `
                         <div class="row mt-3">
                             <div class="col-12">
                                 <h6 class="text-primary"><i class="fas fa-file-alt me-2"></i>Descripción</h6>
-                                <p class="border p-3 rounded bg-light">${finca.fin_descripcion}</p>
+                                <p class="border p-3 rounded bg-light">${lote.lot_descripcion}</p>
                             </div>
                         </div>
                         ` : ''}
                         
                         <div class="row mt-3">
                             <div class="col-md-6">
-                                <h6 class="text-primary"><i class="fas fa-user me-2"></i>Propietario</h6>
+                                <h6 class="text-primary"><i class="fas fa-map-marked-alt me-2"></i>Finca</h6>
                                 <table class="table table-sm">
-                                    <tr><td><strong>Nombre:</strong></td><td>${finca.usu_nombre} ${finca.usu_apellido}</td></tr>
-                                    <tr><td><strong>Email:</strong></td><td>${finca.usu_email || 'No especificado'}</td></tr>
+                                    <tr><td><strong>Nombre:</strong></td><td>${lote.fin_nombre}</td></tr>
+                                    <tr><td><strong>Área Total:</strong></td><td>${parseFloat(lote.fin_area_total).toFixed(2)} hectáreas</td></tr>
                                 </table>
                             </div>
-                        </div>
-                        
-                        <div class="row mt-3">
-                            <div class="col-12">
-                                <h6 class="text-primary"><i class="fas fa-chart-bar me-2"></i>Estadísticas</h6>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="text-center p-3 bg-light rounded">
-                                            <h4 class="text-success mb-1">${finca.total_lotes || 0}</h4>
-                                            <small class="text-muted">Lotes Registrados</small>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="col-md-6">
+                                <h6 class="text-primary"><i class="fas fa-user me-2"></i>Propietario</h6>
+                                <table class="table table-sm">
+                                    <tr><td><strong>Nombre:</strong></td><td>${lote.usu_nombre} ${lote.usu_apellido}</td></tr>
+                                    <tr><td><strong>Email:</strong></td><td>${lote.usu_email || 'No especificado'}</td></tr>
+                                </table>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                         ${(window.usuarioActual.rol === 'administrador' || 
-                          (window.usuarioActual.rol === 'agricultor' && finca.fin_propietario == window.usuarioActual.id)) ? 
-                          `<button type="button" class="btn btn-primary" onclick="editarFinca(${finca.fin_id})">
-                              <i class="fas fa-edit me-2"></i>Editar Finca
+                          (window.usuarioActual.rol === 'agricultor' && lote.fin_propietario == window.usuarioActual.id) ||
+                          window.usuarioActual.rol === 'supervisor') ? 
+                          `<button type="button" class="btn btn-primary" onclick="editarLote(${lote.lot_id})">
+                              <i class="fas fa-edit me-2"></i>Editar Lote
                            </button>` : ''}
                     </div>
                 </div>
@@ -331,44 +320,44 @@ function mostrarModalDetalles(finca) {
     `;
     
     // Remover modal anterior si existe
-    $('#modalDetallesFinca').remove();
+    $('#modalDetallesLote').remove();
     
     // Agregar nuevo modal al DOM
     $('body').append(modalHTML);
     
     // Mostrar modal
-    $('#modalDetallesFinca').modal('show');
+    $('#modalDetallesLote').modal('show');
     
     // Limpiar cuando se cierre
-    $('#modalDetallesFinca').on('hidden.bs.modal', function () {
+    $('#modalDetallesLote').on('hidden.bs.modal', function () {
         $(this).remove();
     });
 }
 
 /**
- * Editar finca
+ * Editar lote
  */
-function editarFinca(fincaId) {
+function editarLote(loteId) {
     // Cerrar modal de detalles si está abierto
-    $('#modalDetallesFinca').modal('hide');
+    $('#modalDetallesLote').modal('hide');
     
-    // Obtener datos de la finca
+    // Obtener datos del lote
     mostrarLoading('body');
     
     $.ajax({
-        url: '../CONTROLADORES/fincas_c.php',
+        url: '../CONTROLADORES/lotes_c.php',
         type: 'GET',
         data: {
             action: 'obtener',
-            finca_id: fincaId
+            lote_id: loteId
         },
         dataType: 'json',
         success: function(response) {
             ocultarLoading('body');
             
             if (response.success) {
-                cargarDatosFormularioEdicion(response.finca);
-                $('#modalEditarFinca').modal('show');
+                cargarDatosFormularioEdicion(response.lote);
+                $('#modalEditarLote').modal('show');
             } else {
                 Swal.fire({
                     icon: 'error',
@@ -384,7 +373,7 @@ function editarFinca(fincaId) {
             Swal.fire({
                 icon: 'error',
                 title: 'Error de comunicación',
-                text: 'No se pudo obtener la información de la finca',
+                text: 'No se pudo obtener la información del lote',
                 confirmButtonColor: '#2E7D32'
             });
         }
@@ -394,46 +383,40 @@ function editarFinca(fincaId) {
 /**
  * Cargar datos en el formulario de edición
  */
-function cargarDatosFormularioEdicion(finca) {
-    $('#editarFincaId').val(finca.fin_id);
-    $('#editarNombreFinca').val(finca.fin_nombre);
-    $('#editarAreaTotal').val(finca.fin_area_total);
-    $('#editarUbicacion').val(finca.fin_ubicacion);
-    $('#editarLatitud').val(finca.fin_latitud || '');
-    $('#editarLongitud').val(finca.fin_longitud || '');
-    $('#editarDescripcion').val(finca.fin_descripcion || '');
-    $('#editarEstado').val(finca.fin_estado);
-    
-    // Solo cargar propietario si es administrador
-    if (window.usuarioActual && window.usuarioActual.rol === 'administrador') {
-        $('#editarPropietario').val(finca.fin_propietario);
-    }
+function cargarDatosFormularioEdicion(lote) {
+    $('#editarLoteId').val(lote.lot_id);
+    $('#editarNombreLote').val(lote.lot_nombre);
+    $('#editarArea').val(lote.lot_area);
+    $('#editarTipoSuelo').val(lote.lot_tipo_suelo || '');
+    $('#editarPHSuelo').val(lote.lot_ph_suelo || '');
+    $('#editarDescripcion').val(lote.lot_descripcion || '');
+    $('#editarEstado').val(lote.lot_estado);
 }
 
 /**
- * Actualizar finca
+ * Actualizar lote
  */
-function actualizarFinca() {
+function actualizarLote() {
     // Validar formulario
-    if (!validarFormularioEdicion()) {
+    if (!validarFormularioLote('#formEditarLote')) {
         return;
     }
     
     // Mostrar loading
-    mostrarLoading('#modalEditarFinca .modal-body');
+    mostrarLoading('#modalEditarLote .modal-body');
     
-    const formData = new FormData($('#formEditarFinca')[0]);
+    const formData = new FormData($('#formEditarLote')[0]);
     formData.set('action', 'actualizar');
     
     $.ajax({
-        url: '../CONTROLADORES/fincas_c.php',
+        url: '../CONTROLADORES/lotes_c.php',
         type: 'POST',
         data: formData,
         processData: false,
         contentType: false,
         dataType: 'json',
         success: function(response) {
-            ocultarLoading('#modalEditarFinca .modal-body');
+            ocultarLoading('#modalEditarLote .modal-body');
             
             if (response.success) {
                 Swal.fire({
@@ -442,7 +425,7 @@ function actualizarFinca() {
                     text: response.message,
                     confirmButtonColor: '#2E7D32'
                 }).then(() => {
-                    $('#modalEditarFinca').modal('hide');
+                    $('#modalEditarLote').modal('hide');
                     // Recargar la página para mostrar los cambios
                     window.location.reload();
                 });
@@ -451,18 +434,18 @@ function actualizarFinca() {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error al actualizar',
-                    text: response.message || 'Error desconocido al actualizar la finca',
+                    text: response.message || 'Error desconocido al actualizar el lote',
                     confirmButtonColor: '#2E7D32'
                 });
             }
         },
         error: function(xhr, status, error) {
-            ocultarLoading('#modalEditarFinca .modal-body');
+            ocultarLoading('#modalEditarLote .modal-body');
             console.error('Error AJAX:', xhr.responseText);
             Swal.fire({
                 icon: 'error',
                 title: 'Error de comunicación',
-                text: 'No se pudo actualizar la finca. Error: ' + error,
+                text: 'No se pudo actualizar el lote. Error: ' + error,
                 confirmButtonColor: '#2E7D32'
             });
         }
@@ -470,78 +453,13 @@ function actualizarFinca() {
 }
 
 /**
- * Validar formulario de edición
+ * Eliminar lote
  */
-function validarFormularioEdicion() {
-    let esValido = true;
-    let camposFaltantes = [];
-    
-    // Validar campos requeridos
-    const camposRequeridos = {
-        'nombre': 'Nombre de la Finca',
-        'ubicacion': 'Ubicación',
-        'area_total': 'Área Total'
-    };
-    
-    Object.keys(camposRequeridos).forEach(function(campo) {
-        const elemento = $(`#formEditarFinca [name="${campo}"]`);
-        const valor = elemento.val();
-        
-        if (!valor || !valor.trim()) {
-            elemento.addClass('is-invalid');
-            camposFaltantes.push(camposRequeridos[campo]);
-            esValido = false;
-        } else {
-            elemento.removeClass('is-invalid');
-        }
-    });
-    
-    // Validar área total
-    const areaTotal = parseFloat($('#formEditarFinca [name="area_total"]').val());
-    if (areaTotal && (isNaN(areaTotal) || areaTotal <= 0)) {
-        $('#formEditarFinca [name="area_total"]').addClass('is-invalid');
-        if (!camposFaltantes.includes('Área Total')) {
-            camposFaltantes.push('Área Total (debe ser mayor a 0)');
-        }
-        esValido = false;
-    }
-    
-    // Validar propietario (solo para administradores)
-    if (window.usuarioActual && window.usuarioActual.rol === 'administrador') {
-        const propietario = $('#editarPropietario').val();
-        if (!propietario) {
-            $('#editarPropietario').addClass('is-invalid');
-            camposFaltantes.push('Propietario');
-            esValido = false;
-        } else {
-            $('#editarPropietario').removeClass('is-invalid');
-        }
-    }
-    
-    if (!esValido) {
-        const mensaje = camposFaltantes.length > 0 
-            ? 'Campos faltantes o incorrectos:\n• ' + camposFaltantes.join('\n• ')
-            : 'Por favor completa todos los campos obligatorios';
-            
-        Swal.fire({
-            icon: 'warning',
-            title: 'Formulario incompleto',
-            text: mensaje,
-            confirmButtonColor: '#2E7D32'
-        });
-    }
-    
-    return esValido;
-}
-
-/**
- * Eliminar finca
- */
-function eliminarFinca(fincaId, nombreFinca) {
+function eliminarLote(loteId, nombreLote) {
     
     Swal.fire({
         title: '¿Estás seguro?',
-        text: `¿Deseas eliminar la finca "${nombreFinca}"? Esta acción no se puede deshacer.`,
+        text: `¿Deseas eliminar el lote "${nombreLote}"? Esta acción no se puede deshacer.`,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#F44336',
@@ -550,24 +468,24 @@ function eliminarFinca(fincaId, nombreFinca) {
         cancelButtonText: 'Cancelar'
     }).then((result) => {
         if (result.isConfirmed) {
-            ejecutarEliminacion(fincaId, nombreFinca);
+            ejecutarEliminacion(loteId, nombreLote);
         }
     });
 }
 
 /**
- * Ejecutar eliminación de finca
+ * Ejecutar eliminación de lote
  */
-function ejecutarEliminacion(fincaId, nombreFinca) {
+function ejecutarEliminacion(loteId, nombreLote) {
     
     mostrarLoading('body');
     
     $.ajax({
-        url: '../CONTROLADORES/fincas_c.php',
+        url: '../CONTROLADORES/lotes_c.php',
         type: 'POST',
         data: {
             action: 'eliminar',
-            finca_id: fincaId
+            lote_id: loteId
         },
         dataType: 'json',
         success: function(response) {
@@ -576,11 +494,11 @@ function ejecutarEliminacion(fincaId, nombreFinca) {
             if (response.success) {
                 Swal.fire({
                     icon: 'success',
-                    title: '¡Eliminada!',
-                    text: `La finca "${nombreFinca}" ha sido eliminada exitosamente.`,
+                    title: '¡Eliminado!',
+                    text: `El lote "${nombreLote}" ha sido eliminado exitosamente.`,
                     confirmButtonColor: '#2E7D32'
                 }).then(() => {
-                    cargarFincas();
+                    cargarLotes();
                     actualizarEstadisticas();
                 });
             } else {
@@ -598,7 +516,7 @@ function ejecutarEliminacion(fincaId, nombreFinca) {
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
-                text: 'Error al eliminar la finca',
+                text: 'Error al eliminar el lote',
                 confirmButtonColor: '#2E7D32'
             });
         }
@@ -609,15 +527,19 @@ function ejecutarEliminacion(fincaId, nombreFinca) {
  * Aplicar filtros a la tabla
  */
 function aplicarFiltros() {
-    const table = $('#tablaFincas').DataTable();
+    const table = $('#tablaLotes').DataTable();
     
-    // Filtro por propietario
-    const propietario = $('#filtroPropietario').val();
-    table.column(3).search(propietario).draw();
+    // Filtro por finca
+    const finca = $('#filtroFinca').val();
+    table.column(2).search(finca).draw();
     
     // Filtro por estado
     const estado = $('#filtroEstado').val();
     table.column(6).search(estado).draw();
+    
+    // Filtro por tipo de suelo
+    const tipoSuelo = $('#filtroTipoSuelo').val();
+    table.column(4).search(tipoSuelo).draw();
     
     // TODO: Implementar filtros por área
 }
@@ -626,35 +548,40 @@ function aplicarFiltros() {
  * Limpiar todos los filtros
  */
 function limpiarFiltros() {
-    $('#filtroPropietario').val('');
+    $('#filtroFinca').val('');
     $('#filtroEstado').val('');
+    $('#filtroTipoSuelo').val('');
     $('#filtroAreaMin').val('');
     $('#filtroAreaMax').val('');
     
-    const table = $('#tablaFincas').DataTable();
+    const table = $('#tablaLotes').DataTable();
     table.search('').columns().search('').draw();
 }
 
 /**
- * Validar formulario de finca
+ * Validar formulario de lote
  */
-function validarFormularioFinca() {
+function validarFormularioLote(formulario) {
     
     let esValido = true;
     let camposFaltantes = [];
     
     // Validar campos requeridos
     const camposRequeridos = {
-        'nombre': 'Nombre de la Finca',
-        'ubicacion': 'Ubicación',
-        'area_total': 'Área Total'
+        'nombre': 'Nombre del Lote',
+        'area': 'Área'
     };
     
+    // Para formulario nuevo, también validar finca
+    if (formulario === '#formNuevoLote') {
+        camposRequeridos['finca_id'] = 'Finca';
+    }
+    
     Object.keys(camposRequeridos).forEach(function(campo) {
-        const elemento = $(`[name="${campo}"]`);
+        const elemento = $(`${formulario} [name="${campo}"]`);
         const valor = elemento.val();
         
-        if (!valor || !valor.trim()) {
+        if (!valor || (typeof valor === 'string' && !valor.trim())) {
             elemento.addClass('is-invalid');
             camposFaltantes.push(camposRequeridos[campo]);
             esValido = false;
@@ -663,26 +590,22 @@ function validarFormularioFinca() {
         }
     });
     
-    // Validar área total
-    const areaTotal = parseFloat($('[name="area_total"]').val());
-    if (areaTotal && (isNaN(areaTotal) || areaTotal <= 0)) {
-        $('[name="area_total"]').addClass('is-invalid');
-        if (!camposFaltantes.includes('Área Total')) {
-            camposFaltantes.push('Área Total (debe ser mayor a 0)');
+    // Validar área
+    const area = parseFloat($(`${formulario} [name="area"]`).val());
+    if (area && (isNaN(area) || area <= 0)) {
+        $(`${formulario} [name="area"]`).addClass('is-invalid');
+        if (!camposFaltantes.includes('Área')) {
+            camposFaltantes.push('Área (debe ser mayor a 0)');
         }
         esValido = false;
     }
     
-    // Validar propietario (solo para administradores)
-    if (window.usuarioActual && window.usuarioActual.rol === 'administrador') {
-        const propietario = $('[name="propietario_id"]').val();
-        if (!propietario) {
-            $('[name="propietario_id"]').addClass('is-invalid');
-            camposFaltantes.push('Propietario');
-            esValido = false;
-        } else {
-            $('[name="propietario_id"]').removeClass('is-invalid');
-        }
+    // Validar pH si se proporciona
+    const ph = $(`${formulario} [name="ph_suelo"]`).val();
+    if (ph && (isNaN(parseFloat(ph)) || parseFloat(ph) < 0 || parseFloat(ph) > 14)) {
+        $(`${formulario} [name="ph_suelo"]`).addClass('is-invalid');
+        camposFaltantes.push('pH del Suelo (debe estar entre 0 y 14)');
+        esValido = false;
     }
     
     if (!esValido) {
@@ -702,44 +625,58 @@ function validarFormularioFinca() {
 }
 
 /**
- * Validar coordenadas GPS
+ * Validar pH del suelo
  */
-function validarCoordenadas() {
-    const latitud = parseFloat($('#nuevaLatitud').val());
-    const longitud = parseFloat($('#nuevaLongitud').val());
+function validarPH(elemento) {
+    const ph = parseFloat(elemento.val());
     
-    let mensaje = '';
-    
-    if (!isNaN(latitud)) {
-        if (latitud < -90 || latitud > 90) {
-            mensaje += 'La latitud debe estar entre -90 y 90. ';
-            $('#nuevaLatitud').addClass('is-invalid');
-        } else {
-            $('#nuevaLatitud').removeClass('is-invalid');
-        }
-    }
-    
-    if (!isNaN(longitud)) {
-        if (longitud < -180 || longitud > 180) {
-            mensaje += 'La longitud debe estar entre -180 y 180.';
-            $('#nuevaLongitud').addClass('is-invalid');
-        } else {
-            $('#nuevaLongitud').removeClass('is-invalid');
-        }
-    }
-    
-    if (mensaje) {
-        $('#nuevaLatitud, #nuevaLongitud').attr('title', mensaje).tooltip('dispose').tooltip();
+    if (elemento.val() && (isNaN(ph) || ph < 0 || ph > 14)) {
+        elemento.addClass('is-invalid');
+        elemento.attr('title', 'El pH debe estar entre 0 y 14').tooltip('dispose').tooltip();
+    } else {
+        elemento.removeClass('is-invalid').removeAttr('title').tooltip('dispose');
     }
 }
 
 /**
- * Cargar fincas desde el servidor
+ * Obtener badge HTML para el estado
  */
-function cargarFincas() {
+function getEstadoBadge(estado) {
+    let badgeClass = '';
+    let estadoTexto = '';
+    
+    switch (estado) {
+        case 'disponible':
+            badgeClass = 'bg-success';
+            estadoTexto = 'Disponible';
+            break;
+        case 'sembrado':
+            badgeClass = 'bg-info';
+            estadoTexto = 'Sembrado';
+            break;
+        case 'cosechado':
+            badgeClass = 'bg-warning';
+            estadoTexto = 'Cosechado';
+            break;
+        case 'en_preparacion':
+            badgeClass = 'bg-secondary';
+            estadoTexto = 'En Preparación';
+            break;
+        default:
+            badgeClass = 'bg-light text-dark';
+            estadoTexto = estado;
+    }
+    
+    return `<span class="badge ${badgeClass}">${estadoTexto}</span>`;
+}
+
+/**
+ * Cargar lotes desde el servidor
+ */
+function cargarLotes() {
     // Esta función se ejecuta automáticamente cuando se carga la página
-    // ya que las fincas se cargan desde PHP
-    console.log('Fincas cargadas desde PHP');
+    // ya que los lotes se cargan desde PHP
+    console.log('Lotes cargados desde PHP');
 }
 
 /**
@@ -747,21 +684,21 @@ function cargarFincas() {
  */
 function actualizarEstadisticas() {
     // Recalcular estadísticas desde la tabla actual
-    const table = $('#tablaFincas').DataTable();
+    const table = $('#tablaLotes').DataTable();
     const data = table.rows().data();
     
-    let totalFincas = 0;
-    let fincasActivas = 0;
+    let totalLotes = 0;
+    let lotesDisponibles = 0;
     let areaTotal = 0;
-    let lotesTotal = 0;
+    let lotesSembrados = 0;
     
     data.each(function(row) {
-        totalFincas++;
+        totalLotes++;
         // Aquí necesitarías acceso a los datos reales para calcular estadísticas
     });
     
     // Actualizar elementos en la interfaz
-    $('#totalFincas').text(totalFincas);
+    // $('#totalLotes').text(totalLotes);
     // etc...
 }
 

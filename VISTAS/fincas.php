@@ -364,62 +364,101 @@ if ($usuario_actual['rol'] == 'administrador' || $usuario_actual['rol'] == 'supe
                             <textarea class="form-control" id="nuevaDescripcion" name="descripcion" rows="3"></textarea>
                         </div>
                         
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="nuevoTipoClima" class="form-label">Tipo de Clima</label>
-                                    <select class="form-select" id="nuevoTipoClima" name="tipo_clima">
-                                        <option value="">Seleccionar clima</option>
-                                        <option value="Tropical">Tropical</option>
-                                        <option value="Subtropical">Subtropical</option>
-                                        <option value="Templado">Templado</option>
-                                        <option value="Frío">Frío</option>
-                                        <option value="Páramo">Páramo</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="nuevoAccesoAgua" class="form-label">Acceso a Agua</label>
-                                    <select class="form-select" id="nuevoAccesoAgua" name="acceso_agua">
-                                        <option value="">Seleccionar acceso</option>
-                                        <option value="Río">Río</option>
-                                        <option value="Quebrada">Quebrada</option>
-                                        <option value="Pozo">Pozo</option>
-                                        <option value="Acueducto">Acueducto</option>
-                                        <option value="Lluvia">Recolección de lluvia</option>
-                                        <option value="Ninguno">Sin acceso</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="nuevaInfraestructura" class="form-label">Infraestructura</label>
-                                    <textarea class="form-control" id="nuevaInfraestructura" name="infraestructura" rows="2" placeholder="Bodegas, casas, establos, etc."></textarea>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="nuevoEstadoLegal" class="form-label">Estado Legal</label>
-                                    <select class="form-select" id="nuevoEstadoLegal" name="estado_legal">
-                                        <option value="">Seleccionar estado</option>
-                                        <option value="Escritura">Con escritura</option>
-                                        <option value="Posesión">En posesión</option>
-                                        <option value="Arrendamiento">En arrendamiento</option>
-                                        <option value="Comodato">En comodato</option>
-                                        <option value="Proceso">En proceso legal</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                         <button type="submit" class="btn btn-primary">
                             <i class="fas fa-save me-2"></i>Registrar Finca
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Editar Finca -->
+    <div class="modal fade" id="modalEditarFinca" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-edit me-2"></i>Editar Finca
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="formEditarFinca">
+                    <input type="hidden" id="editarFincaId" name="finca_id">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editarNombreFinca" class="form-label">Nombre de la Finca *</label>
+                                    <input type="text" class="form-control" id="editarNombreFinca" name="nombre" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editarAreaTotal" class="form-label">Área Total (hectáreas) *</label>
+                                    <input type="number" class="form-control" id="editarAreaTotal" name="area_total" step="0.01" min="0" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="editarUbicacion" class="form-label">Ubicación *</label>
+                            <textarea class="form-control" id="editarUbicacion" name="ubicacion" rows="2" required placeholder="Ingrese la ubicación completa de la finca"></textarea>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editarLatitud" class="form-label">Latitud</label>
+                                    <input type="number" class="form-control" id="editarLatitud" name="latitud" step="0.00000001">
+                                    <div class="form-text">Ejemplo: 4.570868</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editarLongitud" class="form-label">Longitud</label>
+                                    <input type="number" class="form-control" id="editarLongitud" name="longitud" step="0.00000001">
+                                    <div class="form-text">Ejemplo: -74.297333</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <?php if ($usuario_actual['rol'] == 'administrador'): ?>
+                        <div class="mb-3">
+                            <label for="editarPropietario" class="form-label">Propietario *</label>
+                            <select class="form-select" id="editarPropietario" name="propietario_id" required>
+                                <option value="">Seleccionar propietario</option>
+                                <?php if ($agricultores['success']): ?>
+                                    <?php foreach ($agricultores['agricultores'] as $agricultor): ?>
+                                        <option value="<?php echo $agricultor['usu_id']; ?>">
+                                            <?php echo htmlspecialchars($agricultor['usu_nombre'] . ' ' . $agricultor['usu_apellido']); ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </select>
+                        </div>
+                        <?php endif; ?>
+                        
+                        <div class="mb-3">
+                            <label for="editarDescripcion" class="form-label">Descripción</label>
+                            <textarea class="form-control" id="editarDescripcion" name="descripcion" rows="3"></textarea>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="editarEstado" class="form-label">Estado</label>
+                            <select class="form-select" id="editarEstado" name="estado">
+                                <option value="activa">Activa</option>
+                                <option value="inactiva">Inactiva</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-2"></i>Actualizar Finca
                         </button>
                     </div>
                 </form>

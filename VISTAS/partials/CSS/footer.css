@@ -17,15 +17,53 @@
     --footer-bg: #1A4B1E;
 }
 
+/* Asegurar que no haya scroll horizontal */
+html, body {
+    overflow-x: hidden;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* Remover margen inferior del body */
+body {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
+
 /* Footer Principal */
 .footer-custom {
     background: linear-gradient(135deg, var(--footer-bg) 0%, var(--primary-green) 50%, var(--secondary-green) 100%);
     color: var(--white);
-    padding: 4rem 0 1rem;
+    padding: 4rem 0 0;
     margin-top: auto;
+    margin-bottom: 0;
     position: relative;
     overflow: hidden;
     box-shadow: 0 -8px 25px var(--shadow-medium);
+    width: 100vw;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+}
+
+.footer-custom .container-fluid {
+    max-width: 100%;
+    width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin: 0;
+    padding-bottom: 0;
+}
+
+/* Forzar ancho completo independientemente del contenedor padre */
+.footer-custom {
+    box-sizing: border-box;
+}
+
+.footer-custom * {
+    box-sizing: border-box;
 }
 
 .footer-custom::before {
@@ -78,7 +116,7 @@
     50% { transform: translateY(-5px); }
 }
 
-/* Descripción */
+/* Descripciï¿½n */
 .footer-description {
     color: rgba(255, 255, 255, 0.85);
     line-height: 1.6;
@@ -125,7 +163,7 @@
     transform: scale(1.2) rotate(5deg);
 }
 
-/* Títulos del Footer */
+/* Tï¿½tulos del Footer */
 .footer-title {
     color: var(--sun-yellow);
     font-weight: 600;
@@ -212,7 +250,7 @@
     transform: scale(1.2);
 }
 
-/* Información de Contacto */
+/* Informaciï¿½n de Contacto */
 .contact-info {
     display: flex;
     flex-direction: column;
@@ -255,10 +293,10 @@
     border: none;
     height: 1px;
     background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-    margin: 3rem 0 2rem;
+    margin: 3rem 0 1rem;
 }
 
-/* Estadísticas */
+/* Estadï¿½sticas */
 .footer-stats {
     display: flex;
     justify-content: space-between;
@@ -363,6 +401,8 @@
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
+    margin-bottom: 0;
+    padding-bottom: 0;
 }
 
 .footer-bottom-right {
@@ -373,6 +413,8 @@
     color: rgba(255, 255, 255, 0.7);
     font-size: 0.9rem;
     margin: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
     line-height: 1.5;
 }
 
@@ -389,6 +431,17 @@
 
 .footer-bottom-link:hover {
     color: var(--sun-yellow);
+}
+
+/* Eliminar espacio extra del final del footer */
+.footer-custom .row:last-child {
+    margin-bottom: 0;
+    padding-bottom: 1rem;
+}
+
+.footer-custom .row:last-child .col-lg-6:last-child {
+    padding-bottom: 0;
+    margin-bottom: 0;
 }
 
 .footer-info {
@@ -424,7 +477,7 @@
     50% { opacity: 0.5; }
 }
 
-/* Botón Scroll Top */
+/* Botï¿½n Scroll Top */
 .scroll-top-btn {
     background: linear-gradient(135deg, var(--secondary-green), var(--light-green));
     color: var(--white);
@@ -568,6 +621,16 @@
 @media (max-width: 767.98px) {
     .footer-custom {
         padding: 2rem 0 1rem;
+        width: 100vw;
+        margin-left: -50vw;
+        margin-right: -50vw;
+        left: 50%;
+        right: 50%;
+    }
+    
+    .footer-custom .container-fluid {
+        padding-left: 10px;
+        padding-right: 10px;
     }
     
     .footer-stats {
@@ -611,6 +674,20 @@
 }
 
 @media (max-width: 575.98px) {
+    .footer-custom {
+        width: 100vw;
+        margin-left: -50vw;
+        margin-right: -50vw;
+        left: 50%;
+        right: 50%;
+        padding: 1.5rem 0 1rem;
+    }
+    
+    .footer-custom .container-fluid {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+    
     .footer-brand .brand-text {
         font-size: 1.5rem;
     }
@@ -640,7 +717,7 @@
     }
 }
 
-/* Tema oscuro automático */
+/* Tema oscuro automï¿½tico */
 @media (prefers-color-scheme: dark) {
     .footer-custom {
         background: linear-gradient(135deg, #0A1A0D 0%, var(--footer-bg) 50%, var(--primary-green) 100%);
