@@ -240,8 +240,86 @@
     animation: fadeIn 0.5s ease-out;
 }
 
+/* Header de Usuarios similar al de Fincas */
+.usuarios-header {
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--earth-brown) 100%);
+    color: var(--white);
+    padding: 2rem;
+    border-radius: 15px;
+    margin-bottom: 2rem;
+    box-shadow: 0 8px 32px var(--shadow-heavy);
+    position: relative;
+    overflow: hidden;
+}
+
+.usuarios-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, var(--light-green) 0%, transparent 70%);
+    opacity: 0.1;
+    border-radius: 50%;
+}
+
+.page-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.page-subtitle {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin-bottom: 0;
+    position: relative;
+    z-index: 1;
+}
+
+/* Contenedor principal con margen para el navbar fijo */
+.main-container {
+    padding-top: 100px !important; /* Espacio para el navbar fijo */
+}
+
+/* Botón responsive mejorado */
+.btn-responsive {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media (max-width: 576px) {
+    .btn-responsive {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.875rem;
+    }
+}
+
 /* Responsive */
 @media (max-width: 768px) {
+    .main-container {
+        padding-top: 120px !important; /* Más espacio en móvil */
+    }
+    
+    .usuarios-header {
+        padding: 1.5rem;
+        text-align: center;
+    }
+    
+    .page-title {
+        font-size: 1.75rem;
+        line-height: 1.2;
+    }
+    
+    .page-subtitle {
+        font-size: 1rem;
+        margin-top: 0.5rem;
+    }
+    
     .btn-group-actions {
         flex-direction: column;
         gap: 2px;

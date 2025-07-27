@@ -1,3 +1,7 @@
+<?php
+// Iniciar sesión para mantener el estado de login
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -47,14 +51,25 @@
                             </div>
                         </div>
                         <div class="hero-buttons">
-                            <a href="registro.php" class="btn btn-primary btn-lg btn-hero">
-                                <i class="fas fa-rocket me-2"></i>
-                                Comenzar Gratis
-                            </a>
-                            <a href="#caracteristicas" class="btn btn-outline-light btn-lg btn-hero-outline">
-                                <i class="fas fa-play me-2"></i>
-                                Ver Demo
-                            </a>
+                            <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true): ?>
+                                <a href="dashboard.php" class="btn btn-primary btn-lg btn-hero">
+                                    <i class="fas fa-tachometer-alt me-2"></i>
+                                    Ir al Dashboard
+                                </a>
+                                <a href="fincas.php" class="btn btn-outline-light btn-lg btn-hero-outline">
+                                    <i class="fas fa-map-marked-alt me-2"></i>
+                                    Mis Fincas
+                                </a>
+                            <?php else: ?>
+                                <a href="registro.php" class="btn btn-primary btn-lg btn-hero">
+                                    <i class="fas fa-rocket me-2"></i>
+                                    Comenzar Gratis
+                                </a>
+                                <a href="#caracteristicas" class="btn btn-outline-light btn-lg btn-hero-outline">
+                                    <i class="fas fa-play me-2"></i>
+                                    Ver Demo
+                                </a>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>

@@ -219,19 +219,9 @@ class Finca {
                 $campos[] = "fin_nombre = '$nombre'";
             }
             
-            if (isset($datos['direccion'])) {
-                $direccion = $this->conexion->getMysqli()->real_escape_string($datos['direccion']);
-                $campos[] = "fin_direccion = '$direccion'";
-            }
-            
-            if (isset($datos['municipio'])) {
-                $municipio = $this->conexion->getMysqli()->real_escape_string($datos['municipio']);
-                $campos[] = "fin_municipio = '$municipio'";
-            }
-            
-            if (isset($datos['departamento'])) {
-                $departamento = $this->conexion->getMysqli()->real_escape_string($datos['departamento']);
-                $campos[] = "fin_departamento = '$departamento'";
+            if (isset($datos['ubicacion'])) {
+                $ubicacion = $this->conexion->getMysqli()->real_escape_string($datos['ubicacion']);
+                $campos[] = "fin_ubicacion = '$ubicacion'";
             }
             
             if (isset($datos['latitud'])) {

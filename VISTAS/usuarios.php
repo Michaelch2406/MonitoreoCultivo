@@ -28,15 +28,33 @@ $usuarios = $usuario_modelo->listarUsuarios();
 <body>
     <?php include('partials/navbar.php'); ?>
 
-    <div class="container-fluid mt-4">
+    <div class="container-fluid main-container mt-4">
+        <!-- Header -->
+        <div class="usuarios-header" data-aos="fade-down">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-8 col-md-12 mb-3 mb-lg-0">
+                        <h2 class="page-title">
+                            <i class="fas fa-users me-2"></i>
+                            <span class="d-block d-sm-inline">Gestión de Usuarios</span>
+                        </h2>
+                        <p class="page-subtitle">
+                            <span class="d-block d-sm-inline">Administra todos los usuarios del sistema AgroMonitor</span>
+                        </p>
+                    </div>
+                    <div class="col-lg-4 col-md-12 text-lg-end text-center">
+                        <button type="button" class="btn btn-primary btn-responsive" data-bs-toggle="modal" data-bs-target="#modalNuevoUsuario">
+                            <i class="fas fa-plus me-2"></i>
+                            <span class="d-none d-sm-inline">Nuevo Usuario</span>
+                            <span class="d-inline d-sm-none">Nuevo</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-12">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h2><i class="fas fa-users"></i> Gestión de Usuarios</h2>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalNuevoUsuario">
-                        <i class="fas fa-plus"></i> Nuevo Usuario
-                    </button>
-                </div>
 
                 <!-- Filtros -->
                 <div class="card mb-4">

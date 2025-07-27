@@ -37,7 +37,7 @@ if ($usuario_actual['rol'] == 'administrador' || $usuario_actual['rol'] == 'supe
 <body>
     <?php include('partials/navbar.php'); ?>
 
-    <div class="container-fluid mt-4">
+    <div class="container-fluid main-container mt-4">
         <!-- Header -->
         <div class="fincas-header" data-aos="fade-down">
             <div class="container">
@@ -322,23 +322,8 @@ if ($usuario_actual['rol'] == 'administrador' || $usuario_actual['rol'] == 'supe
                         </div>
                         
                         <div class="mb-3">
-                            <label for="nuevaDireccion" class="form-label">Dirección *</label>
-                            <textarea class="form-control" id="nuevaDireccion" name="direccion" rows="2" required></textarea>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="nuevoMunicipio" class="form-label">Municipio *</label>
-                                    <input type="text" class="form-control" id="nuevoMunicipio" name="municipio" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="nuevoDepartamento" class="form-label">Departamento *</label>
-                                    <input type="text" class="form-control" id="nuevoDepartamento" name="departamento" required>
-                                </div>
-                            </div>
+                            <label for="nuevaUbicacion" class="form-label">Ubicación *</label>
+                            <textarea class="form-control" id="nuevaUbicacion" name="ubicacion" rows="2" required placeholder="Ingrese la ubicación completa de la finca (dirección, municipio, departamento)"></textarea>
                         </div>
                         
                         <div class="row">

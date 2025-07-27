@@ -6,7 +6,7 @@
 // Variables globales
 let currentStep = 1;
 const totalSteps = 2;
-let emailVerified = false;
+let emailVerified = true; // Ya no se requiere verificación de email
 let formData = {};
 
 // Validaciones de fortaleza de contrase�a
@@ -47,9 +47,7 @@ function initializeForm() {
 function setupEventListeners() {
     // Navegaci�n entre pasos
     $('#next-step-1').click(() => handleStepNavigation('next', 1));
-    $('#next-step-2').click(() => handleStepNavigation('next', 2));
     $('#prev-step-2').click(() => handleStepNavigation('prev', 2));
-    $('#prev-step-3').click(() => handleStepNavigation('prev', 3));
     
     // Validaci�n de fortaleza de contrase�a
     $('#password').on('input', validatePasswordStrength);
@@ -60,12 +58,7 @@ function setupEventListeners() {
         togglePasswordVisibility($(this).data('target'));
     });
     
-    // Verificaci�n de email
-    $('#verify-email-btn').click(handleEmailVerification);
-    $('#resend-code').click(handleResendCode);
-    
-    // Validaci�n de c�digo de verificaci�n
-    $('#verification-code').on('input', validateVerificationCode);
+    // Eliminadas funciones de verificaci�n de email ya que se removi� el paso 3
     
     // Env�o del formulario
     $('#registerForm').submit(handleFormSubmission);

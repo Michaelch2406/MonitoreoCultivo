@@ -37,10 +37,25 @@ body {
 
 /* Contenido principal */
 .main-content {
-    margin-top: 80px; /* Espacio para navbar fijo */
+    margin-top: 100px; /* Espacio para navbar fijo aumentado */
     margin-bottom: 60px; /* Espacio para footer */
     padding: 2rem 0;
     min-height: calc(100vh - 160px);
+}
+
+/* Contenedor con margen para navbar fijo */
+.main-container {
+    padding-top: 100px !important; /* Espacio para el navbar fijo */
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        margin-top: 120px; /* Más espacio en móvil */
+    }
+    
+    .main-container {
+        padding-top: 120px !important; /* Más espacio en móvil */
+    }
 }
 
 /* Header del Dashboard */

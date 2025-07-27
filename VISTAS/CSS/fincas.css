@@ -406,15 +406,44 @@
     animation: slideInRight 0.6s ease-out;
 }
 
+/* Contenedor principal con margen para el navbar fijo */
+.main-container {
+    padding-top: 100px !important; /* Espacio para el navbar fijo */
+}
+
+/* Botón responsive mejorado */
+.btn-responsive {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media (max-width: 576px) {
+    .btn-responsive {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.875rem;
+    }
+}
+
 /* Responsive */
 @media (max-width: 768px) {
+    .main-container {
+        padding-top: 120px !important; /* Más espacio en móvil */
+    }
+    
     .fincas-header {
         padding: 1.5rem;
         text-align: center;
     }
     
     .page-title {
-        font-size: 2rem;
+        font-size: 1.75rem;
+        line-height: 1.2;
+    }
+    
+    .page-subtitle {
+        font-size: 1rem;
+        margin-top: 0.5rem;
     }
     
     .stats-card {
@@ -439,6 +468,11 @@
     
     .modal-body {
         padding: 1.5rem;
+    }
+    
+    /* Ocultar columnas menos importantes en móvil */
+    .table .d-none.d-md-table-cell {
+        display: none !important;
     }
 }
 

@@ -186,7 +186,7 @@ function actualizarFinca() {
     // Preparar datos para actualización
     $datos = array();
     
-    $campos_editables = ['nombre', 'direccion', 'municipio', 'departamento', 'area_total', 
+    $campos_editables = ['nombre', 'ubicacion', 'area_total', 
                         'descripcion', 'tipo_clima', 'acceso_agua', 'infraestructura', 'estado_legal'];
     
     foreach ($campos_editables as $campo) {

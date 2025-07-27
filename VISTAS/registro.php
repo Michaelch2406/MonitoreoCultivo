@@ -127,10 +127,6 @@
                                     <div class="step-number">2</div>
                                     <div class="step-label">Cuenta</div>
                                 </div>
-                                <div class="step" data-step="3">
-                                    <div class="step-number">3</div>
-                                    <div class="step-label">Verificación</div>
-                                </div>
                             </div>
                         </div>
                         
@@ -205,21 +201,7 @@
                                 </div>
                                 
                                 <div class="form-group">
-                                    <label for="rol" class="form-label">
-                                        <i class="fas fa-briefcase me-2"></i>¿Cuál es tu rol? *
-                                    </label>
-                                    <div class="input-group">
-                                        <span class="input-group-text">
-                                            <i class="fas fa-briefcase"></i>
-                                        </span>
-                                        <select class="form-control" id="rol" name="rol" required>
-                                            <option value="">Selecciona tu rol</option>
-                                            <option value="agricultor">Agricultor</option>
-                                            <option value="supervisor">Supervisor Agrícola</option>
-                                            <option value="administrador">Administrador</option>
-                                        </select>
-                                    </div>
-                                    <div class="invalid-feedback"></div>
+                                    <input type="hidden" id="rol" name="rol" value="agricultor">
                                 </div>
                                 
                                 <div class="step-actions">
@@ -331,51 +313,6 @@
                                     </div>
                                 </div>
                                 
-                                <div class="step-actions">
-                                    <button type="button" class="btn btn-prev" id="prev-step-2">
-                                        <i class="fas fa-arrow-left me-2"></i>
-                                        Anterior
-                                    </button>
-                                    <button type="button" class="btn btn-next" id="next-step-2">
-                                        Siguiente
-                                        <i class="fas fa-arrow-right ms-2"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <!-- Paso 3: Verificaci�n y T�rminos -->
-                            <div class="form-step" id="step-3">
-                                <div class="step-title">
-                                    <i class="fas fa-shield-check me-2"></i>
-                                    Verificación y T�rminos
-                                </div>
-                                
-                                <div class="verification-section">
-                                    <div class="verification-email" id="verification-email-section" style="display: none;">
-                                        <h5><i class="fas fa-envelope-open me-2"></i>Verificaci�n de Email</h5>
-                                        <p>Hemos enviado un c�digo de verificaci�n a tu email. Ingr�salo a continuaci�n:</p>
-                                        
-                                        <div class="form-group">
-                                            <label for="verification-code" class="form-label">Código de Verificación</label>
-                                            <div class="input-group">
-                                                <span class="input-group-text">
-                                                    <i class="fas fa-key"></i>
-                                                </span>
-                                                <input type="text" 
-                                                       class="form-control text-center" 
-                                                       id="verification-code" 
-                                                       name="verification-code"
-                                                       placeholder="123456"
-                                                       maxlength="6">
-                                                <button type="button" class="btn btn-outline-secondary" id="resend-code">
-                                                    <i class="fas fa-redo"></i>
-                                                </button>
-                                            </div>
-                                            <div class="invalid-feedback"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
                                 <div class="terms-section">
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" id="terms" name="terms" required>
@@ -394,7 +331,7 @@
                                 </div>
                                 
                                 <div class="step-actions">
-                                    <button type="button" class="btn btn-prev" id="prev-step-3">
+                                    <button type="button" class="btn btn-prev" id="prev-step-2">
                                         <i class="fas fa-arrow-left me-2"></i>
                                         Anterior
                                     </button>
