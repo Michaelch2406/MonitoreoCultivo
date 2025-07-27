@@ -42,7 +42,12 @@ $(document).ready(function() {
                     "previous": "Anterior"
                 }
             },
-            responsive: true,
+            responsive: {
+                details: {
+                    type: 'column',
+                    target: 'tr'
+                }
+            },
             pageLength: 25,
             order: [[0, 'asc']],
             columnDefs: [
@@ -51,15 +56,35 @@ $(document).ready(function() {
                     orderable: false,
                     searchable: false,
                     width: '150px',
-                    className: 'text-center'
+                    className: 'text-center',
+                    responsivePriority: 1
+                },
+                {
+                    targets: 0, // Nombre (prioridad alta)
+                    responsivePriority: 2,
+                    className: 'text-start'
                 },
                 {
                     targets: [2, 3, 4, 5], // Categoría, Ciclo, Días, Estado
                     className: 'text-center'
                 },
                 {
-                    targets: [0, 1], // Nombre y Nombre Científico
-                    className: 'text-start'
+                    targets: 1, // Nombre Científico (se oculta en móviles)
+                    responsivePriority: 10000,
+                    className: 'text-start d-none d-md-table-cell'
+                },
+                {
+                    targets: 2, // Categoría (prioridad media)
+                    responsivePriority: 3
+                },
+                {
+                    targets: 5, // Estado (prioridad alta)
+                    responsivePriority: 4
+                },
+                {
+                    targets: [3, 4], // Ciclo y Días (se ocultan en móviles)
+                    responsivePriority: 5000,
+                    className: 'text-center d-none d-lg-table-cell'
                 },
                 {
                     targets: 4, // Días

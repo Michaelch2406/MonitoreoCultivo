@@ -276,3 +276,5 @@ SQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
 [2025-07-27 19:04:52] OPERATION: Obtener estadísticas cultivos | User ID: 1
 [2025-07-27 19:06:21] OPERATION: Obtener estadísticas cultivos | User ID: 1
 [2025-07-27 19:06:21] OPERATION: Listar cultivos | User ID: 1 | Details: Categoría: todas
+[2025-07-27 19:13:34] OPERATION: Obtener estadísticas cultivos | User ID: 1
+[2025-07-27 19:13:34] OPERATION: Listar cultivos | User ID: 1 | Details: Categoría: todas

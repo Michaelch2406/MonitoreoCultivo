@@ -11,7 +11,8 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
 }
 
 // Obtener permisos del usuario
-$permisos = obtenerPermisosUsuario($_SESSION['rol']);
+$usuario_actual = obtenerUsuarioActual();
+$permisos = obtenerPermisosUsuario($usuario_actual['rol']);
 
 // Determinar si es crear o editar
 $accion = $_GET['action'] ?? 'crear';
@@ -92,42 +93,44 @@ unset($_SESSION['datos_form'], $_SESSION['errores']);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $titulo; ?> - AgroMonitor</title>
     <link href="../Bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="CSS/dashboard.css" rel="stylesheet">
     <link href="CSS/cultivos.css" rel="stylesheet">
     <link href="partials/CSS/navbar.css" rel="stylesheet">
     <link href="partials/CSS/footer.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
 </head>
 <body>
     <!-- Incluir Navbar -->
     <?php include 'partials/navbar.php'; ?>
 
-    <div class="container-fluid py-4">
-        <!-- Header -->
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="card header-card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <h1 class="page-title mb-2">
-                                    <i class="fas fa-<?php echo $es_edicion ? 'edit' : 'plus-circle'; ?> me-2"></i>
-                                    <?php echo $titulo; ?>
-                                </h1>
-                                <p class="page-subtitle mb-0">
-                                    <?php echo $es_edicion ? 'Actualiza la información del cultivo' : 'Agrega un nuevo tipo de cultivo al catálogo'; ?>
-                                </p>
-                            </div>
-                            <div class="header-actions">
-                                <a href="cultivos.php" class="btn btn-outline-light btn-lg">
-                                    <i class="fas fa-arrow-left me-2"></i>
-                                    Volver al Catálogo
-                                </a>
-                            </div>
+    <!-- Contenido principal -->
+    <main class="main-content">
+        <div class="container-fluid">
+            <!-- Header del Dashboard -->
+            <div class="dashboard-header">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h1 class="dashboard-title">
+                            <i class="fas fa-<?php echo $es_edicion ? 'edit' : 'plus'; ?> me-2"></i>
+                            <?php echo $titulo; ?>
+                        </h1>
+                        <p class="dashboard-subtitle">
+                            <?php echo $es_edicion ? 'Modifica la información del cultivo seleccionado' : 'Agrega un nuevo tipo de cultivo al catálogo'; ?>
+                        </p>
+                        <div class="admin-badge">
+                            <i class="fas fa-seedling me-1"></i>
+                            Gestión de Cultivos
                         </div>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <a href="cultivos.php" class="btn btn-outline-secondary btn-lg">
+                            <i class="fas fa-arrow-left me-2"></i>
+                            Volver al Catálogo
+                        </a>
                     </div>
                 </div>
             </div>
-        </div>
 
         <!-- Errores -->
         <?php if (!empty($errores)): ?>
@@ -156,9 +159,9 @@ unset($_SESSION['datos_form'], $_SESSION['errores']);
             <div class="row">
                 <!-- Información General -->
                 <div class="col-lg-8">
-                    <div class="card main-content-card mb-4">
+                    <div class="dashboard-card mb-4" data-aos="fade-up" data-aos-delay="100">
                         <div class="card-header">
-                            <h5 class="card-title mb-0">
+                            <h5 class="card-title">
                                 <i class="fas fa-info-circle me-2"></i>
                                 Información General
                             </h5>
@@ -207,9 +210,9 @@ unset($_SESSION['datos_form'], $_SESSION['errores']);
                     </div>
 
                     <!-- Información del Ciclo -->
-                    <div class="card main-content-card mb-4">
+                    <div class="dashboard-card mb-4" data-aos="fade-up" data-aos-delay="200">
                         <div class="card-header">
-                            <h5 class="card-title mb-0">
+                            <h5 class="card-title">
                                 <i class="fas fa-calendar-alt me-2"></i>
                                 Ciclo de Vida
                             </h5>
@@ -239,9 +242,9 @@ unset($_SESSION['datos_form'], $_SESSION['errores']);
                     </div>
 
                     <!-- Requerimientos Técnicos -->
-                    <div class="card main-content-card mb-4">
+                    <div class="dashboard-card mb-4" data-aos="fade-up" data-aos-delay="300">
                         <div class="card-header">
-                            <h5 class="card-title mb-0">
+                            <h5 class="card-title">
                                 <i class="fas fa-thermometer-half me-2"></i>
                                 Requerimientos Técnicos
                             </h5>
@@ -295,9 +298,9 @@ unset($_SESSION['datos_form'], $_SESSION['errores']);
                     </div>
 
                     <!-- Información de Siembra -->
-                    <div class="card main-content-card mb-4">
+                    <div class="dashboard-card mb-4" data-aos="fade-up" data-aos-delay="400">
                         <div class="card-header">
-                            <h5 class="card-title mb-0">
+                            <h5 class="card-title">
                                 <i class="fas fa-leaf me-2"></i>
                                 Información de Siembra
                             </h5>
@@ -321,9 +324,9 @@ unset($_SESSION['datos_form'], $_SESSION['errores']);
                     </div>
 
                     <!-- Información Adicional -->
-                    <div class="card main-content-card mb-4">
+                    <div class="dashboard-card mb-4" data-aos="fade-up" data-aos-delay="500">
                         <div class="card-header">
-                            <h5 class="card-title mb-0">
+                            <h5 class="card-title">
                                 <i class="fas fa-plus-circle me-2"></i>
                                 Información Adicional
                             </h5>
@@ -350,9 +353,9 @@ unset($_SESSION['datos_form'], $_SESSION['errores']);
                 <!-- Panel Lateral -->
                 <div class="col-lg-4">
                     <!-- Acciones -->
-                    <div class="card main-content-card mb-4">
+                    <div class="dashboard-card mb-4" data-aos="fade-left" data-aos-delay="100">
                         <div class="card-header">
-                            <h5 class="card-title mb-0">
+                            <h5 class="card-title">
                                 <i class="fas fa-cogs me-2"></i>
                                 Acciones
                             </h5>
@@ -372,9 +375,9 @@ unset($_SESSION['datos_form'], $_SESSION['errores']);
                     </div>
 
                     <!-- Ayuda -->
-                    <div class="card main-content-card">
+                    <div class="dashboard-card" data-aos="fade-left" data-aos-delay="300">
                         <div class="card-header">
-                            <h5 class="card-title mb-0">
+                            <h5 class="card-title">
                                 <i class="fas fa-question-circle me-2"></i>
                                 Ayuda
                             </h5>
@@ -403,6 +406,7 @@ unset($_SESSION['datos_form'], $_SESSION['errores']);
             </div>
         </form>
     </div>
+    </main>
 
     <!-- Incluir Footer -->
     <?php include 'partials/footer.php'; ?>
@@ -410,9 +414,18 @@ unset($_SESSION['datos_form'], $_SESSION['errores']);
     <!-- Scripts -->
     <script src="../Bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="../PUBLIC/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script src="JS/global.js"></script>
     <script src="partials/JS/navbar.js"></script>
     <script>
+        // Inicializar AOS
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true,
+            mirror: false
+        });
+        
         $(document).ready(function() {
             // Validación del formulario
             $('#cultivoForm').on('submit', function(e) {

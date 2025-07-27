@@ -156,6 +156,64 @@
         font-size: 0.9rem;
         padding: 8px 16px;
     }
+    
+    /* Tabla responsive en móviles */
+    #cultivosTable {
+        font-size: 0.85rem;
+    }
+    
+    #cultivosTable .btn-sm {
+        min-width: 28px;
+        height: 28px;
+        padding: 0.2rem 0.3rem;
+        font-size: 0.7rem;
+    }
+    
+    #cultivosTable .badge {
+        font-size: 0.65rem;
+        padding: 0.25em 0.5em;
+    }
+    
+    /* Ocultar columnas en móviles */
+    #cultivosTable th:nth-child(2),
+    #cultivosTable td:nth-child(2) {
+        display: none;
+    }
+}
+
+@media (max-width: 576px) {
+    /* En móviles muy pequeños */
+    .stats-cards .col-xl-3 {
+        margin-bottom: 1rem;
+    }
+    
+    .dashboard-header {
+        text-align: center;
+    }
+    
+    .dashboard-header .col-md-4 {
+        margin-top: 1rem;
+    }
+    
+    /* Botones más pequeños en móviles */
+    #cultivosTable .btn-group-actions {
+        flex-direction: column;
+        gap: 0.1rem;
+    }
+    
+    #cultivosTable .btn-sm {
+        min-width: 24px;
+        height: 24px;
+        font-size: 0.6rem;
+    }
+}
+
+@media (min-width: 992px) {
+    /* En pantallas grandes mostrar todas las columnas */
+    #cultivosTable th,
+    #cultivosTable td {
+        display: table-cell !important;
+    }
 }
 
 /* Mejoras en formularios de filtros */
@@ -199,4 +257,138 @@
     to {
         transform: rotate(360deg);
     }
+}
+
+/* Estilos específicos para cultivo_form.php */
+.dashboard-card {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.dashboard-card:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
+}
+
+.dashboard-card .card-header {
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    color: white;
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+    padding: 1rem 1.25rem;
+}
+
+.dashboard-card .card-title {
+    margin-bottom: 0;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.dashboard-card .card-body {
+    padding: 1.5rem 1.25rem;
+}
+
+/* Estilos para formularios responsivos */
+@media (max-width: 768px) {
+    .dashboard-header .col-md-4 {
+        text-align: center !important;
+        margin-top: 1rem;
+    }
+    
+    .dashboard-header .btn-lg {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .dashboard-card .card-header {
+        padding: 0.75rem 1rem;
+    }
+    
+    .dashboard-card .card-title {
+        font-size: 1rem;
+    }
+    
+    .dashboard-card .card-body {
+        padding: 1rem;
+    }
+    
+    /* Formularios en móviles */
+    .form-label {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+    
+    .form-control, .form-select {
+        padding: 0.75rem 0.75rem;
+        font-size: 1rem;
+    }
+    
+    /* Botones en móviles */
+    .btn-lg {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+    }
+    
+    /* Ayuda en móviles */
+    .help-list {
+        font-size: 0.85rem;
+        padding-left: 1rem;
+    }
+    
+    .help-section h6 {
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .dashboard-header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .dashboard-subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .admin-badge {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+    }
+    
+    /* Stack form columns en móviles muy pequeños */
+    .col-md-6 {
+        margin-bottom: 1rem;
+    }
+    
+    /* Espaciado adicional */
+    .mb-4 {
+        margin-bottom: 2rem !important;
+    }
+}
+
+/* Estados de validación mejorados */
+.form-control.is-invalid,
+.form-select.is-invalid {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+.form-control.is-valid,
+.form-select.is-valid {
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.25);
+}
+
+/* Mejoras en textareas */
+textarea.form-control {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Contador de caracteres mejorado */
+.form-text.text-warning {
+    color: #ff9800 !important;
+    font-weight: 500;
 }
