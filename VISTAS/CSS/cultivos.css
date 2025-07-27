@@ -66,6 +66,66 @@
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
+/* Mejoras para badges en la tabla */
+#cultivosTable .badge {
+    font-size: 0.75rem;
+    padding: 0.35em 0.65em;
+    font-weight: 500;
+    border-radius: 6px;
+}
+
+/* Estilo para botones de acción */
+#cultivosTable .btn-group,
+#cultivosTable .btn-group-actions {
+    white-space: nowrap;
+    gap: 0.25rem;
+}
+
+#cultivosTable .btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    min-width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#cultivosTable .btn-sm:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+
+#cultivosTable .btn-outline-info:hover {
+    color: #fff;
+    background-color: #0dcaf0;
+    border-color: #0dcaf0;
+}
+
+#cultivosTable .btn-outline-primary:hover {
+    color: #fff;
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+#cultivosTable .btn-outline-danger:hover {
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+/* Centrar columnas específicas */
+#cultivosTable td:nth-child(3),  /* Categoría */
+#cultivosTable td:nth-child(4),  /* Ciclo */
+#cultivosTable td:nth-child(5),  /* Días */
+#cultivosTable td:nth-child(6),  /* Estado */
+#cultivosTable td:nth-child(7) { /* Acciones */
+    text-align: center;
+    vertical-align: middle;
+}
+
 /* Animaciones para las cards de estadísticas */
 @keyframes countUp {
     from {

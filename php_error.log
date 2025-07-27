@@ -263,3 +263,16 @@ SQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
 [2025-07-27 19:00:50] OPERATION: Obtener estadísticas cultivos | User ID: 1
 [2025-07-27 19:02:19] OPERATION: Listar cultivos | User ID: 1 | Details: Categoría: todas
 [2025-07-27 19:02:19] OPERATION: Obtener estadísticas cultivos | User ID: 1
+[2025-07-27 19:04:14] OPERATION: Obtener estadísticas cultivos | User ID: 1
+[2025-07-27 19:04:14] OPERATION: Listar cultivos | User ID: 1 | Details: Categoría: todas
+[2025-07-27 19:04:25] OPERATION: Listar cultivos | User ID: 1 | Details: Categoría: todas
+[2025-07-27 19:04:25] OPERATION: Obtener estadísticas cultivos | User ID: 1
+[2025-07-27 19:04:32] OPERATION: Listar cultivos | User ID: 1 | Details: Categoría: todas
+[2025-07-27 19:04:32] OPERATION: Obtener estadísticas cultivos | User ID: 1
+[2025-07-27 19:04:36] OPERATION: Obtener estadísticas cultivos | User ID: 1
+[2025-07-27 19:04:36] OPERATION: Listar cultivos | User ID: 1 | Details: Categoría: todas
+[27-Jul-2025 19:04:41 America/New_York] Login exitoso para usuario: admin@sistemacultivos.com - IP: ::1
+[2025-07-27 19:04:52] OPERATION: Listar cultivos | User ID: 1 | Details: Categoría: todas
+[2025-07-27 19:04:52] OPERATION: Obtener estadísticas cultivos | User ID: 1
+[2025-07-27 19:06:21] OPERATION: Obtener estadísticas cultivos | User ID: 1
+[2025-07-27 19:06:21] OPERATION: Listar cultivos | User ID: 1 | Details: Categoría: todas

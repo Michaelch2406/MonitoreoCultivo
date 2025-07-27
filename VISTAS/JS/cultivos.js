@@ -50,11 +50,20 @@ $(document).ready(function() {
                     targets: -1, // Última columna (Acciones)
                     orderable: false,
                     searchable: false,
-                    width: '120px'
+                    width: '150px',
+                    className: 'text-center'
                 },
                 {
-                    targets: [3, 4, 5], // Categoría, Ciclo, Estado
+                    targets: [2, 3, 4, 5], // Categoría, Ciclo, Días, Estado
                     className: 'text-center'
+                },
+                {
+                    targets: [0, 1], // Nombre y Nombre Científico
+                    className: 'text-start'
+                },
+                {
+                    targets: 4, // Días
+                    width: '80px'
                 }
             ],
             drawCallback: function() {
@@ -218,9 +227,9 @@ $(document).ready(function() {
                 `<strong>${cultivo.tip_nombre}</strong>`,
                 cultivo.tip_nombre_cientifico || '<em>No especificado</em>',
                 `<span class="badge categoria-${cultivo.tip_categoria}">${formatCategoria(cultivo.tip_categoria)}</span>`,
-                `<span class="badge ciclo-${cultivo.tip_ciclo_vida}">${formatCicloVida(cultivo.tip_ciclo_vida)}</span>`,
-                cultivo.tip_ciclo_dias ? `${cultivo.tip_ciclo_dias} días` : 'N/A',
-                `<span class="badge estado-${cultivo.tip_estado}">${formatEstado(cultivo.tip_estado)}</span>`,
+                `<span class="badge bg-info text-dark">${formatCicloVida(cultivo.tip_ciclo_vida)}</span>`,
+                cultivo.tip_ciclo_dias ? `<span class="badge bg-light text-dark">${cultivo.tip_ciclo_dias} días</span>` : '<span class="text-muted">N/A</span>',
+                `<span class="badge ${getEstadoBadgeClass(cultivo.tip_estado)}">${formatEstado(cultivo.tip_estado)}</span>`,
                 generarBotonesAccion(cultivo)
             ];
             
@@ -589,11 +598,11 @@ $(document).ready(function() {
      */
     function generarBotonesAccion(cultivo) {
         const permisos = window.userPermissions || {};
-        let botones = '';
+        let botones = '<div class="btn-group-actions d-flex justify-content-center gap-1">';
         
         // Botón ver (todos pueden ver)
         botones += `
-            <button class="btn btn-action btn-view btn-sm me-1" 
+            <button class="btn btn-outline-info btn-sm btn-view" 
                     data-id="${cultivo.tip_id}" 
                     title="Ver detalles">
                 <i class="fas fa-eye"></i>
@@ -603,7 +612,7 @@ $(document).ready(function() {
         // Botón editar (solo administradores)
         if (permisos.cultivos && permisos.cultivos.editar) {
             botones += `
-                <button class="btn btn-action btn-edit btn-sm me-1" 
+                <button class="btn btn-outline-primary btn-sm btn-edit" 
                         data-id="${cultivo.tip_id}" 
                         title="Editar cultivo">
                     <i class="fas fa-edit"></i>
@@ -614,7 +623,7 @@ $(document).ready(function() {
         // Botón eliminar (solo administradores)
         if (permisos.cultivos && permisos.cultivos.eliminar) {
             botones += `
-                <button class="btn btn-action btn-delete btn-sm" 
+                <button class="btn btn-outline-danger btn-sm btn-delete" 
                         data-id="${cultivo.tip_id}" 
                         data-nombre="${cultivo.tip_nombre}"
                         title="Eliminar cultivo">
@@ -623,6 +632,7 @@ $(document).ready(function() {
             `;
         }
         
+        botones += '</div>';
         return botones;
     }
 
@@ -656,6 +666,14 @@ $(document).ready(function() {
             'inactivo': 'Inactivo'
         };
         return estados[estado] || estado;
+    }
+
+    function getEstadoBadgeClass(estado) {
+        const clases = {
+            'activo': 'bg-success',
+            'inactivo': 'bg-secondary'
+        };
+        return clases[estado] || 'bg-secondary';
     }
 
     /**
