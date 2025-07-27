@@ -56,7 +56,7 @@ function obtenerTextoRolSimple($rol) {
                             <i class="fas fa-crown me-1"></i>Administración
                         </a>
                         <ul class="dropdown-menu dropdown-custom">
-                            <li><a class="dropdown-item" href="admin/usuarios.php"><i class="fas fa-users me-2"></i>Gestión de Usuarios</a></li>
+                            <li><a class="dropdown-item" href="usuarios.php"><i class="fas fa-users me-2"></i>Gestión de Usuarios</a></li>
                             <li><a class="dropdown-item" href="admin/configuracion.php"><i class="fas fa-cogs me-2"></i>Configuración Sistema</a></li>
                             <li><a class="dropdown-item" href="admin/backup.php"><i class="fas fa-database me-2"></i>Backup</a></li>
                         </ul>
@@ -84,8 +84,7 @@ function obtenerTextoRolSimple($rol) {
                             <i class="fas fa-map-marked-alt me-1"></i>Fincas
                         </a>
                         <ul class="dropdown-menu dropdown-custom">
-                            <li><a class="dropdown-item" href="fincas/nueva.php"><i class="fas fa-plus me-2"></i>Nueva Finca</a></li>
-                            <li><a class="dropdown-item" href="fincas/index.php"><i class="fas fa-list-ul me-2"></i>Mis Fincas</a></li>
+                            <li><a class="dropdown-item" href="fincas.php"><i class="fas fa-map-marked-alt me-2"></i>Gestión de Fincas</a></li>
                             <li><a class="dropdown-item" href="lotes/index.php"><i class="fas fa-th-large me-2"></i>Mis Lotes</a></li>
                         </ul>
                     </li>
@@ -118,7 +117,7 @@ function obtenerTextoRolSimple($rol) {
                         </a>
                         <ul class="dropdown-menu dropdown-custom">
                             <li><a class="dropdown-item" href="supervisor/agricultores.php"><i class="fas fa-users me-2"></i>Agricultores</a></li>
-                            <li><a class="dropdown-item" href="supervisor/fincas.php"><i class="fas fa-map-marked-alt me-2"></i>Fincas Supervisadas</a></li>
+                            <li><a class="dropdown-item" href="fincas.php"><i class="fas fa-map-marked-alt me-2"></i>Fincas Supervisadas</a></li>
                             <li><a class="dropdown-item" href="supervisor/reportes.php"><i class="fas fa-clipboard-list me-2"></i>Reportes</a></li>
                         </ul>
                     </li>

@@ -1,4 +1,24 @@
 /* Estilos para la gestión de usuarios del administrador */
+/* Usando la paleta de colores de AgroMonitor */
+
+:root {
+    --primary-green: #2E7D32;      /* Verde Principal - Hojas maduras */
+    --secondary-green: #4CAF50;    /* Verde Secundario - Crecimiento */
+    --light-green: #81C784;        /* Verde Claro - Brotes nuevos */
+    --earth-brown: #8D6E63;        /* Marrón Tierra - Suelo fértil */
+    --water-blue: #1976D2;         /* Azul Agua - Riego e hidratación */
+    --sun-yellow: #FFA726;         /* Amarillo Sol - Energía solar */
+    --white: #FFFFFF;              /* Blanco - Pureza y claridad */
+    --light-gray: #F5F5F5;         /* Gris Claro - Fondos suaves */
+    --text-gray: #424242;          /* Gris Texto - Legibilidad */
+    --hover-green: #1B5E20;        /* Verde Hover - Interacciones */
+    --shadow-light: rgba(46, 125, 50, 0.1);
+    --shadow-medium: rgba(46, 125, 50, 0.2);
+    --shadow-heavy: rgba(46, 125, 50, 0.3);
+    --error-red: #F44336;          /* Rojo Error - Alertas */
+    --success-green: #4CAF50;      /* Verde Éxito - Confirmaciones */
+    --warning-orange: #FF9800;     /* Naranja Advertencia - Precauciones */
+}
 
 .btn-group-actions {
     display: flex;
@@ -28,7 +48,7 @@
 }
 
 .user-avatar:hover {
-    border-color: #007bff;
+    border-color: var(--secondary-green);
 }
 
 .status-badge {
@@ -44,8 +64,8 @@
 }
 
 .table th {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--earth-brown) 100%);
+    color: var(--white);
     border: none;
     font-weight: 600;
     text-transform: uppercase;
@@ -65,9 +85,9 @@
 }
 
 .table tbody tr:hover {
-    background-color: rgba(102, 126, 234, 0.05);
+    background-color: var(--shadow-light);
     transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px var(--shadow-medium);
 }
 
 .card {
@@ -92,15 +112,15 @@
 }
 
 .badge-danger {
-    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    background: linear-gradient(135deg, var(--error-red) 0%, #c82333 100%);
 }
 
 .badge-success {
-    background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+    background: linear-gradient(135deg, var(--success-green) 0%, var(--hover-green) 100%);
 }
 
 .badge-warning {
-    background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
+    background: linear-gradient(135deg, var(--warning-orange) 0%, #e0a800 100%);
 }
 
 .modal-content {
@@ -112,8 +132,8 @@
 .modal-header {
     border-bottom: 1px solid #e9ecef;
     padding: 1.5rem;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--earth-brown) 100%);
+    color: var(--white);
     border-radius: 1rem 1rem 0 0;
 }
 
@@ -127,42 +147,45 @@
 }
 
 .form-control:focus {
-    border-color: #667eea;
-    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    border-color: var(--secondary-green);
+    box-shadow: 0 0 0 0.2rem var(--shadow-light);
 }
 
 .form-select:focus {
-    border-color: #667eea;
-    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    border-color: var(--secondary-green);
+    box-shadow: 0 0 0 0.2rem var(--shadow-light);
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
     border: none;
     font-weight: 500;
     padding: 0.5rem 1.5rem;
     border-radius: 0.5rem;
     transition: all 0.3s ease;
+    color: var(--white);
 }
 
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+    box-shadow: 0 4px 15px var(--shadow-medium);
+    background: linear-gradient(135deg, var(--hover-green) 0%, var(--primary-green) 100%);
+    color: var(--white);
 }
 
 .btn-outline-primary {
-    border-color: #667eea;
-    color: #667eea;
+    border-color: var(--secondary-green);
+    color: var(--secondary-green);
     font-weight: 500;
     transition: all 0.3s ease;
 }
 
 .btn-outline-primary:hover {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-color: #667eea;
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+    border-color: var(--secondary-green);
     transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 2px 8px var(--shadow-medium);
+    color: var(--white);
 }
 
 .btn-outline-warning:hover {
@@ -197,7 +220,7 @@
 
 .form-label {
     font-weight: 600;
-    color: #495057;
+    color: var(--text-gray);
     margin-bottom: 0.5rem;
 }
 
@@ -245,26 +268,26 @@
 .dataTables_wrapper .dataTables_length select,
 .dataTables_wrapper .dataTables_filter input {
     border-radius: 0.5rem;
-    border-color: #e9ecef;
+    border-color: var(--light-gray);
     padding: 0.375rem 0.75rem;
 }
 
 .dataTables_wrapper .dataTables_filter input:focus {
-    border-color: #667eea;
-    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    border-color: var(--secondary-green);
+    box-shadow: 0 0 0 0.2rem var(--shadow-light);
 }
 
 .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-    border-color: #667eea !important;
-    color: white !important;
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--earth-brown) 100%) !important;
+    border-color: var(--primary-green) !important;
+    color: var(--white) !important;
     border-radius: 0.375rem;
 }
 
 .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-    background: rgba(102, 126, 234, 0.1) !important;
-    border-color: #667eea !important;
-    color: #667eea !important;
+    background: var(--shadow-light) !important;
+    border-color: var(--secondary-green) !important;
+    color: var(--secondary-green) !important;
     border-radius: 0.375rem;
 }
 
@@ -274,7 +297,7 @@
 }
 
 .swal2-styled.swal2-confirm {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--earth-brown) 100%);
     border-radius: 0.5rem;
 }
 

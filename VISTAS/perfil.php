@@ -21,6 +21,9 @@ $usuario_datos = $usuario_modelo->obtenerUsuario($usuario_actual['id']);
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="CSS/dashboard.css" rel="stylesheet">
     <link href="CSS/perfil.css" rel="stylesheet">
+    <link href="partials/CSS/navbar.css" rel="stylesheet">
+    <link href="partials/CSS/footer.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
 </head>
 <body>
     <?php include('partials/navbar.php'); ?>
@@ -244,9 +247,21 @@ $usuario_datos = $usuario_modelo->obtenerUsuario($usuario_actual['id']);
         </div>
     </div>
 
+    <!-- Footer -->
+    <?php include('partials/footer.php'); ?>
+
     <script src="../Bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="../PUBLIC/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="JS/perfil.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        // Inicializar AOS para animaciones
+        AOS.init({
+            duration: 600,
+            once: true,
+            offset: 100
+        });
+    </script>
 </body>
 </html>

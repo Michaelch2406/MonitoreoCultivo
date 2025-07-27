@@ -1,5 +1,5 @@
 <?php
-require_once("../CONFIG/Conexion.php");
+require_once(dirname(__FILE__) . "/../CONFIG/Conexion.php");
 
 class Usuario {
     private $conexion;

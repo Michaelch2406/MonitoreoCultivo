@@ -434,13 +434,13 @@ $conexion = new Conexion();
                             <div class="row g-2">
                                 <?php if ($rol_usuario == 'administrador'): ?>
                                     <div class="col-6">
-                                        <a href="admin/usuarios.php" class="btn btn-outline-primary w-100">
+                                        <a href="usuarios.php" class="btn btn-outline-primary w-100">
                                             <i class="fas fa-users mb-1"></i>
                                             <br><small>Gestionar Usuarios</small>
                                         </a>
                                     </div>
                                     <div class="col-6">
-                                        <a href="admin/fincas.php" class="btn btn-outline-success w-100">
+                                        <a href="fincas.php" class="btn btn-outline-success w-100">
                                             <i class="fas fa-map-marked-alt mb-1"></i>
                                             <br><small>Gestionar Fincas</small>
                                         </a>
@@ -459,7 +459,7 @@ $conexion = new Conexion();
                                     </div>
                                 <?php elseif ($rol_usuario == 'agricultor'): ?>
                                     <div class="col-6">
-                                        <a href="fincas/index.php" class="btn btn-outline-success w-100">
+                                        <a href="fincas.php" class="btn btn-outline-success w-100">
                                             <i class="fas fa-map-marked-alt mb-1"></i>
                                             <br><small>Mis Fincas</small>
                                         </a>
@@ -490,7 +490,7 @@ $conexion = new Conexion();
                                         </a>
                                     </div>
                                     <div class="col-6">
-                                        <a href="supervisor/fincas.php" class="btn btn-outline-success w-100">
+                                        <a href="fincas.php" class="btn btn-outline-success w-100">
                                             <i class="fas fa-map-marked-alt mb-1"></i>
                                             <br><small>Fincas Supervisadas</small>
                                         </a>

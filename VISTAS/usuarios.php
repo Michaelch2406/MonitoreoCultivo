@@ -1,10 +1,10 @@
 <?php
 session_start();
-require_once('../../CONFIG/roles.php');
-require_once('../../MODELOS/usuarios_m.php');
+require_once('../CONFIG/roles.php');
+require_once('../MODELOS/usuarios_m.php');
 
 // Verificar que sea administrador
-requiereAdmin('../login.php');
+requiereAdmin('login.php');
 
 $usuario_modelo = new Usuario();
 $usuarios = $usuario_modelo->listarUsuarios();
@@ -16,14 +16,17 @@ $usuarios = $usuario_modelo->listarUsuarios();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Usuarios - Sistema de Cultivos</title>
-    <link href="../../Bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../../DataTables/datatables.min.css" rel="stylesheet">
+    <link href="../Bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../DataTables/datatables.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="../CSS/dashboard.css" rel="stylesheet">
-    <link href="../CSS/admin_usuarios.css" rel="stylesheet">
+    <link href="CSS/dashboard.css" rel="stylesheet">
+    <link href="CSS/admin_usuarios.css" rel="stylesheet">
+    <link href="partials/CSS/navbar.css" rel="stylesheet">
+    <link href="partials/CSS/footer.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
 </head>
 <body>
-    <?php include('../partials/navbar.php'); ?>
+    <?php include('partials/navbar.php'); ?>
 
     <div class="container-fluid mt-4">
         <div class="row">
@@ -89,7 +92,7 @@ $usuarios = $usuario_modelo->listarUsuarios();
                                                 <td><?php echo $usuario['usuario_id']; ?></td>
                                                 <td>
                                                     <div class="d-flex align-items-center">
-                                                        <img src="../../PUBLIC/Img/user.png" alt="Avatar" class="user-avatar me-2">
+                                                        <img src="../PUBLIC/Img/user.png" alt="Avatar" class="user-avatar me-2">
                                                         <div>
                                                             <strong><?php echo htmlspecialchars($usuario['nombre'] . ' ' . $usuario['apellido']); ?></strong>
                                                         </div>
@@ -300,10 +303,22 @@ $usuarios = $usuario_modelo->listarUsuarios();
         </div>
     </div>
 
-    <script src="../../Bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="../../PUBLIC/jquery-3.7.1.min.js"></script>
-    <script src="../../DataTables/datatables.min.js"></script>
+    <!-- Footer -->
+    <?php include('partials/footer.php'); ?>
+
+    <script src="../Bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../PUBLIC/jquery-3.7.1.min.js"></script>
+    <script src="../DataTables/datatables.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="../JS/admin_usuarios.js"></script>
+    <script src="JS/admin_usuarios.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        // Inicializar AOS para animaciones
+        AOS.init({
+            duration: 600,
+            once: true,
+            offset: 100
+        });
+    </script>
 </body>
 </html>
