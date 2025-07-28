@@ -76,7 +76,7 @@ function obtenerTextoRolSimple($rol) {
                             <li><a class="dropdown-item" href="siembra_form.php"><i class="fas fa-plus-circle me-2"></i>Nueva Siembra</a></li>
                             <li><a class="dropdown-item" href="siembras.php"><i class="fas fa-list me-2"></i>Mis Siembras</a></li>
                             <li><a class="dropdown-item" href="actividades.php"><i class="fas fa-tasks me-2"></i>Actividades Agrícolas</a></li>
-                            <li><a class="dropdown-item" href="cosechas/index.php"><i class="fas fa-apple-alt me-2"></i>Cosechas</a></li>
+                            <li><a class="dropdown-item" href="cosechas.php"><i class="fas fa-tractor me-2"></i>Cosechas y Producción</a></li>
                         </ul>
                     </li>
                 <?php else: ?>
@@ -150,10 +150,12 @@ function obtenerTextoRolSimple($rol) {
                         <?php if ($rol_usuario == 'agricultor'): ?>
                             <li><a class="dropdown-item" href="reportes/mis_cultivos.php"><i class="fas fa-seedling me-2"></i>Mis Cultivos</a></li>
                             <li><a class="dropdown-item" href="reportes/produccion.php"><i class="fas fa-chart-line me-2"></i>Producción</a></li>
+                            <li><a class="dropdown-item" href="reportes/cosechas.php"><i class="fas fa-tractor me-2"></i>Análisis de Cosechas</a></li>
                             <li><a class="dropdown-item" href="gastos/index.php"><i class="fas fa-money-bill-wave me-2"></i>Gastos</a></li>
                         <?php endif; ?>
                         <?php if ($rol_usuario == 'supervisor'): ?>
                             <li><a class="dropdown-item" href="supervisor/reportes.php"><i class="fas fa-clipboard-list me-2"></i>Reportes Supervisión</a></li>
+                            <li><a class="dropdown-item" href="cosechas.php"><i class="fas fa-tractor me-2"></i>Cosechas Supervisadas</a></li>
                         <?php endif; ?>
                     </ul>
                 </li>

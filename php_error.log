@@ -358,4 +358,21 @@ SQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
                     FROM lotes l
                     INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
                     INNER JOIN usuarios u ON f.fin_propietario = u.usu_id
-                    WHERE 1=1 ORDER BY l.lot_fecha_registro DESC
+                    WHERE 1=1 ORDER BY l.lot_fecha_registro DESC[28-Jul-2025 15:23:48 America/New_York] Login exitoso para usuario: admin@sistemacultivos.com - IP: ::1
+[28-Jul-2025 15:23:58 America/New_York] PHP Fatal error:  Uncaught Error: Call to undefined function conectar() in C:\inetpub\wwwroot\MonitoreoCultivo\MODELOS\cosechas_m.php:8
+Stack trace:
+#0 C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\cosechas.php(14): Cosecha->__construct()
+#1 {main}
+  thrown in C:\inetpub\wwwroot\MonitoreoCultivo\MODELOS\cosechas_m.php on line 8
+SQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
+                           u.usu_nombre, u.usu_apellido, u.usu_email
+                    FROM lotes l
+                    INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
+                    INNER JOIN usuarios u ON f.fin_propietario = u.usu_id
+                    WHERE 1=1 ORDER BY l.lot_fecha_registro DESCSQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
+                           u.usu_nombre, u.usu_apellido, u.usu_email
+                    FROM lotes l
+                    INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
+                    INNER JOIN usuarios u ON f.fin_propietario = u.usu_id
+                    WHERE 1=1 ORDER BY l.lot_fecha_registro DESC[2025-07-28 15:25:47] OPERATION: Obtener estadísticas cultivos | User ID: 1
+[2025-07-28 15:25:47] OPERATION: Listar cultivos | User ID: 1 | Details: Categoría: todas
