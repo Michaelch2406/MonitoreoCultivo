@@ -1,0 +1,704 @@
+/* Estilos para el módulo de actividades agrícolas */
+/* Usando la paleta de colores de AgroMonitor */
+
+:root {
+    --primary-green: #2E7D32;      /* Verde Principal - Hojas maduras */
+    --secondary-green: #4CAF50;    /* Verde Secundario - Crecimiento */
+    --light-green: #81C784;        /* Verde Claro - Brotes nuevos */
+    --earth-brown: #8D6E63;        /* Marrón Tierra - Suelo fértil */
+    --water-blue: #1976D2;         /* Azul Agua - Riego e hidratación */
+    --sun-yellow: #FFA726;         /* Amarillo Sol - Energía solar */
+    --white: #FFFFFF;              /* Blanco - Pureza y claridad */
+    --light-gray: #F5F5F5;         /* Gris Claro - Fondos suaves */
+    --text-gray: #424242;          /* Gris Texto - Legibilidad */
+    --hover-green: #1B5E20;        /* Verde Hover - Interacciones */
+    --shadow-light: rgba(46, 125, 50, 0.1);
+    --shadow-medium: rgba(46, 125, 50, 0.2);
+    --shadow-heavy: rgba(46, 125, 50, 0.3);
+    --error-red: #F44336;          /* Rojo Error - Alertas */
+    --success-green: #4CAF50;      /* Verde Éxito - Confirmaciones */
+    --warning-orange: #FF9800;     /* Naranja Advertencia - Precauciones */
+}
+
+/* Header del módulo de actividades */
+.actividades-header {
+    background: linear-gradient(135deg, var(--secondary-green) 0%, var(--primary-green) 100%);
+    color: var(--white);
+    padding: 2rem 0;
+    border-radius: 15px;
+    margin-bottom: 2rem;
+    margin-top: 120px;
+    box-shadow: 0 8px 32px var(--shadow-heavy);
+    overflow: hidden;
+    position: relative;
+}
+
+.actividades-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="rgba(255,255,255,0.1)"><polygon points="1000,100 1000,0 0,100"/></svg>');
+    background-size: cover;
+    background-position: bottom;
+}
+
+.actividades-header .container {
+    position: relative;
+    z-index: 1;
+}
+
+.page-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.page-subtitle {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin-bottom: 0;
+    font-weight: 300;
+}
+
+/* Tarjetas de estadísticas */
+.stats-card {
+    background: var(--white);
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px var(--shadow-light);
+    border: 1px solid rgba(46, 125, 50, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.stats-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--secondary-green);
+    transition: all 0.3s ease;
+}
+
+.stats-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px var(--shadow-medium);
+}
+
+.stats-card:hover::before {
+    height: 6px;
+}
+
+.stats-card.stats-primary::before {
+    background: var(--secondary-green);
+}
+
+.stats-card.stats-success::before {
+    background: var(--light-green);
+}
+
+.stats-card.stats-warning::before {
+    background: var(--sun-yellow);
+}
+
+.stats-card.stats-info::before {
+    background: var(--water-blue);
+}
+
+.stats-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--white);
+    margin-bottom: 1rem;
+    background: var(--secondary-green);
+}
+
+.stats-card.stats-primary .stats-icon {
+    background: linear-gradient(135deg, var(--secondary-green), var(--light-green));
+}
+
+.stats-card.stats-success .stats-icon {
+    background: linear-gradient(135deg, var(--light-green), var(--secondary-green));
+}
+
+.stats-card.stats-warning .stats-icon {
+    background: linear-gradient(135deg, var(--sun-yellow), var(--warning-orange));
+}
+
+.stats-card.stats-info .stats-icon {
+    background: linear-gradient(135deg, var(--water-blue), var(--primary-green));
+}
+
+.stats-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--secondary-green);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.stats-label {
+    font-size: 0.9rem;
+    color: var(--text-gray);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Tarjeta de acciones y filtros */
+.actions-card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px var(--shadow-light);
+    border-left: 4px solid var(--secondary-green);
+}
+
+.actions-card .card-body {
+    padding: 1.5rem;
+}
+
+/* Tarjeta de tabla */
+.table-card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px var(--shadow-light);
+    overflow: hidden;
+}
+
+.table-card .card-header {
+    background: linear-gradient(135deg, var(--secondary-green), var(--light-green));
+    color: var(--white);
+    border: none;
+    padding: 1rem 1.5rem;
+}
+
+.table-card .card-title {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.table-card .card-body {
+    padding: 0;
+}
+
+/* Tabla de actividades */
+#tablaActividades {
+    margin-bottom: 0;
+}
+
+#tablaActividades thead th {
+    background-color: var(--light-gray);
+    color: var(--text-gray);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    border: none;
+    padding: 1rem 0.75rem;
+}
+
+#tablaActividades tbody td {
+    padding: 1rem 0.75rem;
+    vertical-align: middle;
+    border-top: 1px solid #E0E0E0;
+}
+
+#tablaActividades tbody tr:hover {
+    background-color: rgba(76, 175, 80, 0.05);
+}
+
+/* Información de siembra */
+.siembra-info .siembra-nombre {
+    font-weight: 600;
+    color: var(--secondary-green);
+    font-size: 0.9rem;
+}
+
+/* Información de responsable */
+.responsable-info {
+    font-size: 0.9rem;
+    color: var(--text-gray);
+}
+
+/* Descripción de actividad */
+.descripcion-actividad {
+    font-size: 0.9rem;
+    color: var(--text-gray);
+    line-height: 1.4;
+}
+
+/* Información de productos */
+.productos-info {
+    font-size: 0.9rem;
+    color: var(--text-gray);
+}
+
+/* Costo de actividad */
+.costo-actividad {
+    font-weight: 600;
+    color: var(--earth-brown);
+    font-size: 0.9rem;
+}
+
+/* Badges de tipo de actividad */
+.badge {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.5rem 0.75rem;
+    border-radius: 20px;
+    text-transform: capitalize;
+}
+
+/* Tipos de actividad */
+.badge.tipo-riego {
+    background-color: var(--water-blue);
+    color: var(--white);
+}
+
+.badge.tipo-fertilizacion {
+    background-color: var(--light-green);
+    color: var(--white);
+}
+
+.badge.tipo-fumigacion {
+    background-color: var(--warning-orange);
+    color: var(--white);
+}
+
+.badge.tipo-poda {
+    background-color: var(--earth-brown);
+    color: var(--white);
+}
+
+.badge.tipo-deshierbe {
+    background-color: var(--sun-yellow);
+    color: var(--white);
+}
+
+.badge.tipo-aporque {
+    background-color: var(--primary-green);
+    color: var(--white);
+}
+
+.badge.tipo-otro {
+    background-color: var(--text-gray);
+    color: var(--white);
+}
+
+/* Botones de acción */
+.btn-group-sm .btn {
+    padding: 0.375rem 0.5rem;
+    font-size: 0.8rem;
+    border-radius: 6px;
+    margin-right: 2px;
+}
+
+.btn-outline-primary {
+    border-color: var(--secondary-green);
+    color: var(--secondary-green);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--secondary-green);
+    border-color: var(--secondary-green);
+    color: var(--white);
+}
+
+.btn-outline-success {
+    border-color: var(--light-green);
+    color: var(--light-green);
+}
+
+.btn-outline-success:hover {
+    background-color: var(--light-green);
+    border-color: var(--light-green);
+    color: var(--white);
+}
+
+.btn-outline-warning {
+    border-color: var(--warning-orange);
+    color: var(--warning-orange);
+}
+
+.btn-outline-warning:hover {
+    background-color: var(--warning-orange);
+    border-color: var(--warning-orange);
+    color: var(--white);
+}
+
+.btn-outline-danger {
+    border-color: var(--error-red);
+    color: var(--error-red);
+}
+
+.btn-outline-danger:hover {
+    background-color: var(--error-red);
+    border-color: var(--error-red);
+    color: var(--white);
+}
+
+.btn-outline-secondary {
+    border-color: var(--text-gray);
+    color: var(--text-gray);
+}
+
+.btn-outline-secondary:hover {
+    background-color: var(--text-gray);
+    border-color: var(--text-gray);
+    color: var(--white);
+}
+
+/* Modales */
+.modal-content {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 10px 50px rgba(0,0,0,0.2);
+}
+
+.modal-header {
+    background: linear-gradient(135deg, var(--secondary-green), var(--light-green));
+    color: var(--white);
+    border: none;
+    border-radius: 15px 15px 0 0;
+    padding: 1.5rem;
+}
+
+.modal-title {
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.modal-body {
+    padding: 2rem;
+}
+
+.modal-footer {
+    border: none;
+    padding: 1rem 2rem 2rem;
+}
+
+/* Secciones del formulario */
+.form-section-title {
+    color: var(--secondary-green);
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--light-green);
+}
+
+/* Form controls */
+.form-floating > .form-control:focus,
+.form-floating > .form-control:not(:placeholder-shown),
+.form-floating > .form-select:focus,
+.form-floating > .form-select:not([aria-expanded="false"]) {
+    border-color: var(--secondary-green);
+    box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.25);
+}
+
+.form-floating > label {
+    color: var(--text-gray);
+}
+
+.form-floating > .form-control:focus ~ label,
+.form-floating > .form-control:not(:placeholder-shown) ~ label,
+.form-floating > .form-select:focus ~ label,
+.form-floating > .form-select:not([aria-expanded="false"]) ~ label {
+    color: var(--secondary-green);
+}
+
+/* Formulario en el modal */
+.form-control,
+.form-select {
+    border-radius: 8px;
+    border: 1px solid #E0E0E0;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--secondary-green);
+    box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.15);
+}
+
+/* Sección de productos condicional */
+#seccionProductos {
+    transition: all 0.3s ease;
+}
+
+#seccionProductos.show {
+    display: block !important;
+    animation: fadeInUp 0.3s ease;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Botones primarios */
+.btn-primary {
+    background: linear-gradient(135deg, var(--secondary-green), var(--light-green));
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.btn-secondary {
+    background-color: var(--text-gray);
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+}
+
+/* Iconos especiales para actividades */
+.fa-tasks {
+    color: var(--secondary-green);
+}
+
+.fa-tint {
+    color: var(--water-blue);
+}
+
+.fa-leaf {
+    color: var(--light-green);
+}
+
+.fa-spray-can {
+    color: var(--warning-orange);
+}
+
+.fa-cut {
+    color: var(--earth-brown);
+}
+
+.fa-broom {
+    color: var(--sun-yellow);
+}
+
+.fa-mountain {
+    color: var(--primary-green);
+}
+
+.fa-tools {
+    color: var(--text-gray);
+}
+
+.fa-calendar-day {
+    color: var(--light-green);
+}
+
+.fa-calendar-week {
+    color: var(--sun-yellow);
+}
+
+.fa-dollar-sign {
+    color: var(--earth-brown);
+}
+
+.fa-clipboard-list {
+    color: var(--secondary-green);
+}
+
+/* Animaciones AOS personalizadas */
+[data-aos="fade-up"] {
+    transform: translateY(30px);
+    opacity: 0;
+    transition: all 0.6s ease;
+}
+
+[data-aos="fade-up"].aos-animate {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+[data-aos="fade-down"] {
+    transform: translateY(-30px);
+    opacity: 0;
+    transition: all 0.6s ease;
+}
+
+[data-aos="fade-down"].aos-animate {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .actividades-header {
+        margin-top: 100px;
+        padding: 1.5rem 0;
+    }
+    
+    .page-title {
+        font-size: 1.8rem;
+    }
+    
+    .stats-card {
+        margin-bottom: 1rem;
+    }
+    
+    .modal-body {
+        padding: 1.5rem;
+    }
+    
+    .form-section-title {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .page-title {
+        font-size: 1.5rem;
+    }
+    
+    .stats-number {
+        font-size: 1.5rem;
+    }
+    
+    .stats-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+    
+    .btn-group-sm .btn {
+        padding: 0.25rem 0.4rem;
+        font-size: 0.75rem;
+    }
+}
+
+/* Estados de carga */
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    border-radius: inherit;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--light-gray);
+    border-top: 3px solid var(--secondary-green);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Alertas personalizadas */
+.alert {
+    border: none;
+    border-radius: 10px;
+    border-left: 4px solid;
+}
+
+.alert-success {
+    background-color: rgba(76, 175, 80, 0.1);
+    border-left-color: var(--success-green);
+    color: var(--secondary-green);
+}
+
+.alert-danger {
+    background-color: rgba(244, 67, 54, 0.1);
+    border-left-color: var(--error-red);
+    color: var(--error-red);
+}
+
+.alert-warning {
+    background-color: rgba(255, 152, 0, 0.1);
+    border-left-color: var(--warning-orange);
+    color: var(--earth-brown);
+}
+
+/* Estilos específicos para formulario de actividad */
+.activity-type-info {
+    background: rgba(46, 125, 50, 0.05);
+    border: 1px solid rgba(46, 125, 50, 0.1);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 0.5rem;
+}
+
+.activity-type-info h6 {
+    color: var(--secondary-green);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.activity-type-info p {
+    margin-bottom: 0;
+    font-size: 0.9rem;
+    color: var(--text-gray);
+}
+
+/* Indicadores de fechas */
+.fecha-actividad {
+    color: var(--water-blue);
+    font-weight: 600;
+}
+
+/* Indicadores de costo */
+.costo-highlight {
+    background: linear-gradient(135deg, rgba(141, 110, 99, 0.1), rgba(255, 167, 38, 0.1));
+    padding: 0.25rem 0.5rem;
+    border-radius: 15px;
+    font-weight: 500;
+}
+
+/* Información adicional */
+.info-box {
+    background: var(--light-gray);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 1rem;
+}
+
+.info-box h6 {
+    color: var(--secondary-green);
+    margin-bottom: 0.5rem;
+}
+
+.info-box p {
+    margin-bottom: 0;
+    font-size: 0.9rem;
+    color: var(--text-gray);
+}

@@ -63,13 +63,6 @@ function obtenerTextoRolSimple($rol) {
                     </li>
                 <?php endif; ?>
                 
-                <!-- Menú de Catálogo de Cultivos - Para todos los roles -->
-                <li class="nav-item">
-                    <a class="nav-link" href="cultivos.php" id="nav-cultivos">
-                        <i class="fas fa-seedling me-1"></i>Catálogo de Cultivos
-                    </a>
-                </li>
-                
                 <?php if ($rol_usuario == 'administrador' || $rol_usuario == 'agricultor'): ?>
                     <!-- Menú de Cultivos - Para Administradores y Agricultores -->
                     <li class="nav-item dropdown">
@@ -78,12 +71,24 @@ function obtenerTextoRolSimple($rol) {
                             <i class="fas fa-leaf me-1"></i>Mis Cultivos
                         </a>
                         <ul class="dropdown-menu dropdown-custom">
-                            <li><a class="dropdown-item" href="siembras/nueva.php"><i class="fas fa-plus-circle me-2"></i>Nueva Siembra</a></li>
-                            <li><a class="dropdown-item" href="siembras/index.php"><i class="fas fa-list me-2"></i>Mis Siembras</a></li>
+                            <li><a class="dropdown-item" href="cultivos.php"><i class="fas fa-seedling me-2"></i>Catálogo de Cultivos</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="siembra_form.php"><i class="fas fa-plus-circle me-2"></i>Nueva Siembra</a></li>
+                            <li><a class="dropdown-item" href="siembras.php"><i class="fas fa-list me-2"></i>Mis Siembras</a></li>
+                            <li><a class="dropdown-item" href="actividades.php"><i class="fas fa-tasks me-2"></i>Actividades Agrícolas</a></li>
                             <li><a class="dropdown-item" href="cosechas/index.php"><i class="fas fa-apple-alt me-2"></i>Cosechas</a></li>
                         </ul>
                     </li>
-                    
+                <?php else: ?>
+                    <!-- Catálogo de Cultivos para Supervisores (solo lectura) -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="cultivos.php" id="nav-cultivos">
+                            <i class="fas fa-seedling me-1"></i>Catálogo de Cultivos
+                        </a>
+                    </li>
+                <?php endif; ?>
+                
+                <?php if ($rol_usuario == 'administrador' || $rol_usuario == 'agricultor'): ?>
                     <!-- Menú de Fincas - Para Administradores y Agricultores -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownFincas" role="button" 
@@ -104,6 +109,7 @@ function obtenerTextoRolSimple($rol) {
                         <i class="fas fa-eye me-1"></i>Monitoreo
                     </a>
                     <ul class="dropdown-menu dropdown-custom">
+                        <li><a class="dropdown-item" href="monitoreo.php"><i class="fas fa-eye me-2"></i>Monitoreo de Cultivos</a></li>
                         <?php if ($rol_usuario == 'administrador' || $rol_usuario == 'agricultor'): ?>
                             <li><a class="dropdown-item" href="monitoreo/nuevo.php"><i class="fas fa-clipboard-check me-2"></i>Nuevo Monitoreo</a></li>
                         <?php endif; ?>
@@ -211,7 +217,7 @@ function obtenerTextoRolSimple($rol) {
                             </div>
                         </li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#" id="nav-perfil">
+                        <li><a class="dropdown-item" href="perfil.php" id="nav-perfil">
                             <i class="fas fa-user me-2"></i>Mi Perfil
                         </a></li>
                         <li><a class="dropdown-item" href="#" id="nav-configuracion">

@@ -22,6 +22,7 @@ try {
     // Obtener y validar datos
     $nombre = isset($_POST['nombre']) ? trim($_POST['nombre']) : '';
     $apellido = isset($_POST['apellido']) ? trim($_POST['apellido']) : '';
+    $email = isset($_POST['email']) ? trim($_POST['email']) : '';
     $telefono = isset($_POST['telefono']) ? trim($_POST['telefono']) : null;
 
     // Validaciones básicas
@@ -29,6 +30,15 @@ try {
         echo json_encode(array(
             'success' => false,
             'message' => 'Nombre y apellido son requeridos'
+        ));
+        exit;
+    }
+    
+    // Validar email si se está intentando cambiar
+    if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo json_encode(array(
+            'success' => false,
+            'message' => 'El formato del email no es válido'
         ));
         exit;
     }
@@ -43,10 +53,19 @@ try {
     // Limpiar datos
     $nombre = $usuario_modelo->limpiarDatos($nombre);
     $apellido = $usuario_modelo->limpiarDatos($apellido);
+    $email = $usuario_modelo->limpiarDatos($email);
     $telefono = $telefono ? $usuario_modelo->limpiarDatos($telefono) : null;
 
+    // Verificar si es administrador para permitir cambio de email
+    $puede_cambiar_email = $usuario_actual['rol'] === 'administrador';
+    
     // Actualizar usuario
-    $resultado = $usuario_modelo->actualizarUsuario($usuario_id, $nombre, $apellido, $telefono);
+    if ($puede_cambiar_email && !empty($email)) {
+        // Actualizar incluyendo email
+        $resultado = $usuario_modelo->actualizarUsuario($usuario_id, $nombre, $apellido, $telefono, $email);
+    } else {
+        $resultado = $usuario_modelo->actualizarUsuario($usuario_id, $nombre, $apellido, $telefono);
+    }
 
     if ($resultado['success']) {
         // Actualizar datos en la sesión

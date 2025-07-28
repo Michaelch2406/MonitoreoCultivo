@@ -31,7 +31,7 @@ $usuario_datos = $usuario_modelo->obtenerUsuario($usuario_actual['id']);
 <body>
     <?php include('partials/navbar.php'); ?>
 
-    <div class="container-fluid mt-4">
+    <div class="container-fluid" style="margin-top: 120px;">
         <!-- Header del perfil -->
         <div class="profile-header">
             <div class="container">
@@ -91,10 +91,17 @@ $usuario_datos = $usuario_modelo->obtenerUsuario($usuario_actual['id']);
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-floating mb-3">
+                                        <?php if ($usuario_actual['rol'] == 'administrador'): ?>
+                                        <input type="email" class="form-control" id="email" name="email" 
+                                               value="<?php echo htmlspecialchars($usuario_datos['user']['email']); ?>" required>
+                                        <label for="email">Email</label>
+                                        <div class="form-text">Como administrador puedes modificar tu email.</div>
+                                        <?php else: ?>
                                         <input type="email" class="form-control" id="email" name="email" 
                                                value="<?php echo htmlspecialchars($usuario_datos['user']['email']); ?>" required readonly>
                                         <label for="email">Email</label>
                                         <div class="form-text">El email no se puede modificar. Contacta al administrador si necesitas cambiarlo.</div>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -182,7 +189,7 @@ $usuario_datos = $usuario_modelo->obtenerUsuario($usuario_actual['id']);
                     </div>
                 </div>
 
-                <!-- Estadísticas del usuario -->
+                <!-- Estadísticas del usuario según rol -->
                 <?php if ($usuario_actual['rol'] == 'agricultor'): ?>
                 <div class="card profile-card mb-4">
                     <div class="card-header bg-light">
@@ -210,6 +217,60 @@ $usuario_datos = $usuario_modelo->obtenerUsuario($usuario_actual['id']);
                         </div>
                     </div>
                 </div>
+                <?php elseif ($usuario_actual['rol'] == 'supervisor'): ?>
+                <div class="card profile-card mb-4">
+                    <div class="card-header bg-light">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-binoculars me-2"></i>
+                            Supervisión
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span>Agricultores Supervisados</span>
+                            <span class="badge bg-primary">0</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span>Fincas Asignadas</span>
+                            <span class="badge bg-success">0</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span>Inspecciones Realizadas</span>
+                            <span class="badge bg-info">0</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span>Reportes Generados</span>
+                            <span class="badge bg-warning">0</span>
+                        </div>
+                    </div>
+                </div>
+                <?php elseif ($usuario_actual['rol'] == 'administrador'): ?>
+                <div class="card profile-card mb-4">
+                    <div class="card-header bg-light">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-crown me-2"></i>
+                            Administración
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span>Total Usuarios</span>
+                            <span class="badge bg-primary">0</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span>Fincas Registradas</span>
+                            <span class="badge bg-success">0</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span>Monitoreos Totales</span>
+                            <span class="badge bg-info">0</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span>Alertas Pendientes</span>
+                            <span class="badge bg-warning">0</span>
+                        </div>
+                    </div>
+                </div>
                 <?php endif; ?>
 
                 <!-- Actividad reciente -->
@@ -231,6 +292,38 @@ $usuario_datos = $usuario_modelo->obtenerUsuario($usuario_actual['id']);
                             </div>
                         </div>
                         
+                        <?php if ($usuario_actual['rol'] == 'agricultor'): ?>
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-success rounded-circle p-2 me-3">
+                                <i class="fas fa-seedling text-white"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h6 class="mb-0">Última Siembra</h6>
+                                <small class="text-muted">Tomate - Hace 3 días</small>
+                            </div>
+                        </div>
+                        <?php elseif ($usuario_actual['rol'] == 'supervisor'): ?>
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-info rounded-circle p-2 me-3">
+                                <i class="fas fa-clipboard-check text-white"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h6 class="mb-0">Última Inspección</h6>
+                                <small class="text-muted">Finca Los Pinos - Ayer</small>
+                            </div>
+                        </div>
+                        <?php elseif ($usuario_actual['rol'] == 'administrador'): ?>
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-warning rounded-circle p-2 me-3">
+                                <i class="fas fa-cogs text-white"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h6 class="mb-0">Configuración</h6>
+                                <small class="text-muted">Sistema actualizado</small>
+                            </div>
+                        </div>
+                        <?php endif; ?>
+                        
                         <div class="d-flex align-items-center mb-3">
                             <div class="bg-success rounded-circle p-2 me-3">
                                 <i class="fas fa-user-edit text-white"></i>
@@ -242,7 +335,7 @@ $usuario_datos = $usuario_modelo->obtenerUsuario($usuario_actual['id']);
                         </div>
                         
                         <div class="text-center">
-                            <a href="#" class="btn btn-outline-primary btn-sm">Ver Todo el Historial</a>
+                            <a href="#" class="btn btn-outline-primary btn-sm" id="verHistorialCompleto">Ver Todo el Historial</a>
                         </div>
                     </div>
                 </div>

@@ -20,6 +20,27 @@
     --warning-orange: #FF9800;     /* Naranja Advertencia - Precauciones */
 }
 
+/* Animación para badges actualizados */
+.badge-updated {
+    animation: pulse-update 1s ease-in-out;
+    transform: scale(1.1);
+}
+
+@keyframes pulse-update {
+    0% { 
+        transform: scale(1); 
+        box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7); 
+    }
+    50% { 
+        transform: scale(1.15); 
+        box-shadow: 0 0 0 10px rgba(76, 175, 80, 0); 
+    }
+    100% { 
+        transform: scale(1.1); 
+        box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); 
+    }
+}
+
 .profile-header {
     background: linear-gradient(135deg, var(--primary-green) 0%, var(--earth-brown) 100%);
     color: var(--white);

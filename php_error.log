@@ -278,3 +278,84 @@ SQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
 [2025-07-27 19:06:21] OPERATION: Listar cultivos | User ID: 1 | Details: Categoría: todas
 [2025-07-27 19:13:34] OPERATION: Obtener estadísticas cultivos | User ID: 1
 [2025-07-27 19:13:34] OPERATION: Listar cultivos | User ID: 1 | Details: Categoría: todas
+[2025-07-27 19:17:31] OPERATION: Obtener estadísticas cultivos | User ID: 1
+[2025-07-27 19:17:31] OPERATION: Listar cultivos | User ID: 1 | Details: Categoría: todas
+[27-Jul-2025 19:20:17 America/New_York] PHP Parse error:  syntax error, unexpected token "else", expecting end of file in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\partials\navbar.php on line 234
+[27-Jul-2025 19:20:24 America/New_York] PHP Parse error:  syntax error, unexpected token "else", expecting end of file in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\partials\navbar.php on line 234
+[27-Jul-2025 19:20:26 America/New_York] PHP Parse error:  syntax error, unexpected token "else", expecting end of file in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\partials\navbar.php on line 234
+[27-Jul-2025 19:20:40 America/New_York] PHP Parse error:  syntax error, unexpected token "else", expecting end of file in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\partials\navbar.php on line 234
+[27-Jul-2025 19:20:42 America/New_York] PHP Parse error:  syntax error, unexpected token "else", expecting end of file in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\partials\navbar.php on line 234
+[2025-07-27 19:21:32] OPERATION: Obtener estadísticas cultivos | User ID: 1
+[2025-07-27 19:21:32] OPERATION: Listar cultivos | User ID: 1 | Details: Categoría: todas
+[27-Jul-2025 21:49:58 America/New_York] Login exitoso para usuario: admin@sistemacultivos.com - IP: ::1
+SQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
+                           u.usu_nombre, u.usu_apellido, u.usu_email
+                    FROM lotes l
+                    INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
+                    INNER JOIN usuarios u ON f.fin_propietario = u.usu_id
+                    WHERE 1=1 ORDER BY l.lot_fecha_registro DESC[2025-07-27 21:50:27] OPERATION: Listar cultivos | User ID: 1 | Details: Categoría: todas
+[2025-07-27 21:50:27] OPERATION: Obtener estadísticas cultivos | User ID: 1
+[27-Jul-2025 22:13:39 America/New_York] Perfil actualizado por usuario: admin@sistemacultivos.com - IP: ::1
+[27-Jul-2025 22:20:43 America/New_York] PHP Fatal error:  Uncaught Error: Call to undefined method Usuario::contarUsuarios() in C:\inetpub\wwwroot\MonitoreoCultivo\AJAX\obtener_estadisticas_usuario.php:29
+Stack trace:
+#0 {main}
+  thrown in C:\inetpub\wwwroot\MonitoreoCultivo\AJAX\obtener_estadisticas_usuario.php on line 29
+[27-Jul-2025 22:23:39 America/New_York] PHP Fatal error:  Uncaught Error: Call to undefined method Usuario::contarUsuarios() in C:\inetpub\wwwroot\MonitoreoCultivo\AJAX\obtener_estadisticas_usuario.php:29
+Stack trace:
+#0 {main}
+  thrown in C:\inetpub\wwwroot\MonitoreoCultivo\AJAX\obtener_estadisticas_usuario.php on line 29
+[27-Jul-2025 22:23:45 America/New_York] PHP Fatal error:  Uncaught Error: Call to undefined method Usuario::contarUsuarios() in C:\inetpub\wwwroot\MonitoreoCultivo\AJAX\obtener_estadisticas_usuario.php:29
+Stack trace:
+#0 {main}
+  thrown in C:\inetpub\wwwroot\MonitoreoCultivo\AJAX\obtener_estadisticas_usuario.php on line 29
+[28-Jul-2025 00:16:00 America/New_York] Login exitoso para usuario: admin@sistemacultivos.com - IP: ::1
+SQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
+                           u.usu_nombre, u.usu_apellido, u.usu_email
+                    FROM lotes l
+                    INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
+                    INNER JOIN usuarios u ON f.fin_propietario = u.usu_id
+                    WHERE 1=1 ORDER BY l.lot_fecha_registro DESCSQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
+                           u.usu_nombre, u.usu_apellido, u.usu_email
+                    FROM lotes l
+                    INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
+                    INNER JOIN usuarios u ON f.fin_propietario = u.usu_id
+                    WHERE 1=1 ORDER BY l.lot_fecha_registro DESCSQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
+                           u.usu_nombre, u.usu_apellido, u.usu_email
+                    FROM lotes l
+                    INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
+                    INNER JOIN usuarios u ON f.fin_propietario = u.usu_id
+                    WHERE 1=1 ORDER BY l.lot_fecha_registro DESCSQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
+                           u.usu_nombre, u.usu_apellido, u.usu_email
+                    FROM lotes l
+                    INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
+                    INNER JOIN usuarios u ON f.fin_propietario = u.usu_id
+                    WHERE 1=1 ORDER BY l.lot_fecha_registro DESC[28-Jul-2025 00:19:36 America/New_York] Login exitoso para usuario: maicolchasiguano@gmail.com - IP: ::1
+SQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
+                           u.usu_nombre, u.usu_apellido, u.usu_email
+                    FROM lotes l
+                    INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
+                    INNER JOIN usuarios u ON f.fin_propietario = u.usu_id
+                    WHERE 1=1 AND f.fin_propietario = 2 ORDER BY l.lot_fecha_registro DESC[28-Jul-2025 00:19:50 America/New_York] PHP Warning:  Undefined array key "fin_propietario" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\lotes.php on line 287
+[28-Jul-2025 00:19:50 America/New_York] PHP Warning:  Undefined array key "fin_propietario" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\lotes.php on line 297
+[2025-07-28 00:19:55] OPERATION: Listar cultivos | User ID: 2 | Details: Categoría: todas
+[2025-07-28 00:19:55] OPERATION: Obtener estadísticas cultivos | User ID: 2
+[2025-07-28 00:20:01] OPERATION: Ver detalle cultivo | User ID: 2 | Details: ID: 19
+SQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
+                           u.usu_nombre, u.usu_apellido, u.usu_email
+                    FROM lotes l
+                    INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
+                    INNER JOIN usuarios u ON f.fin_propietario = u.usu_id
+                    WHERE 1=1 AND f.fin_propietario = 2 ORDER BY l.lot_fecha_registro DESC[28-Jul-2025 00:23:04 America/New_York] Login exitoso para usuario: admin@sistemacultivos.com - IP: ::1
+[2025-07-28 00:23:25] OPERATION: Obtener estadísticas cultivos | User ID: 1
+[2025-07-28 00:23:25] OPERATION: Listar cultivos | User ID: 1 | Details: Categoría: todas
+SQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
+                           u.usu_nombre, u.usu_apellido, u.usu_email
+                    FROM lotes l
+                    INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
+                    INNER JOIN usuarios u ON f.fin_propietario = u.usu_id
+                    WHERE 1=1 ORDER BY l.lot_fecha_registro DESCSQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
+                           u.usu_nombre, u.usu_apellido, u.usu_email
+                    FROM lotes l
+                    INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
+                    INNER JOIN usuarios u ON f.fin_propietario = u.usu_id
+                    WHERE 1=1 ORDER BY l.lot_fecha_registro DESC

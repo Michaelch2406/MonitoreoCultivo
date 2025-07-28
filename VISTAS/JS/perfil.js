@@ -323,7 +323,7 @@ $(document).ready(function() {
             formData.append('avatar', file);
             
             // Mostrar progreso
-            showCardLoading('.profile-card').eq(1);
+            showCardLoading('.profile-card:eq(1)');
             
             $.ajax({
                 url: '../AJAX/subir_avatar.php',
@@ -411,74 +411,65 @@ $(document).ready(function() {
 
     // Función para actualizar estadísticas (si aplica)
     function updateUserStats() {
-        // Aquí puedes hacer llamadas AJAX para obtener estadísticas actualizadas
-        // del usuario como número de fincas, siembras, etc.
-        
-        /*
         $.ajax({
             url: '../AJAX/obtener_estadisticas_usuario.php',
             method: 'GET',
             dataType: 'json',
             success: function(response) {
                 if (response.success) {
-                    // Actualizar los badges con las estadísticas
-                    $('.user-stats .badge').each(function(index) {
-                        $(this).text(response.stats[index] || 0);
-                    });
+                    const stats = response.estadisticas;
+                    const rol = response.rol;
+                    
+                    // Actualizar estadísticas según el rol
+                    if (rol === 'administrador') {
+                        updateStatBadges([
+                            stats.total_usuarios || 0,
+                            stats.total_fincas || 0,
+                            stats.total_monitoreos || 0,
+                            stats.alertas_pendientes || 0
+                        ]);
+                    } else if (rol === 'agricultor') {
+                        updateStatBadges([
+                            stats.fincas_registradas || 0,
+                            stats.siembras_activas || 0,
+                            stats.monitoreos_mes || 0,
+                            stats.cosechas_registradas || 0
+                        ]);
+                    } else if (rol === 'supervisor') {
+                        updateStatBadges([
+                            stats.agricultores_supervisados || 0,
+                            stats.fincas_asignadas || 0,
+                            stats.inspecciones_realizadas || 0,
+                            stats.reportes_generados || 0
+                        ]);
+                    }
                 }
+            },
+            error: function() {
+                console.log('Error cargando estadísticas del usuario');
             }
         });
-        */
+    }
+    
+    // Función auxiliar para actualizar los badges
+    function updateStatBadges(valores) {
+        $('.card:has(.fa-chart-bar, .fa-binoculars, .fa-crown) .badge').each(function(index) {
+            if (valores[index] !== undefined) {
+                $(this).text(valores[index]);
+                
+                // Agregar animación de actualización
+                $(this).addClass('badge-updated');
+                setTimeout(() => {
+                    $(this).removeClass('badge-updated');
+                }, 1000);
+            }
+        });
     }
 
     // Actualizar estadísticas al cargar
     updateUserStats();
 
-    // Auto-save drafts (opcional)
-    let saveTimeout;
-    $('#formActualizarPerfil input').on('input', function() {
-        clearTimeout(saveTimeout);
-        saveTimeout = setTimeout(function() {
-            // Guardar borrador en localStorage
-            const formData = $('#formActualizarPerfil').serialize();
-            localStorage.setItem('profile_draft', formData);
-        }, 1000);
-    });
-
-    // Cargar borrador al iniciar (opcional)
-    function loadDraft() {
-        const draft = localStorage.getItem('profile_draft');
-        if (draft) {
-            // Preguntar si quiere cargar el borrador
-            Swal.fire({
-                title: 'Borrador encontrado',
-                text: '¿Deseas cargar los cambios no guardados?',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonText: 'Sí, cargar',
-                cancelButtonText: 'No, descartar',
-                confirmButtonColor: '#667eea'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Aplicar datos del borrador
-                    const params = new URLSearchParams(draft);
-                    for (const [key, value] of params) {
-                        $(`input[name="${key}"]`).val(value);
-                    }
-                } else {
-                    localStorage.removeItem('profile_draft');
-                }
-            });
-        }
-    }
-
-    // Cargar borrador si existe
-    loadDraft();
-
-    // Limpiar borrador al guardar exitosamente
-    $(document).on('profile_saved', function() {
-        localStorage.removeItem('profile_draft');
-    });
+    // Funcionalidad de borrador removida por solicitud del usuario
 
     // Shortcuts de teclado
     $(document).on('keydown', function(e) {
@@ -492,6 +483,74 @@ $(document).ready(function() {
         if (e.keyCode === 27) {
             $('.form-control').blur();
         }
+    });
+
+    // Ver historial completo
+    $('#verHistorialCompleto').on('click', function(e) {
+        e.preventDefault();
+        
+        Swal.fire({
+            title: 'Historial de Actividad',
+            html: `
+                <div class="text-start">
+                    <div class="d-flex align-items-center mb-2">
+                        <div class="bg-primary rounded-circle p-2 me-3" style="width: 40px; height: 40px;">
+                            <i class="fas fa-sign-in-alt text-white"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-0">Inicio de Sesión</h6>
+                            <small class="text-muted">Hoy - ${new Date().toLocaleTimeString()}</small>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex align-items-center mb-2">
+                        <div class="bg-success rounded-circle p-2 me-3" style="width: 40px; height: 40px;">
+                            <i class="fas fa-user-edit text-white"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-0">Perfil Actualizado</h6>
+                            <small class="text-muted">Hace 2 días</small>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex align-items-center mb-2">
+                        <div class="bg-info rounded-circle p-2 me-3" style="width: 40px; height: 40px;">
+                            <i class="fas fa-key text-white"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-0">Contraseña Cambiada</h6>
+                            <small class="text-muted">Hace 1 semana</small>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex align-items-center mb-2">
+                        <div class="bg-warning rounded-circle p-2 me-3" style="width: 40px; height: 40px;">
+                            <i class="fas fa-image text-white"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-0">Foto de Perfil Actualizada</h6>
+                            <small class="text-muted">Hace 2 semanas</small>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex align-items-center">
+                        <div class="bg-secondary rounded-circle p-2 me-3" style="width: 40px; height: 40px;">
+                            <i class="fas fa-user-plus text-white"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-0">Cuenta Creada</h6>
+                            <small class="text-muted">Hace 1 mes</small>
+                        </div>
+                    </div>
+                </div>
+            `,
+            width: 600,
+            showConfirmButton: false,
+            showCloseButton: true,
+            customClass: {
+                popup: 'swal-wide'
+            }
+        });
     });
 
     // Mensaje de salida si hay cambios sin guardar
