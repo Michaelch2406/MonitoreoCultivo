@@ -1,0 +1,610 @@
+/* ================================
+   MÓDULO FINANCIERO - AgroMonitor
+   ================================ */
+
+:root {
+    /* Colores principales AgroMonitor */
+    --primary-color: #2E7D32;
+    --primary-light: #4CAF50;
+    --primary-dark: #1B5E20;
+    --secondary-color: #FF8F00;
+    --secondary-light: #FFB74D;
+    --secondary-dark: #E65100;
+    
+    /* Colores financieros específicos */
+    --income-color: #4CAF50;
+    --expense-color: #F44336;
+    --profit-color: #2196F3;
+    --warning-color: #FF9800;
+    --neutral-color: #9E9E9E;
+    
+    /* Gradientes */
+    --income-gradient: linear-gradient(135deg, #66BB6A, #4CAF50);
+    --expense-gradient: linear-gradient(135deg, #EF5350, #F44336);
+    --profit-gradient: linear-gradient(135deg, #42A5F5, #2196F3);
+    --warning-gradient: linear-gradient(135deg, #FFCA28, #FF9800);
+}
+
+/* ================================
+   HEADER FINANCIERO
+   ================================ */
+.finanzas-header {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+    color: white;
+    padding: 2rem 0;
+    margin-bottom: 2rem;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 4px 20px rgba(46, 125, 50, 0.3);
+}
+
+.page-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.page-subtitle {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin: 0.5rem 0 0 0;
+}
+
+.btn-responsive {
+    font-weight: 600;
+    border-radius: 25px;
+    padding: 0.7rem 1.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+}
+
+.btn-responsive:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* ================================
+   TARJETAS DE ESTADÍSTICAS
+   ================================ */
+.stats-card {
+    background: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    border: none;
+    overflow: hidden;
+    position: relative;
+    transition: all 0.3s ease;
+    height: 160px;
+}
+
+.stats-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+}
+
+.stats-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--primary-color);
+}
+
+.stats-card-expense::before {
+    background: var(--expense-gradient);
+}
+
+.stats-card-income::before {
+    background: var(--income-gradient);
+}
+
+.stats-card-profit::before {
+    background: var(--profit-gradient);
+}
+
+.stats-card-monthly::before {
+    background: var(--warning-gradient);
+}
+
+.stats-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    color: white;
+    margin-bottom: 1rem;
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+}
+
+.stats-card-expense .stats-icon {
+    background: var(--expense-gradient);
+}
+
+.stats-card-income .stats-icon {
+    background: var(--income-gradient);
+}
+
+.stats-card-profit .stats-icon {
+    background: var(--profit-gradient);
+}
+
+.stats-card-monthly .stats-icon {
+    background: var(--warning-gradient);
+}
+
+.stats-content {
+    position: relative;
+    z-index: 2;
+}
+
+.stats-number {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--primary-dark);
+    line-height: 1.2;
+}
+
+.stats-label {
+    color: #666;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin: 0.5rem 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stats-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: #f0f0f0;
+}
+
+.stats-progress .progress-bar {
+    height: 100%;
+    border-radius: 0;
+    transition: width 0.6s ease;
+}
+
+/* ================================
+   GRÁFICO DE GASTOS POR TIPO
+   ================================ */
+.gastos-chart-container {
+    padding: 1rem 0;
+}
+
+.gasto-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background: #f8f9fa;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    border-left: 4px solid transparent;
+}
+
+.gasto-item:hover {
+    background: #e8f5e8;
+    border-left-color: var(--primary-color);
+    transform: translateX(5px);
+}
+
+.gasto-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+    margin-right: 1rem;
+}
+
+.gasto-icon.semillas {
+    background: linear-gradient(135deg, #66BB6A, #4CAF50);
+}
+
+.gasto-icon.fertilizantes {
+    background: linear-gradient(135deg, #26A69A, #00897B);
+}
+
+.gasto-icon.pesticidas {
+    background: linear-gradient(135deg, #FF7043, #FF5722);
+}
+
+.gasto-icon.mano-obra {
+    background: linear-gradient(135deg, #42A5F5, #2196F3);
+}
+
+.gasto-icon.maquinaria {
+    background: linear-gradient(135deg, #FFCA28, #FFC107);
+}
+
+.gasto-icon.otros {
+    background: linear-gradient(135deg, #AB47BC, #9C27B0);
+}
+
+.gasto-info h6 {
+    margin: 0;
+    font-weight: 600;
+    color: var(--primary-dark);
+    font-size: 1rem;
+}
+
+.gasto-info span {
+    color: #666;
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+
+/* ================================
+   ANÁLISIS RÁPIDO
+   ================================ */
+.analisis-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid #eee;
+}
+
+.analisis-item:last-child {
+    border-bottom: none;
+}
+
+.analisis-label {
+    font-weight: 600;
+    color: var(--primary-dark);
+    font-size: 0.95rem;
+}
+
+.analisis-value {
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--neutral-color);
+}
+
+.analisis-value.positive {
+    color: var(--income-color);
+}
+
+.analisis-value.negative {
+    color: var(--expense-color);
+}
+
+/* ================================
+   TABLA DE GASTOS
+   ================================ */
+.table-responsive {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+#tablaGastos {
+    margin: 0;
+}
+
+#tablaGastos th {
+    background: var(--primary-color);
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    border: none;
+    padding: 1rem 0.8rem;
+}
+
+#tablaGastos td {
+    padding: 1rem 0.8rem;
+    vertical-align: middle;
+    border-color: #f0f0f0;
+}
+
+#tablaGastos tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* Badges para tipos de gasto */
+.badge {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.badge-tipo-semillas {
+    background: var(--income-color);
+    color: white;
+}
+
+.badge-tipo-fertilizantes {
+    background: #26A69A;
+    color: white;
+}
+
+.badge-tipo-pesticidas {
+    background: #FF7043;
+    color: white;
+}
+
+.badge-tipo-mano_obra {
+    background: #42A5F5;
+    color: white;
+}
+
+.badge-tipo-maquinaria {
+    background: #FFCA28;
+    color: #333;
+}
+
+.badge-tipo-otros {
+    background: #AB47BC;
+    color: white;
+}
+
+/* Estilos para contenido de tabla */
+.descripcion-gasto {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 500;
+}
+
+.ubicacion-gasto strong {
+    color: var(--primary-dark);
+    font-size: 0.9rem;
+}
+
+.ubicacion-gasto small {
+    font-size: 0.8rem;
+}
+
+.monto-gasto {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--primary-dark);
+}
+
+/* Botones de acción */
+.btn-group-actions {
+    display: flex;
+    gap: 0.3rem;
+}
+
+.btn-group-actions .btn {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.85rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.btn-group-actions .btn:hover {
+    transform: translateY(-1px);
+}
+
+/* ================================
+   MODALES
+   ================================ */
+.modal-header {
+    background: var(--primary-color);
+    color: white;
+    border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.modal-header .btn-close {
+    filter: brightness(0) invert(1);
+}
+
+.modal-title {
+    font-weight: 600;
+}
+
+.modal-body {
+    padding: 2rem;
+}
+
+.modal-body h6 {
+    color: var(--primary-dark);
+    font-weight: 600;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--primary-light);
+}
+
+.form-label {
+    font-weight: 600;
+    color: var(--primary-dark);
+    margin-bottom: 0.5rem;
+}
+
+.form-control, .form-select {
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 0.7rem 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(46, 125, 50, 0.25);
+}
+
+/* ================================
+   FILTROS
+   ================================ */
+.card-header {
+    background: var(--primary-color);
+    color: white;
+    font-weight: 600;
+}
+
+.card-header h5 {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+/* ================================
+   RESPONSIVE DESIGN
+   ================================ */
+@media (max-width: 768px) {
+    .finanzas-header {
+        padding: 1.5rem 0;
+        text-align: center;
+    }
+    
+    .page-title {
+        font-size: 2rem;
+    }
+    
+    .stats-card {
+        margin-bottom: 1rem;
+        height: auto;
+        min-height: 140px;
+    }
+    
+    .stats-icon {
+        position: static;
+        margin: 0 auto 1rem auto;
+    }
+    
+    .stats-number {
+        font-size: 1.8rem;
+        text-align: center;
+    }
+    
+    .stats-label {
+        text-align: center;
+    }
+    
+    .gasto-item {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .gasto-icon {
+        margin-right: 0;
+        margin-bottom: 0.5rem;
+    }
+    
+    .btn-responsive {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+    
+    .btn-group-actions {
+        flex-direction: column;
+        gap: 0.2rem;
+    }
+    
+    .modal-dialog {
+        margin: 1rem;
+    }
+    
+    .modal-body {
+        padding: 1rem;
+    }
+    
+    .table-responsive {
+        font-size: 0.85rem;
+    }
+    
+    .descripcion-gasto {
+        max-width: 120px;
+    }
+}
+
+@media (max-width: 576px) {
+    .page-title {
+        font-size: 1.8rem;
+    }
+    
+    .stats-number {
+        font-size: 1.5rem;
+    }
+    
+    .analisis-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
+    }
+    
+    .analisis-value {
+        font-size: 1.5rem;
+    }
+}
+
+/* ================================
+   ANIMACIONES
+   ================================ */
+@keyframes slideInUp {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.stats-card {
+    animation: slideInUp 0.6s ease-out;
+}
+
+.gasto-item {
+    animation: fadeIn 0.4s ease-out;
+}
+
+/* ================================
+   UTILIDADES
+   ================================ */
+.text-success-custom {
+    color: var(--income-color) !important;
+}
+
+.text-danger-custom {
+    color: var(--expense-color) !important;
+}
+
+.text-warning-custom {
+    color: var(--warning-color) !important;
+}
+
+.bg-success-custom {
+    background-color: var(--income-color) !important;
+}
+
+.bg-danger-custom {
+    background-color: var(--expense-color) !important;
+}
+
+.bg-warning-custom {
+    background-color: var(--warning-color) !important;
+}

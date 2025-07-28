@@ -53,4 +53,18 @@
         return $this->mysqli;
     }
   }
+
+  // Función global para obtener conexión PDO (para compatibilidad con algunos modelos)
+  function conectar() {
+    try {
+        $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=" . DB_ENCODE;
+        $pdo = new PDO($dsn, DB_USERNAME, DB_PASSWORD);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+        return $pdo;
+    } catch (Exception $e) {
+        error_log("Error en conexión PDO: " . $e->getMessage());
+        throw $e;
+    }
+  }
 ?>

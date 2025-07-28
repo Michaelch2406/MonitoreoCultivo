@@ -100,8 +100,8 @@ try {
         'observaciones' => !empty($_POST['observaciones']) ? trim($_POST['observaciones']) : null
     ];
     
-    // Validar coherencia de datos comerciales
-    if ($datos_cosecha['precio_venta_unitario'] && !$datos_cosecha['comprador']) {
+    // Validar coherencia de datos comerciales (opcional)
+    if (!empty($datos_cosecha['precio_venta_unitario']) && empty($datos_cosecha['comprador'])) {
         echo json_encode([
             'success' => false,
             'message' => 'Si especifica precio de venta, debe indicar el comprador'
@@ -109,16 +109,13 @@ try {
         exit();
     }
     
-    if ($datos_cosecha['total_ingresos'] && !$datos_cosecha['precio_venta_unitario']) {
-        echo json_encode([
-            'success' => false,
-            'message' => 'Si especifica ingresos totales, debe indicar el precio unitario'
-        ]);
-        exit();
+    // Auto-calcular ingresos si no se proporcionan pero sí hay precio y cantidad
+    if (!empty($datos_cosecha['precio_venta_unitario']) && empty($datos_cosecha['total_ingresos'])) {
+        $datos_cosecha['total_ingresos'] = $cantidad * $datos_cosecha['precio_venta_unitario'];
     }
     
-    // Validar cálculo de ingresos
-    if ($datos_cosecha['precio_venta_unitario'] && $datos_cosecha['total_ingresos']) {
+    // Validar cálculo de ingresos si ambos están presentes
+    if (!empty($datos_cosecha['precio_venta_unitario']) && !empty($datos_cosecha['total_ingresos'])) {
         $total_calculado = $cantidad * $datos_cosecha['precio_venta_unitario'];
         $diferencia = abs($total_calculado - $datos_cosecha['total_ingresos']);
         

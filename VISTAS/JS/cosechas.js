@@ -18,7 +18,20 @@ function initializeDataTable() {
 
     tablaCosechas = $('#tablaCosechas').DataTable({
         language: {
-            url: '../DataTables/Spanish.json'
+            processing: "Procesando...",
+            lengthMenu: "Mostrar _MENU_ registros",
+            zeroRecords: "No se encontraron resultados",
+            emptyTable: "Ningún dato disponible en esta tabla",
+            info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
+            infoEmpty: "Mostrando 0 a 0 de 0 registros",
+            infoFiltered: "(filtrado de _MAX_ registros totales)",
+            search: "Buscar:",
+            paginate: {
+                first: "Primero",
+                last: "Último",
+                next: "Siguiente",
+                previous: "Anterior"
+            }
         },
         responsive: true,
         pageLength: 25,
@@ -145,24 +158,39 @@ function aplicarFiltros() {
         tablaCosechas.column(5).search(filtroComprador, true, false);
     }
 
-    // Filtro por rango de fechas (requiere procesamiento adicional)
+    // Filtro por rango de fechas simplificado
     if (filtroFechaInicio || filtroFechaFin) {
+        // Remover filtros anteriores
+        $.fn.dataTable.ext.search.pop();
+        
         $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
             if (settings.nTable.id !== 'tablaCosechas') {
                 return true;
             }
 
-            const fechaCosecha = moment(data[1], 'DD/MM/YYYY');
-            const fechaInicio = filtroFechaInicio ? moment(filtroFechaInicio) : null;
-            const fechaFin = filtroFechaFin ? moment(filtroFechaFin) : null;
-
-            if (fechaInicio && fechaCosecha.isBefore(fechaInicio)) {
-                return false;
+            try {
+                // Convertir fecha DD/MM/YYYY a Date para comparación
+                const fechaPartes = data[1].split('/');
+                const fechaCosecha = new Date(fechaPartes[2], fechaPartes[1] - 1, fechaPartes[0]);
+                
+                if (filtroFechaInicio) {
+                    const fechaInicio = new Date(filtroFechaInicio);
+                    if (fechaCosecha < fechaInicio) {
+                        return false;
+                    }
+                }
+                
+                if (filtroFechaFin) {
+                    const fechaFin = new Date(filtroFechaFin);
+                    if (fechaCosecha > fechaFin) {
+                        return false;
+                    }
+                }
+                
+                return true;
+            } catch (e) {
+                return true; // Si hay error en el parseo, mostrar la fila
             }
-            if (fechaFin && fechaCosecha.isAfter(fechaFin)) {
-                return false;
-            }
-            return true;
         });
     }
 
@@ -172,7 +200,12 @@ function aplicarFiltros() {
 // Limpiar filtros
 function limpiarFiltros() {
     $('#filtroSiembra, #filtroCalidad, #filtroFechaInicio, #filtroFechaFin, #filtroComprador').val('');
-    $.fn.dataTable.ext.search.pop();
+    
+    // Limpiar filtros de DataTables
+    while ($.fn.dataTable.ext.search.length > 0) {
+        $.fn.dataTable.ext.search.pop();
+    }
+    
     tablaCosechas.columns().search('').draw();
 }
 
@@ -323,7 +356,7 @@ function mostrarDetallesCosecha(cosecha) {
             <div class="col-md-6">
                 <h6><i class="fas fa-info-circle me-2"></i>Información Básica</h6>
                 <table class="table table-sm">
-                    <tr><td><strong>Fecha de Cosecha:</strong></td><td>${moment(cosecha.cos_fecha_cosecha).format('DD/MM/YYYY')}</td></tr>
+                    <tr><td><strong>Fecha de Cosecha:</strong></td><td>${formatearFecha(cosecha.cos_fecha_cosecha)}</td></tr>
                     <tr><td><strong>Siembra:</strong></td><td>${cosecha.lot_nombre} - ${cosecha.cul_nombre}</td></tr>
                     <tr><td><strong>Cantidad:</strong></td><td>${parseFloat(cosecha.cos_cantidad_cosechada).toLocaleString()} ${cosecha.cos_unidad}</td></tr>
                     <tr><td><strong>Calidad:</strong></td><td>${calidadBadge[cosecha.cos_calidad]}</td></tr>
@@ -427,7 +460,7 @@ function llenarFormularioEdicion(cosecha) {
 
     // Llenar select de siembra (solo mostrar la actual, deshabilitado)
     const siembraOption = `<option value="${cosecha.sie_id}" selected>
-        ${cosecha.lot_nombre} - ${cosecha.cul_nombre} (Sembrado: ${moment(cosecha.sie_fecha_siembra).format('DD/MM/YYYY')})
+        ${cosecha.lot_nombre} - ${cosecha.cul_nombre} (Sembrado: ${formatearFecha(cosecha.sie_fecha_siembra)})
     </option>`;
     $('#editarSiembra').html(siembraOption);
 }
@@ -605,7 +638,17 @@ function exportarCosechas() {
 
 // Función auxiliar para formatear fechas
 function formatearFecha(fecha) {
-    return moment(fecha).format('DD/MM/YYYY');
+    if (!fecha) return '';
+    
+    try {
+        const date = new Date(fecha);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+    } catch (e) {
+        return fecha; // Devolver la fecha original si hay error
+    }
 }
 
 // Función auxiliar para formatear números

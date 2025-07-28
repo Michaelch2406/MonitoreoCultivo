@@ -73,7 +73,6 @@ function obtenerTextoRolSimple($rol) {
                         <ul class="dropdown-menu dropdown-custom">
                             <li><a class="dropdown-item" href="cultivos.php"><i class="fas fa-seedling me-2"></i>Catálogo de Cultivos</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="siembra_form.php"><i class="fas fa-plus-circle me-2"></i>Nueva Siembra</a></li>
                             <li><a class="dropdown-item" href="siembras.php"><i class="fas fa-list me-2"></i>Mis Siembras</a></li>
                             <li><a class="dropdown-item" href="actividades.php"><i class="fas fa-tasks me-2"></i>Actividades Agrícolas</a></li>
                             <li><a class="dropdown-item" href="cosechas.php"><i class="fas fa-tractor me-2"></i>Cosechas y Producción</a></li>
@@ -137,6 +136,22 @@ function obtenerTextoRolSimple($rol) {
                     </li>
                 <?php endif; ?>
                 
+                <?php if ($rol_usuario == 'administrador' || $rol_usuario == 'agricultor'): ?>
+                    <!-- Menú de Finanzas - Para Administradores y Agricultores -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownFinanzas" role="button" 
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-chart-line me-1"></i>Finanzas
+                        </a>
+                        <ul class="dropdown-menu dropdown-custom">
+                            <li><a class="dropdown-item" href="finanzas.php"><i class="fas fa-chart-line me-2"></i>Control Financiero</a></li>
+                            <li><a class="dropdown-item" href="finanzas.php#gastos"><i class="fas fa-money-bill-wave me-2"></i>Gestión de Gastos</a></li>
+                            <li><a class="dropdown-item" href="finanzas.php#ingresos"><i class="fas fa-coins me-2"></i>Análisis de Ingresos</a></li>
+                            <li><a class="dropdown-item" href="finanzas.php#reportes"><i class="fas fa-file-excel me-2"></i>Reportes Financieros</a></li>
+                        </ul>
+                    </li>
+                <?php endif; ?>
+                
                 <!-- Menú de Reportes - Para todos los roles -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownReportes" role="button" 
@@ -151,7 +166,6 @@ function obtenerTextoRolSimple($rol) {
                             <li><a class="dropdown-item" href="reportes/mis_cultivos.php"><i class="fas fa-seedling me-2"></i>Mis Cultivos</a></li>
                             <li><a class="dropdown-item" href="reportes/produccion.php"><i class="fas fa-chart-line me-2"></i>Producción</a></li>
                             <li><a class="dropdown-item" href="reportes/cosechas.php"><i class="fas fa-tractor me-2"></i>Análisis de Cosechas</a></li>
-                            <li><a class="dropdown-item" href="gastos/index.php"><i class="fas fa-money-bill-wave me-2"></i>Gastos</a></li>
                         <?php endif; ?>
                         <?php if ($rol_usuario == 'supervisor'): ?>
                             <li><a class="dropdown-item" href="supervisor/reportes.php"><i class="fas fa-clipboard-list me-2"></i>Reportes Supervisión</a></li>

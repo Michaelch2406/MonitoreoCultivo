@@ -376,3 +376,38 @@ SQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
                     INNER JOIN usuarios u ON f.fin_propietario = u.usu_id
                     WHERE 1=1 ORDER BY l.lot_fecha_registro DESC[2025-07-28 15:25:47] OPERATION: Obtener estadísticas cultivos | User ID: 1
 [2025-07-28 15:25:47] OPERATION: Listar cultivos | User ID: 1 | Details: Categoría: todas
+[2025-07-28 15:27:43] OPERATION: Listar cultivos | User ID: 1 | Details: Categoría: todas
+[2025-07-28 15:27:43] OPERATION: Obtener estadísticas cultivos | User ID: 1
+[2025-07-28 15:29:36] OPERATION: Eliminar cultivo | User ID: 1 | Details: Cultivo eliminado: Arroz
+[2025-07-28 15:29:38] OPERATION: Obtener estadísticas cultivos | User ID: 1
+[2025-07-28 15:29:38] OPERATION: Listar cultivos | User ID: 1 | Details: Categoría: todas
+[2025-07-28 15:29:46] OPERATION: Eliminar cultivo | User ID: 1 | Details: Cultivo eliminado: Cebolla
+[2025-07-28 15:29:47] OPERATION: Listar cultivos | User ID: 1 | Details: Categoría: todas
+[2025-07-28 15:29:47] OPERATION: Obtener estadísticas cultivos | User ID: 1
+[2025-07-28 15:29:50] OPERATION: Eliminar cultivo | User ID: 1 | Details: Cultivo eliminado: Frijol
+[2025-07-28 15:29:51] OPERATION: Listar cultivos | User ID: 1 | Details: Categoría: todas
+[2025-07-28 15:29:51] OPERATION: Obtener estadísticas cultivos | User ID: 1
+[2025-07-28 15:30:04] OPERATION: Eliminar cultivo | User ID: 1 | Details: Cultivo eliminado: Lechuga
+[2025-07-28 15:30:05] OPERATION: Obtener estadísticas cultivos | User ID: 1
+[2025-07-28 15:30:05] OPERATION: Listar cultivos | User ID: 1 | Details: Categoría: todas
+[2025-07-28 15:30:27] OPERATION: Eliminar cultivo | User ID: 1 | Details: Cultivo eliminado: Maíz
+[2025-07-28 15:30:28] OPERATION: Obtener estadísticas cultivos | User ID: 1
+[2025-07-28 15:30:28] OPERATION: Listar cultivos | User ID: 1 | Details: Categoría: todas
+[2025-07-28 15:44:40] OPERATION: Listar cultivos | User ID: 1 | Details: Categoría: todas
+[2025-07-28 15:44:40] OPERATION: Obtener estadísticas cultivos | User ID: 1
+[2025-07-28 15:46:56] OPERATION: Listar cultivos | User ID: 1 | Details: Categoría: todas
+[2025-07-28 15:46:56] OPERATION: Obtener estadísticas cultivos | User ID: 1
+SQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
+                           u.usu_nombre, u.usu_apellido, u.usu_email
+                    FROM lotes l
+                    INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
+                    INNER JOIN usuarios u ON f.fin_propietario = u.usu_id
+                    WHERE 1=1 ORDER BY l.lot_fecha_registro DESCSQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
+                           u.usu_nombre, u.usu_apellido, u.usu_email
+                    FROM lotes l
+                    INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
+                    INNER JOIN usuarios u ON f.fin_propietario = u.usu_id
+                    WHERE 1=1 ORDER BY l.lot_fecha_registro DESC[2025-07-28 15:55:19] OPERATION: Listar cultivos | User ID: 1 | Details: Categoría: todas
+[2025-07-28 15:55:19] OPERATION: Obtener estadísticas cultivos | User ID: 1
+[2025-07-28 15:55:36] OPERATION: Obtener estadísticas cultivos | User ID: 1
+[2025-07-28 15:55:36] OPERATION: Listar cultivos | User ID: 1 | Details: Categoría: todas

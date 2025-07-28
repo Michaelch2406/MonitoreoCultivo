@@ -22,9 +22,9 @@ class Siembra {
                            s.sie_fecha_siembra,
                            s.sie_fecha_estimada_cosecha,
                            s.sie_estado,
-                           tc.cul_id,
-                           tc.cul_nombre,
-                           tc.cul_categoria,
+                           tc.tip_id as cul_id,
+                           tc.tip_nombre as cul_nombre,
+                           tc.tip_categoria as cul_categoria,
                            l.lot_id,
                            l.lot_nombre,
                            l.lot_area,
@@ -32,37 +32,44 @@ class Siembra {
                            f.fin_nombre,
                            f.fin_propietario
                     FROM siembras s
-                    INNER JOIN tipos_cultivos tc ON s.sie_tipo_cultivo_id = tc.cul_id
+                    INNER JOIN tipos_cultivos tc ON s.sie_tipo_cultivo_id = tc.tip_id
                     INNER JOIN lotes l ON s.sie_lote_id = l.lot_id
                     INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
                     WHERE s.sie_estado IN ('en_crecimiento', 'cosechada')"; // Solo siembras que pueden ser cosechadas
             
             // Aplicar filtros según el rol
             if ($rol == 'agricultor') {
-                $sql .= " AND f.fin_propietario = :usuario_id";
+                $sql .= " AND f.fin_propietario = $usuario_id";
             } elseif ($rol == 'supervisor') {
-                $sql .= " AND (f.fin_propietario = :usuario_id OR s.sie_responsable_id = :usuario_id)";
+                $sql .= " AND (f.fin_propietario = $usuario_id OR s.sie_responsable_id = $usuario_id)";
             }
             // Los administradores ven todo
             
             $sql .= " ORDER BY s.sie_fecha_siembra DESC";
             
-            $stmt = $this->conexion->prepare($sql);
+            $resultado = $this->conexion->ejecutarSP($sql);
             
-            if ($rol != 'administrador') {
-                $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
+            if ($resultado) {
+                $siembras = array();
+                while ($fila = $resultado->fetch_assoc()) {
+                    $siembras[] = $fila;
+                }
+                $resultado->free();
+                
+                return [
+                    'success' => true,
+                    'siembras' => $siembras,
+                    'message' => 'Siembras para cosecha obtenidas correctamente'
+                ];
+            } else {
+                return [
+                    'success' => false,
+                    'message' => 'Error al ejecutar la consulta'
+                ];
             }
             
-            $stmt->execute();
-            $siembras = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            
-            return [
-                'success' => true,
-                'siembras' => $siembras,
-                'message' => 'Siembras para cosecha obtenidas correctamente'
-            ];
-            
         } catch (Exception $e) {
+            error_log("Error en listarSiembrasParaCosecha: " . $e->getMessage());
             return [
                 'success' => false,
                 'message' => 'Error al obtener siembras para cosecha: ' . $e->getMessage()
