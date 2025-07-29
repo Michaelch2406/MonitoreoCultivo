@@ -207,4 +207,52 @@ function obtenerColorRol($rol) {
     
     return isset($colores[$rol]) ? $colores[$rol] : 'bg-secondary';
 }
+
+/**
+ * Verificar si el usuario actual es administrador
+ */
+function esAdministrador() {
+    return estaLogueado() && obtenerRolUsuario() === 'administrador';
+}
+
+/**
+ * Verificar si el usuario actual es agricultor
+ */
+function esAgricultor() {
+    return estaLogueado() && obtenerRolUsuario() === 'agricultor';
+}
+
+/**
+ * Verificar si el usuario actual es supervisor
+ */
+function esSupervisor() {
+    return estaLogueado() && obtenerRolUsuario() === 'supervisor';
+}
+
+/**
+ * Requiere que el usuario sea administrador o redirige
+ */
+function requiereAdmin() {
+    if (!esAdministrador()) {
+        header('HTTP/1.1 403 Forbidden');
+        exit('Acceso denegado');
+    }
+}
+
+/**
+ * Verificar sesión (alias de estaLogueado para compatibilidad)
+ */
+function verificarSesion() {
+    return estaLogueado();
+}
+
+/**
+ * Requiere que el usuario esté logueado
+ */
+function requiereSesion() {
+    if (!estaLogueado()) {
+        header('Location: ../index.php');
+        exit();
+    }
+}
 ?>

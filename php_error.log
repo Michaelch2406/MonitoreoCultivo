@@ -411,3 +411,16 @@ SQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
 [2025-07-28 15:55:19] OPERATION: Obtener estadísticas cultivos | User ID: 1
 [2025-07-28 15:55:36] OPERATION: Obtener estadísticas cultivos | User ID: 1
 [2025-07-28 15:55:36] OPERATION: Listar cultivos | User ID: 1 | Details: Categoría: todas
+[28-Jul-2025 16:59:15 America/New_York] PHP Fatal error:  Uncaught Error: Call to undefined function esAdministrador() in C:\inetpub\wwwroot\MonitoreoCultivo\AJAX\admin\crear_usuario.php:9
+Stack trace:
+#0 {main}
+  thrown in C:\inetpub\wwwroot\MonitoreoCultivo\AJAX\admin\crear_usuario.php on line 9
+[28-Jul-2025 22:06:14 America/New_York] Login exitoso para usuario: admin@sistemacultivos.com - IP: ::1
+[28-Jul-2025 22:07:06 America/New_York] PHP Fatal error:  Uncaught Error: Call to undefined function esAdministrador() in C:\inetpub\wwwroot\MonitoreoCultivo\AJAX\admin\crear_usuario.php:9
+Stack trace:
+#0 {main}
+  thrown in C:\inetpub\wwwroot\MonitoreoCultivo\AJAX\admin\crear_usuario.php on line 9
+[28-Jul-2025 22:12:21 America/New_York] Usuario creado por administrador: alejandroc@gmail.com - Creado por: admin@sistemacultivos.com - IP: ::1
+[28-Jul-2025 22:12:43 America/New_York] Login exitoso para usuario: alejandroc@gmail.com - IP: ::1
+[2025-07-28 22:12:50] OPERATION: Listar cultivos | User ID: 3 | Details: Categoría: todas
+[2025-07-28 22:12:50] OPERATION: Obtener estadísticas cultivos | User ID: 3
