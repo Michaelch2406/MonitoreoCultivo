@@ -152,24 +152,30 @@ function obtenerTextoRolSimple($rol) {
                     </li>
                 <?php endif; ?>
                 
-                <!-- Menú de Reportes - Para todos los roles -->
+                <!-- Menú de Reportes y Dashboard - Para todos los roles -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownReportes" role="button" 
                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-file-alt me-1"></i>Reportes
+                        <i class="fas fa-chart-line me-1"></i>Reportes
                     </a>
                     <ul class="dropdown-menu dropdown-custom">
+                        <li><a class="dropdown-item" href="reportes.php"><i class="fas fa-tachometer-alt me-2"></i>Dashboard y Reportes</a></li>
+                        <li><hr class="dropdown-divider"></li>
                         <?php if ($rol_usuario == 'administrador'): ?>
-                            <li><a class="dropdown-item" href="admin/reportes.php"><i class="fas fa-chart-bar me-2"></i>Reportes Globales</a></li>
-                        <?php endif; ?>
-                        <?php if ($rol_usuario == 'agricultor'): ?>
-                            <li><a class="dropdown-item" href="reportes/mis_cultivos.php"><i class="fas fa-seedling me-2"></i>Mis Cultivos</a></li>
-                            <li><a class="dropdown-item" href="reportes/produccion.php"><i class="fas fa-chart-line me-2"></i>Producción</a></li>
-                            <li><a class="dropdown-item" href="reportes/cosechas.php"><i class="fas fa-tractor me-2"></i>Análisis de Cosechas</a></li>
-                        <?php endif; ?>
-                        <?php if ($rol_usuario == 'supervisor'): ?>
-                            <li><a class="dropdown-item" href="supervisor/reportes.php"><i class="fas fa-clipboard-list me-2"></i>Reportes Supervisión</a></li>
-                            <li><a class="dropdown-item" href="cosechas.php"><i class="fas fa-tractor me-2"></i>Cosechas Supervisadas</a></li>
+                            <li><a class="dropdown-item" href="reportes.php#dashboard"><i class="fas fa-chart-bar me-2"></i>Dashboard Global</a></li>
+                            <li><a class="dropdown-item" href="reportes.php#produccion"><i class="fas fa-seedling me-2"></i>Reportes de Producción</a></li>
+                            <li><a class="dropdown-item" href="reportes.php#financiero"><i class="fas fa-dollar-sign me-2"></i>Reportes Financieros</a></li>
+                            <li><a class="dropdown-item" href="reportes.php#tecnico"><i class="fas fa-cogs me-2"></i>Reportes Técnicos</a></li>
+                        <?php elseif ($rol_usuario == 'agricultor'): ?>
+                            <li><a class="dropdown-item" href="reportes.php#dashboard"><i class="fas fa-chart-bar me-2"></i>Mi Dashboard</a></li>
+                            <li><a class="dropdown-item" href="reportes.php#produccion"><i class="fas fa-seedling me-2"></i>Mis Cultivos</a></li>
+                            <li><a class="dropdown-item" href="reportes.php#financiero"><i class="fas fa-dollar-sign me-2"></i>Análisis Financiero</a></li>
+                            <li><a class="dropdown-item" href="reportes.php#tecnico"><i class="fas fa-cogs me-2"></i>Control Técnico</a></li>
+                        <?php elseif ($rol_usuario == 'supervisor'): ?>
+                            <li><a class="dropdown-item" href="reportes.php#dashboard"><i class="fas fa-chart-bar me-2"></i>Dashboard Supervisión</a></li>
+                            <li><a class="dropdown-item" href="reportes.php#produccion"><i class="fas fa-seedling me-2"></i>Producción</a></li>
+                            <li><a class="dropdown-item" href="reportes.php#financiero"><i class="fas fa-dollar-sign me-2"></i>Estados Financieros</a></li>
+                            <li><a class="dropdown-item" href="reportes.php#tecnico"><i class="fas fa-cogs me-2"></i>Monitoreo Técnico</a></li>
                         <?php endif; ?>
                     </ul>
                 </li>

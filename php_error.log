@@ -424,3 +424,32 @@ Stack trace:
 [28-Jul-2025 22:12:43 America/New_York] Login exitoso para usuario: alejandroc@gmail.com - IP: ::1
 [2025-07-28 22:12:50] OPERATION: Listar cultivos | User ID: 3 | Details: Categoría: todas
 [2025-07-28 22:12:50] OPERATION: Obtener estadísticas cultivos | User ID: 3
+[2025-07-28 22:44:25] OPERATION: Listar cultivos | User ID: 3 | Details: Categoría: todas
+[2025-07-28 22:44:25] OPERATION: Obtener estadísticas cultivos | User ID: 3
+[2025-07-28 22:44:53] OPERATION: Obtener estadísticas cultivos | User ID: 3
+[2025-07-28 22:44:53] OPERATION: Listar cultivos | User ID: 3 | Details: Categoría: todas
+[28-Jul-2025 22:54:09 America/New_York] PHP Fatal error:  Uncaught Error: Call to undefined method Conexion::query() in C:\inetpub\wwwroot\MonitoreoCultivo\MODELOS\reportes_m.php:842
+Stack trace:
+#0 C:\inetpub\wwwroot\MonitoreoCultivo\AJAX\reportes_ajax.php(49): Reportes->obtenerRendimientoLotes()
+#1 {main}
+  thrown in C:\inetpub\wwwroot\MonitoreoCultivo\MODELOS\reportes_m.php on line 842
+[28-Jul-2025 22:54:45 America/New_York] PHP Fatal error:  Uncaught Error: Call to undefined method Conexion::query() in C:\inetpub\wwwroot\MonitoreoCultivo\MODELOS\reportes_m.php:842
+Stack trace:
+#0 C:\inetpub\wwwroot\MonitoreoCultivo\AJAX\reportes_ajax.php(49): Reportes->obtenerRendimientoLotes()
+#1 {main}
+  thrown in C:\inetpub\wwwroot\MonitoreoCultivo\MODELOS\reportes_m.php on line 842
+[28-Jul-2025 22:55:01 America/New_York] PHP Fatal error:  Uncaught Error: Call to undefined method Conexion::query() in C:\inetpub\wwwroot\MonitoreoCultivo\MODELOS\reportes_m.php:842
+Stack trace:
+#0 C:\inetpub\wwwroot\MonitoreoCultivo\AJAX\reportes_ajax.php(49): Reportes->obtenerRendimientoLotes()
+#1 {main}
+  thrown in C:\inetpub\wwwroot\MonitoreoCultivo\MODELOS\reportes_m.php on line 842
+[28-Jul-2025 22:56:28 America/New_York] PHP Fatal error:  Uncaught Error: Call to undefined method Conexion::query() in C:\inetpub\wwwroot\MonitoreoCultivo\MODELOS\reportes_m.php:842
+Stack trace:
+#0 C:\inetpub\wwwroot\MonitoreoCultivo\AJAX\reportes_ajax.php(49): Reportes->obtenerRendimientoLotes()
+#1 {main}
+  thrown in C:\inetpub\wwwroot\MonitoreoCultivo\MODELOS\reportes_m.php on line 842
+[28-Jul-2025 22:57:57 America/New_York] PHP Fatal error:  Uncaught Error: Call to undefined method Conexion::query() in C:\inetpub\wwwroot\MonitoreoCultivo\MODELOS\reportes_m.php:842
+Stack trace:
+#0 C:\inetpub\wwwroot\MonitoreoCultivo\AJAX\reportes_ajax.php(49): Reportes->obtenerRendimientoLotes()
+#1 {main}
+  thrown in C:\inetpub\wwwroot\MonitoreoCultivo\MODELOS\reportes_m.php on line 842
