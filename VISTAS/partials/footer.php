@@ -41,20 +41,20 @@
                         <i class="fas fa-link me-2"></i>Enlaces Rápidos
                     </h5>
                     <ul class="footer-links">
-                        <li><a href="#" class="footer-link">
+                        <li><a href="dashboard.php" class="footer-link">
                             <i class="fas fa-chevron-right me-2"></i>Dashboard
                         </a></li>
-                        <li><a href="#" class="footer-link">
+                        <li><a href="cultivos.php" class="footer-link">
                             <i class="fas fa-chevron-right me-2"></i>Mis Cultivos
                         </a></li>
-                        <li><a href="#" class="footer-link">
+                        <li><a href="monitoreo.php" class="footer-link">
                             <i class="fas fa-chevron-right me-2"></i>Monitoreo
                         </a></li>
-                        <li><a href="#" class="footer-link">
+                        <li><a href="reportes.php" class="footer-link">
                             <i class="fas fa-chevron-right me-2"></i>Reportes
                         </a></li>
-                        <li><a href="#" class="footer-link">
-                            <i class="fas fa-chevron-right me-2"></i>Configuración
+                        <li><a href="perfil.php" class="footer-link">
+                            <i class="fas fa-chevron-right me-2"></i>Mi Perfil
                         </a></li>
                     </ul>
                 </div>
@@ -67,17 +67,17 @@
                         <i class="fas fa-tools me-2"></i>Herramientas
                     </h5>
                     <ul class="footer-links">
-                        <li><a href="#" class="footer-link">
-                            <i class="fas fa-chevron-right me-2"></i>Calculadora de Riego
+                        <li><a href="fincas.php" class="footer-link">
+                            <i class="fas fa-chevron-right me-2"></i>Gestión de Fincas
                         </a></li>
-                        <li><a href="#" class="footer-link">
-                            <i class="fas fa-chevron-right me-2"></i>Calendario Agrícola
+                        <li><a href="siembras.php" class="footer-link">
+                            <i class="fas fa-chevron-right me-2"></i>Mis Siembras
                         </a></li>
-                        <li><a href="#" class="footer-link">
-                            <i class="fas fa-chevron-right me-2"></i>Análisis de Suelo
+                        <li><a href="cosechas.php" class="footer-link">
+                            <i class="fas fa-chevron-right me-2"></i>Cosechas
                         </a></li>
-                        <li><a href="#" class="footer-link">
-                            <i class="fas fa-chevron-right me-2"></i>Alertas Climáticas
+                        <li><a href="finanzas.php" class="footer-link">
+                            <i class="fas fa-chevron-right me-2"></i>Control Financiero
                         </a></li>
                     </ul>
                 </div>

@@ -1,5 +1,12 @@
 <?php
-require_once('../CONFIG/Conexion.php');
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+ini_set('log_errors', 1);
+ini_set('error_log', __DIR__ . '/../php_error.log'); 
+require_once(__DIR__ . '/../CONFIG/Conexion.php');
+
 
 class Cosecha {
     private $conexion;
@@ -52,9 +59,9 @@ class Cosecha {
             
             // Aplicar filtros según el rol
             if ($rol_usuario == 'agricultor') {
-                $sql .= " WHERE f.fin_propietario = $usuario_id";
+                $sql .= " WHERE f.fin_propietario = " . intval($usuario_id);
             } elseif ($rol_usuario == 'supervisor') {
-                $sql .= " WHERE (f.fin_propietario = $usuario_id OR c.cos_responsable_id = $usuario_id)";
+                $sql .= " WHERE (f.fin_propietario = " . intval($usuario_id) . " OR c.cos_responsable_id = " . intval($usuario_id) . ")";
             }
             // Administrador ve todas las cosechas
             
@@ -118,13 +125,13 @@ class Cosecha {
                     INNER JOIN tipos_cultivos tc ON s.sie_tipo_cultivo_id = tc.tip_id
                     LEFT JOIN usuarios u ON c.cos_responsable_id = u.usu_id
                     LEFT JOIN usuarios up ON f.fin_propietario = up.usu_id
-                    WHERE c.cos_id = $cosecha_id";
+                    WHERE c.cos_id = " . intval($cosecha_id);
             
             // Aplicar filtros según el rol
             if ($rol_usuario == 'agricultor') {
-                $sql .= " AND f.fin_propietario = $usuario_id";
+                $sql .= " AND f.fin_propietario = " . intval($usuario_id);
             } elseif ($rol_usuario == 'supervisor') {
-                $sql .= " AND (f.fin_propietario = $usuario_id OR c.cos_responsable_id = $usuario_id)";
+                $sql .= " AND (f.fin_propietario = " . intval($usuario_id) . " OR c.cos_responsable_id = " . intval($usuario_id) . ")";
             }
             
             $resultado = $this->conexion->ejecutarSP($sql);
@@ -171,7 +178,7 @@ class Cosecha {
                             WHERE s.sie_id = " . intval($datos['siembra_id']);
             
             if ($rol_usuario == 'agricultor') {
-                $verificar_sql .= " AND f.fin_propietario = $usuario_id";
+                $verificar_sql .= " AND f.fin_propietario = " . intval($usuario_id);
             }
             
             $resultado_verificar = $this->conexion->ejecutarSP($verificar_sql);
@@ -270,9 +277,9 @@ class Cosecha {
                             WHERE c.cos_id = $cosecha_id";
             
             if ($rol_usuario == 'agricultor') {
-                $verificar_sql .= " AND f.fin_propietario = $usuario_id";
+                $verificar_sql .= " AND f.fin_propietario = " . intval($usuario_id);
             } elseif ($rol_usuario == 'supervisor') {
-                $verificar_sql .= " AND (f.fin_propietario = $usuario_id OR c.cos_responsable_id = $usuario_id)";
+                $verificar_sql .= " AND (f.fin_propietario = " . intval($usuario_id) . " OR c.cos_responsable_id = " . intval($usuario_id) . ")";
             }
             
             $resultado_verificar = $this->conexion->ejecutarSP($verificar_sql);
@@ -350,7 +357,7 @@ class Cosecha {
                             WHERE c.cos_id = $cosecha_id";
             
             if ($rol_usuario == 'agricultor') {
-                $verificar_sql .= " AND f.fin_propietario = $usuario_id";
+                $verificar_sql .= " AND f.fin_propietario = " . intval($usuario_id);
             }
             
             $resultado_verificar = $this->conexion->ejecutarSP($verificar_sql);
@@ -434,9 +441,9 @@ class Cosecha {
             
             // Aplicar filtros según el rol
             if ($rol_usuario == 'agricultor') {
-                $sql .= " AND f.fin_propietario = $usuario_id";
+                $sql .= " AND f.fin_propietario = " . intval($usuario_id);
             } elseif ($rol_usuario == 'supervisor') {
-                $sql .= " AND (f.fin_propietario = $usuario_id OR c.cos_responsable_id = $usuario_id)";
+                $sql .= " AND (f.fin_propietario = " . intval($usuario_id) . " OR c.cos_responsable_id = " . intval($usuario_id) . ")";
             }
             
             // Aplicar filtros adicionales

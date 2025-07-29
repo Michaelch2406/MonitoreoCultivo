@@ -8,6 +8,24 @@ $(document).ready(function() {
     initializeModals();
     bindEventHandlers();
     actualizarEstadisticas();
+    
+    // Test de conectividad AJAX
+    console.log('Iniciando test de conectividad AJAX...');
+    $.ajax({
+        url: 'AJAX/test_connection.php',
+        type: 'GET',
+        success: function(response) {
+            console.log('✅ Test AJAX exitoso:', response);
+        },
+        error: function(xhr, status, error) {
+            console.error('❌ Error en test AJAX:', {
+                status: status,
+                error: error,
+                responseText: xhr.responseText,
+                statusCode: xhr.status
+            });
+        }
+    });
 });
 
 // Inicializar DataTable
@@ -130,7 +148,7 @@ function bindEventHandlers() {
 
     // Calcular total de ingresos automáticamente
     $('#nuevaCantidad, #nuevoPrecioUnitario').on('input', function() {
-        calcularTotalIngresos('nueva');
+        calcularTotalIngresos('nuevo');
     });
 
     $('#editarCantidad, #editarPrecioUnitario').on('input', function() {
@@ -286,8 +304,86 @@ function crearCosecha() {
     });
 }
 
+// Crear nueva cosecha
+function crearCosecha() {
+    const formData = new FormData(document.getElementById('formNuevaCosecha'));
+    
+    // Validaciones básicas
+    if (!formData.get('siembra_id') || !formData.get('fecha_cosecha') || 
+        !formData.get('cantidad_cosechada') || !formData.get('unidad') || !formData.get('calidad')) {
+        
+        Swal.fire({
+            icon: 'error',
+            title: 'Error de validación',
+            text: 'Por favor, complete todos los campos requeridos'
+        });
+        return;
+    }
+
+    // Mostrar indicador de carga
+    Swal.fire({
+        title: 'Creando cosecha...',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
+    $.ajax({
+        url: 'AJAX/crear_cosecha.php',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response) {
+            console.log('Respuesta del servidor:', response);
+            
+            try {
+                const result = typeof response === 'string' ? JSON.parse(response) : response;
+                
+                if (result.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Éxito!',
+                        text: result.message || 'Cosecha creada correctamente',
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    
+                    modalNuevaCosecha.hide();
+                    document.getElementById('formNuevaCosecha').reset();
+                    location.reload(); // Recargar para actualizar estadísticas
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: result.message || 'Error al crear la cosecha'
+                    });
+                }
+            } catch (e) {
+                console.error('Error al parsear JSON:', e);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error en la respuesta del servidor'
+                });
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Error AJAX:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error de conexión',
+                text: 'No se pudo conectar con el servidor. Intente nuevamente.'
+            });
+        }
+    });
+}
+
 // Ver detalles de cosecha
 function verDetallesCosecha(cosechaId) {
+    console.log('🔍 Iniciando ver detalles de cosecha:', cosechaId);
+    
     Swal.fire({
         title: 'Cargando detalles...',
         allowOutsideClick: false,
@@ -297,10 +393,11 @@ function verDetallesCosecha(cosechaId) {
     });
 
     $.ajax({
-        url: '../VISTAS/AJAX/obtener_cosecha.php',
+        url: 'AJAX/obtener_cosecha.php',
         type: 'GET',
         data: { id: cosechaId },
         success: function(response) {
+            console.log('✅ Respuesta AJAX obtener_cosecha:', response);
             try {
                 const result = typeof response === 'string' ? JSON.parse(response) : response;
                 
@@ -407,7 +504,7 @@ function editarCosecha(cosechaId) {
     });
 
     $.ajax({
-        url: '../VISTAS/AJAX/obtener_cosecha.php',
+        url: 'AJAX/obtener_cosecha.php',
         type: 'GET',
         data: { id: cosechaId },
         success: function(response) {
@@ -491,7 +588,7 @@ function actualizarCosecha() {
     });
 
     $.ajax({
-        url: '../VISTAS/AJAX/actualizar_cosecha.php',
+        url: 'AJAX/actualizar_cosecha.php',
         type: 'POST',
         data: formData,
         processData: false,
@@ -570,7 +667,7 @@ function ejecutarEliminacion(cosechaId) {
     });
 
     $.ajax({
-        url: '../VISTAS/AJAX/eliminar_cosecha.php',
+        url: 'AJAX/eliminar_cosecha.php',
         type: 'POST',
         data: { id: cosechaId },
         success: function(response) {
@@ -616,11 +713,23 @@ function ejecutarEliminacion(cosechaId) {
 
 // Calcular total de ingresos
 function calcularTotalIngresos(prefijo) {
-    const cantidad = parseFloat($(`#${prefijo}Cantidad`).val()) || 0;
-    const precio = parseFloat($(`#${prefijo}PrecioUnitario`).val()) || 0;
+    let cantidadId, precioId, totalId;
+    
+    if (prefijo === 'nuevo') {
+        cantidadId = '#nuevaCantidad';
+        precioId = '#nuevoPrecioUnitario';
+        totalId = '#nuevoTotalIngresos';
+    } else if (prefijo === 'editar') {
+        cantidadId = '#editarCantidad';
+        precioId = '#editarPrecioUnitario';
+        totalId = '#editarTotalIngresos';
+    }
+    
+    const cantidad = parseFloat($(cantidadId).val()) || 0;
+    const precio = parseFloat($(precioId).val()) || 0;
     const total = cantidad * precio;
     
-    $(`#${prefijo}TotalIngresos`).val(total > 0 ? total.toFixed(2) : '');
+    $(totalId).val(total > 0 ? total.toFixed(2) : '');
 }
 
 // Actualizar estadísticas (para futuras implementaciones)

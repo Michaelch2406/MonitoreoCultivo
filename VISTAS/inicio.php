@@ -243,6 +243,7 @@ session_start();
     </section>
 
     <!-- Call to Action Section -->
+    <?php if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true): ?>
     <section class="cta-section py-5">
         <div class="container">
             <div class="row">
@@ -273,6 +274,39 @@ session_start();
             </div>
         </div>
     </section>
+    <?php else: ?>
+    <!-- Sección para usuarios logueados -->
+    <section class="cta-section py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center" data-aos="fade-up">
+                    <div class="cta-content">
+                        <h2 class="cta-title">¡Bienvenido de vuelta!</h2>
+                        <p class="cta-subtitle">
+                            Continúa gestionando tus cultivos y optimizando tu producción agrícola
+                        </p>
+                        <div class="cta-buttons">
+                            <a href="dashboard.php" class="btn btn-primary btn-lg me-3">
+                                <i class="fas fa-tachometer-alt me-2"></i>
+                                Ir al Dashboard
+                            </a>
+                            <a href="fincas.php" class="btn btn-outline-primary btn-lg">
+                                <i class="fas fa-map-marked-alt me-2"></i>
+                                Mis Fincas
+                            </a>
+                        </div>
+                        <div class="cta-note">
+                            <small>
+                                <i class="fas fa-user-check me-1"></i>
+                                Sesión activa • Datos seguros • Soporte disponible
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <?php endif; ?>
 
     <!-- Incluir Footer -->
     <?php include 'partials/footer.php'; ?>

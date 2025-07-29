@@ -24,16 +24,19 @@ $usuario_actual = $usuario_logueado ? obtenerUsuarioActual() : null;
 <body>
     <?php include('partials/navbar.php'); ?>
     
-    <div class="container-fluid main-container"
-         style="margin-left: var(--sidebar-width, 0); 
-                transition: margin-left 0.3s ease; 
-                padding-top: calc(var(--navbar-height, 70px) + 1rem);">
+    <div class="container-fluid main-container" style="padding-top: 90px;">
         
         <!-- Ajuste dinámico para cuando el sidebar esté colapsado -->
         <style>
+            .main-container {
+                min-height: calc(100vh - 90px);
+                margin-bottom: 0;
+            }
+            
             @media (max-width: 768px) {
                 .main-container {
                     margin-left: 0 !important;
+                    padding-top: 80px;
                 }
             }
         </style>

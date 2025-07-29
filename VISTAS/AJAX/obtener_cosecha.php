@@ -1,31 +1,47 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+ini_set('log_errors', 1);
+ini_set('error_log', __DIR__ . '/../../php_error.log');
+
 session_start();
-require_once('../../CONFIG/roles.php');
-require_once('../../MODELOS/cosechas_m.php');
 
 // Configurar cabeceras para JSON
 header('Content-Type: application/json');
 
-// Verificar sesión
-if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
-    echo json_encode([
-        'success' => false,
-        'message' => 'Sesión no válida'
-    ]);
-    exit();
-}
-
-// Verificar método GET
-if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
-    echo json_encode([
-        'success' => false,
-        'message' => 'Método no permitido'
-    ]);
-    exit();
-}
-
 try {
+    require_once('../../CONFIG/roles.php');
+    require_once('../../MODELOS/cosechas_m.php');
+
+    // Verificar sesión
+    if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+        echo json_encode([
+            'success' => false,
+            'message' => 'Sesión no válida'
+        ]);
+        exit();
+    }
+
+    // Verificar método GET
+    if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+        echo json_encode([
+            'success' => false,
+            'message' => 'Método no permitido'
+        ]);
+        exit();
+    }
+
     $usuario_actual = obtenerUsuarioActual();
+    
+    if (!$usuario_actual) {
+        echo json_encode([
+            'success' => false,
+            'message' => 'Error al obtener información del usuario'
+        ]);
+        exit();
+    }
     
     // Validar parámetro ID
     if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {

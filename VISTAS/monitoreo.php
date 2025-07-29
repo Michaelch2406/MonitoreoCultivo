@@ -148,7 +148,7 @@ $siembras_monitoreadas = count(array_unique(array_column($monitoreos, 'mon_siemb
                                         <option value="">Todas las siembras</option>
                                         <?php foreach ($siembras as $siembra): ?>
                                         <option value="<?php echo $siembra['sie_id']; ?>">
-                                            <?php echo htmlspecialchars($siembra['nombre_cultivo'] . ' - ' . $siembra['nombre_lote']); ?>
+                                            <?php echo htmlspecialchars($siembra['tip_nombre'] . ' - ' . $siembra['lot_nombre']); ?>
                                         </option>
                                         <?php endforeach; ?>
                                     </select>
@@ -301,7 +301,7 @@ $siembras_monitoreadas = count(array_unique(array_column($monitoreos, 'mon_siemb
                                         <option value="">Selecciona una siembra</option>
                                         <?php foreach ($siembras as $siembra): ?>
                                         <option value="<?php echo $siembra['sie_id']; ?>">
-                                            <?php echo htmlspecialchars($siembra['nombre_cultivo'] . ' - ' . $siembra['nombre_lote']); ?>
+                                            <?php echo htmlspecialchars($siembra['tip_nombre'] . ' - ' . $siembra['lot_nombre']); ?>
                                         </option>
                                         <?php endforeach; ?>
                                     </select>

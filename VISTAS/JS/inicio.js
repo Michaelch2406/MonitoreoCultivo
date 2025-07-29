@@ -152,10 +152,17 @@ function setupEventListeners() {
         if (href && href.startsWith('#')) {
             e.preventDefault();
             scrollToSection(href);
+        } else if (href && (href !== '#' && href !== 'javascript:void(0)')) {
+            // Para enlaces externos/páginas, permitir navegación normal
+            // Solo agregar efecto visual sin interferir
+            addButtonClickEffect($(this));
+            return true;
         }
         
-        // Efecto visual en el botón
-        addButtonClickEffect($(this));
+        // Efecto visual en el botón solo para enlaces internos
+        if (href && href.startsWith('#')) {
+            addButtonClickEffect($(this));
+        }
     });
     
     // Hover effects para las cards

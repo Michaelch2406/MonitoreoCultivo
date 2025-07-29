@@ -571,3 +571,119 @@ SQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
 [2025-07-28 23:33:58] OPERATION: Obtener estadísticas cultivos | User ID: 2
 [28-Jul-2025 23:34:25 America/New_York] Login exitoso para usuario: admin@sistemacultivos.com - IP: ::1
 [29-Jul-2025 03:11:16 America/New_York] Login exitoso para usuario: admin@sistemacultivos.com - IP: ::1
+[29-Jul-2025 10:26:50 America/New_York] Login exitoso para usuario: admin@sistemacultivos.com - IP: ::1
+[29-Jul-2025 10:26:56 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:26:56 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:26:56 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:26:56 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:26:56 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:26:56 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:26:56 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:26:56 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:26:56 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:26:56 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:26:56 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:26:56 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:26:56 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:26:56 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:26:56 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:26:56 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:26:56 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:26:56 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:26:56 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:26:56 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:26:56 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:26:56 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:26:56 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:26:56 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+SQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
+                           u.usu_nombre, u.usu_apellido, u.usu_email
+                    FROM lotes l
+                    INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
+                    INNER JOIN usuarios u ON f.fin_propietario = u.usu_id
+                    WHERE 1=1 ORDER BY l.lot_fecha_registro DESCSQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
+                           u.usu_nombre, u.usu_apellido, u.usu_email
+                    FROM lotes l
+                    INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
+                    INNER JOIN usuarios u ON f.fin_propietario = u.usu_id
+                    WHERE 1=1 ORDER BY l.lot_fecha_registro DESC[29-Jul-2025 10:35:36 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:35:36 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:35:36 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:35:36 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:35:36 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:35:36 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:35:36 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:35:36 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:35:36 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:35:36 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:35:36 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:35:36 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:35:36 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:35:36 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:35:36 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:35:36 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:35:36 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:35:36 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:35:36 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:35:36 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:35:36 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:35:36 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:35:36 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:35:36 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:36:55 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:36:55 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:36:55 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:36:55 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:36:55 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:36:55 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:36:55 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:36:55 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:36:55 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:36:55 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:36:55 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:36:55 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:36:55 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:36:55 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:36:55 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:36:55 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:36:55 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:36:55 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:36:55 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:36:55 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:36:55 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:36:55 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:36:55 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:36:55 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:40:23 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:40:23 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:40:23 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:40:23 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:40:23 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:40:23 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:40:23 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:40:23 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:40:23 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:40:23 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:40:23 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:40:23 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 151
+[29-Jul-2025 10:40:23 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:40:23 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:40:23 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:40:23 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:40:23 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:40:23 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:40:23 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:40:23 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:40:23 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:40:23 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:40:23 America/New_York] PHP Warning:  Undefined array key "nombre_cultivo" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:40:23 America/New_York] PHP Warning:  Undefined array key "nombre_lote" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\monitoreo.php on line 304
+[29-Jul-2025 10:44:49 America/New_York] Login exitoso para usuario: admin@sistemacultivos.com - IP: ::1
+[2025-07-29 10:53:10] OPERATION: Listar cultivos | User ID: 1 | Details: Categoría: todas
+[2025-07-29 10:53:10] OPERATION: Obtener estadísticas cultivos | User ID: 1
+[29-Jul-2025 11:06:38 America/New_York] PHP Warning:  require_once(../CONFIG/Conexion.php): Failed to open stream: No such file or directory in C:\inetpub\wwwroot\MonitoreoCultivo\MODELOS\cosechas_m.php on line 8
+[29-Jul-2025 11:06:38 America/New_York] PHP Fatal error:  Uncaught Error: Failed opening required '../CONFIG/Conexion.php' (include_path='.;C:\php\pear') in C:\inetpub\wwwroot\MonitoreoCultivo\MODELOS\cosechas_m.php:8
+Stack trace:
+#0 C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\AJAX\obtener_cosecha.php(9): require_once()
+#1 {main}
+  thrown in C:\inetpub\wwwroot\MonitoreoCultivo\MODELOS\cosechas_m.php on line 8

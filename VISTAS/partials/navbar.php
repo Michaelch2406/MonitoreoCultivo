@@ -188,33 +188,23 @@ function obtenerTextoRolSimple($rol) {
                     <a class="nav-link position-relative" href="#" id="navbarNotifications" role="button" 
                        data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-bell notification-icon"></i>
-                        <span class="notification-badge" id="notification-count">3</span>
+                        <span class="notification-badge d-none" id="notification-count">0</span>
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-end notification-dropdown">
+                    <ul class="dropdown-menu dropdown-menu-end notification-dropdown" id="notifications-dropdown">
                         <li class="dropdown-header">
                             <i class="fas fa-bell me-2"></i>Notificaciones
+                            <button class="btn btn-sm btn-outline-secondary ms-2" id="mark-all-read" title="Marcar todas como leídas">
+                                <i class="fas fa-check-double"></i>
+                            </button>
                         </li>
                         <li><hr class="dropdown-divider"></li>
-                        <li class="notification-item">
-                            <a class="dropdown-item" href="#">
-                                <div class="notification-content">
-                                    <small class="text-warning"><i class="fas fa-exclamation-triangle me-1"></i>Alerta</small>
-                                    <p class="mb-1">Cultivo de tomate requiere riego</p>
-                                    <small class="text-muted">Hace 2 horas</small>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="notification-item">
-                            <a class="dropdown-item" href="#">
-                                <div class="notification-content">
-                                    <small class="text-success"><i class="fas fa-check-circle me-1"></i>Éxito</small>
-                                    <p class="mb-1">Monitoreo completado exitosamente</p>
-                                    <small class="text-muted">Hace 4 horas</small>
-                                </div>
-                            </a>
-                        </li>
+                        <div id="notifications-container">
+                            <li class="text-center py-3">
+                                <i class="fas fa-spinner fa-spin me-2"></i>Cargando...
+                            </li>
+                        </div>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item text-center" href="#">Ver todas las notificaciones</a></li>
+                        <li><a class="dropdown-item text-center" href="notificaciones.php" id="ver-todas-notificaciones">Ver todas las notificaciones</a></li>
                     </ul>
                 </li>
 
@@ -308,4 +298,22 @@ function obtenerTextoRolSimple($rol) {
     window.userEmail = '<?php echo addslashes($email_usuario); ?>';
     window.userRole = '<?php echo addslashes($rol_usuario); ?>';
     <?php endif; ?>
+</script>
+
+<!-- Script para notificaciones (se carga si existe jQuery) -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        if (typeof jQuery !== 'undefined' && window.usuarioLogueado) {
+            // Cargar script de notificaciones de forma asíncrona
+            const script = document.createElement('script');
+            script.src = 'JS/notificaciones.js';
+            script.onload = function() {
+                console.log('Script de notificaciones cargado');
+            };
+            script.onerror = function() {
+                console.error('Error al cargar script de notificaciones');
+            };
+            document.head.appendChild(script);
+        }
+    });
 </script>

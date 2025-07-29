@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once('../CONFIG/roles.php');
+require_once('../MODELOS/reportes_m.php');
 
 // Verificar que el usuario esté logueado
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
@@ -9,6 +10,12 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
 }
 
 $usuario_actual = obtenerUsuarioActual();
+
+// Inicializar modelo de reportes
+$reportes_modelo = new Reportes();
+
+// Obtener estadísticas generales
+$estadisticas = $reportes_modelo->obtenerEstadisticasGenerales($usuario_actual['id'], $usuario_actual['rol']);
 
 // Verificar permisos - Todos los roles pueden acceder a reportes, pero con diferentes niveles
 $permisos = [

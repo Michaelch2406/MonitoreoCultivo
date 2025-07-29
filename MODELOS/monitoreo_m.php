@@ -1,4 +1,10 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+ini_set('log_errors', 1);
+ini_set('error_log', __DIR__ . '/../php_error.log');
 require_once(dirname(__FILE__) . "/../CONFIG/Conexion.php");
 
 class Monitoreo {
@@ -20,14 +26,14 @@ class Monitoreo {
         try {
             $sql = "SELECT m.*, 
                            s.sie_id, 
-                           tc.cul_nombre as nombre_cultivo,
+                           tc.tip_nombre as nombre_cultivo,
                            l.lot_nombre as nombre_lote,
                            f.fin_nombre as nombre_finca,
                            u.usu_nombre as responsable_nombre,
                            u.usu_apellido as responsable_apellido
                     FROM monitoreo m
                     INNER JOIN siembras s ON m.mon_siembra_id = s.sie_id
-                    INNER JOIN tipos_cultivo tc ON s.sie_tipo_cultivo_id = tc.cul_id
+                    INNER JOIN tipos_cultivos tc ON s.sie_tipo_cultivo_id = tc.tip_id
                     INNER JOIN lotes l ON s.sie_lote_id = l.lot_id
                     INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
                     LEFT JOIN usuarios u ON m.mon_responsable_id = u.usu_id";
@@ -163,14 +169,14 @@ class Monitoreo {
         try {
             $sql = "SELECT m.*, 
                            s.sie_id, 
-                           tc.cul_nombre as nombre_cultivo,
+                           tc.tip_nombre as nombre_cultivo,
                            l.lot_nombre as nombre_lote,
                            f.fin_nombre as nombre_finca,
                            u.usu_nombre as responsable_nombre,
                            u.usu_apellido as responsable_apellido
                     FROM monitoreo m
                     INNER JOIN siembras s ON m.mon_siembra_id = s.sie_id
-                    INNER JOIN tipos_cultivo tc ON s.sie_tipo_cultivo_id = tc.cul_id
+                    INNER JOIN tipos_cultivos tc ON s.sie_tipo_cultivo_id = tc.tip_id
                     INNER JOIN lotes l ON s.sie_lote_id = l.lot_id
                     INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
                     LEFT JOIN usuarios u ON m.mon_responsable_id = u.usu_id
