@@ -802,3 +802,20 @@ Stack trace:
 [2025-07-29 19:34:59] OPERATION: Listar cultivos | User ID: 1 | Details: Categoría: todas
 [2025-07-29 19:34:59] OPERATION: Obtener estadísticas cultivos | User ID: 1
 [2025-07-29 19:35:02] OPERATION: Ver detalle cultivo | User ID: 1 | Details: ID: 19
+[2025-07-29 19:40:50] OPERATION: Listar cultivos | User ID: 1 | Details: Categoría: todas
+[2025-07-29 19:40:50] OPERATION: Obtener estadísticas cultivos | User ID: 1
+SQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
+                           u.usu_nombre, u.usu_apellido, u.usu_email
+                    FROM lotes l
+                    INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
+                    INNER JOIN usuarios u ON f.fin_propietario = u.usu_id
+                    WHERE 1=1 ORDER BY l.lot_fecha_registro DESCSQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
+                           u.usu_nombre, u.usu_apellido, u.usu_email
+                    FROM lotes l
+                    INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
+                    INNER JOIN usuarios u ON f.fin_propietario = u.usu_id
+                    WHERE 1=1 ORDER BY l.lot_fecha_registro DESC[29-Jul-2025 19:41:48 America/New_York] PHP Fatal error:  Uncaught Error: Call to undefined method Conexion::ejecutarConsulta() in C:\inetpub\wwwroot\MonitoreoCultivo\MODELOS\reportes_m.php:1437
+Stack trace:
+#0 C:\inetpub\wwwroot\MonitoreoCultivo\AJAX\reportes_ajax.php(208): Reportes->obtenerUsuariosActivos()
+#1 {main}
+  thrown in C:\inetpub\wwwroot\MonitoreoCultivo\MODELOS\reportes_m.php on line 1437

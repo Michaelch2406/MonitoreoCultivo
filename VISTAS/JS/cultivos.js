@@ -718,6 +718,7 @@ $(document).ready(function() {
             success: function(response) {
                 hideLoading();
                 if (response.success) {
+                    console.log('Datos del cultivo:', response.cultivo); // Debug temporal
                     mostrarModalEditarCultivo(response.cultivo);
                 } else {
                     showError(response.message || 'Error al cargar los datos del cultivo');
@@ -773,13 +774,13 @@ $(document).ready(function() {
                                             <label for="editarCategoria" class="form-label">Categoría *</label>
                                             <select class="form-select" id="editarCategoria" name="categoria" required>
                                                 <option value="">Seleccionar categoría</option>
-                                                <option value="cereales" ${cultivo.tip_categoria === 'cereales' ? 'selected' : ''}>Cereales</option>
-                                                <option value="legumbres" ${cultivo.tip_categoria === 'legumbres' ? 'selected' : ''}>Legumbres</option>
-                                                <option value="frutas" ${cultivo.tip_categoria === 'frutas' ? 'selected' : ''}>Frutas</option>
-                                                <option value="verduras" ${cultivo.tip_categoria === 'verduras' ? 'selected' : ''}>Verduras</option>
-                                                <option value="tuberculos" ${cultivo.tip_categoria === 'tuberculos' ? 'selected' : ''}>Tubérculos</option>
-                                                <option value="especias" ${cultivo.tip_categoria === 'especias' ? 'selected' : ''}>Especias</option>
-                                                <option value="otros" ${cultivo.tip_categoria === 'otros' ? 'selected' : ''}>Otros</option>
+                                                <option value="cereales" ${(cultivo.tip_categoria || '') === 'cereales' ? 'selected' : ''}>Cereales</option>
+                                                <option value="legumbres" ${(cultivo.tip_categoria || '') === 'legumbres' ? 'selected' : ''}>Legumbres</option>
+                                                <option value="frutas" ${(cultivo.tip_categoria || '') === 'frutas' ? 'selected' : ''}>Frutas</option>
+                                                <option value="verduras" ${(cultivo.tip_categoria || '') === 'verduras' ? 'selected' : ''}>Verduras</option>
+                                                <option value="tuberculos" ${(cultivo.tip_categoria || '') === 'tuberculos' ? 'selected' : ''}>Tubérculos</option>
+                                                <option value="especias" ${(cultivo.tip_categoria || '') === 'especias' ? 'selected' : ''}>Especias</option>
+                                                <option value="otros" ${(cultivo.tip_categoria || '') === 'otros' ? 'selected' : ''}>Otros</option>
                                             </select>
                                         </div>
                                     </div>
@@ -788,9 +789,9 @@ $(document).ready(function() {
                                             <label for="editarCiclo" class="form-label">Ciclo *</label>
                                             <select class="form-select" id="editarCiclo" name="ciclo" required>
                                                 <option value="">Seleccionar ciclo</option>
-                                                <option value="anual" ${cultivo.tip_ciclo === 'anual' ? 'selected' : ''}>Anual</option>
-                                                <option value="bianual" ${cultivo.tip_ciclo === 'bianual' ? 'selected' : ''}>Bianual</option>
-                                                <option value="perenne" ${cultivo.tip_ciclo === 'perenne' ? 'selected' : ''}>Perenne</option>
+                                                <option value="anual" ${(cultivo.tip_ciclo_vida || '') === 'anual' ? 'selected' : ''}>Anual</option>
+                                                <option value="bianual" ${(cultivo.tip_ciclo_vida || '') === 'bianual' ? 'selected' : ''}>Bianual</option>
+                                                <option value="perenne" ${(cultivo.tip_ciclo_vida || '') === 'perenne' ? 'selected' : ''}>Perenne</option>
                                             </select>
                                         </div>
                                     </div>
@@ -798,15 +799,15 @@ $(document).ready(function() {
                                         <div class="mb-3">
                                             <label for="editarDiasCosecha" class="form-label">Días hasta Cosecha</label>
                                             <input type="number" class="form-control" id="editarDiasCosecha" 
-                                                   name="dias_cosecha" value="${cultivo.tip_dias_cosecha || ''}" min="1">
+                                                   name="dias_cosecha" value="${cultivo.tip_ciclo_dias || ''}" min="1">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="editarEstado" class="form-label">Estado *</label>
                                             <select class="form-select" id="editarEstado" name="estado" required>
-                                                <option value="activo" ${cultivo.tip_estado === 'activo' ? 'selected' : ''}>Activo</option>
-                                                <option value="inactivo" ${cultivo.tip_estado === 'inactivo' ? 'selected' : ''}>Inactivo</option>
+                                                <option value="activo" ${(cultivo.tip_estado || '') === 'activo' ? 'selected' : ''}>Activo</option>
+                                                <option value="inactivo" ${(cultivo.tip_estado || '') === 'inactivo' ? 'selected' : ''}>Inactivo</option>
                                             </select>
                                         </div>
                                     </div>
