@@ -1,4 +1,10 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+ini_set('error_log', __DIR__ . '/../php_error.log');
+
 session_start();
 header('Content-Type: application/json; charset=utf-8');
 require_once('../CONFIG/roles.php');
@@ -190,6 +196,16 @@ try {
             ];
             $filtros = array_filter($filtros);
             $resultado = $reportes_modelo->obtenerUsoInsumos($usuario_id, $rol, $filtros);
+            echo json_encode($resultado);
+            break;
+
+        case 'estadisticas_fitosanitarias':
+            $resultado = $reportes_modelo->obtenerEstadisticasFitosanitarias($usuario_id, $rol);
+            echo json_encode($resultado);
+            break;
+
+        case 'usuarios_activos':
+            $resultado = $reportes_modelo->obtenerUsuariosActivos($usuario_id, $rol);
             echo json_encode($resultado);
             break;
 

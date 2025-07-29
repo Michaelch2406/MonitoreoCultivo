@@ -49,6 +49,7 @@ $(document).ready(function() {
                 }
             },
             pageLength: 25,
+            pagingType: "full_numbers",
             order: [[0, 'asc']],
             columnDefs: [
                 {
@@ -164,7 +165,7 @@ $(document).ready(function() {
 
         $(document).on('click', '.btn-edit', function() {
             const id = $(this).data('id');
-            window.location.href = `cultivos.php?action=editar&id=${id}`;
+            editarCultivo(id);
         });
 
         $(document).on('click', '.btn-delete', function() {
@@ -699,6 +700,187 @@ $(document).ready(function() {
             'inactivo': 'bg-secondary'
         };
         return clases[estado] || 'bg-secondary';
+    }
+
+    /**
+     * Editar cultivo
+     */
+    function editarCultivo(id) {
+        showLoading();
+        
+        $.ajax({
+            url: '../AJAX/cultivos_ajax.php',
+            method: 'GET',
+            data: {
+                action: 'detalle',
+                id: id
+            },
+            success: function(response) {
+                hideLoading();
+                if (response.success) {
+                    mostrarModalEditarCultivo(response.cultivo);
+                } else {
+                    showError(response.message || 'Error al cargar los datos del cultivo');
+                }
+            },
+            error: function(xhr, status, error) {
+                hideLoading();
+                console.error('Error al obtener cultivo:', error);
+                showError('Error de conexión. Intente nuevamente.');
+            }
+        });
+    }
+
+    /**
+     * Mostrar modal para editar cultivo
+     */
+    function mostrarModalEditarCultivo(cultivo) {
+        // Remover modal existente si existe
+        $('#modalEditarCultivo').remove();
+
+        // Crear HTML del modal
+        const modalHtml = `
+            <div class="modal fade" id="modalEditarCultivo" tabindex="-1">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">
+                                <i class="fas fa-edit me-2"></i>Editar Cultivo
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <form id="formEditarCultivo">
+                            <input type="hidden" name="id" value="${cultivo.tip_id}">
+                            <input type="hidden" name="action" value="editar">
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="editarNombreCultivo" class="form-label">Nombre del Cultivo *</label>
+                                            <input type="text" class="form-control" id="editarNombreCultivo" 
+                                                   name="nombre" value="${cultivo.tip_nombre}" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="editarNombreCientifico" class="form-label">Nombre Científico</label>
+                                            <input type="text" class="form-control" id="editarNombreCientifico" 
+                                                   name="nombre_cientifico" value="${cultivo.tip_nombre_cientifico || ''}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="editarCategoria" class="form-label">Categoría *</label>
+                                            <select class="form-select" id="editarCategoria" name="categoria" required>
+                                                <option value="">Seleccionar categoría</option>
+                                                <option value="cereales" ${cultivo.tip_categoria === 'cereales' ? 'selected' : ''}>Cereales</option>
+                                                <option value="legumbres" ${cultivo.tip_categoria === 'legumbres' ? 'selected' : ''}>Legumbres</option>
+                                                <option value="frutas" ${cultivo.tip_categoria === 'frutas' ? 'selected' : ''}>Frutas</option>
+                                                <option value="verduras" ${cultivo.tip_categoria === 'verduras' ? 'selected' : ''}>Verduras</option>
+                                                <option value="tuberculos" ${cultivo.tip_categoria === 'tuberculos' ? 'selected' : ''}>Tubérculos</option>
+                                                <option value="especias" ${cultivo.tip_categoria === 'especias' ? 'selected' : ''}>Especias</option>
+                                                <option value="otros" ${cultivo.tip_categoria === 'otros' ? 'selected' : ''}>Otros</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="editarCiclo" class="form-label">Ciclo *</label>
+                                            <select class="form-select" id="editarCiclo" name="ciclo" required>
+                                                <option value="">Seleccionar ciclo</option>
+                                                <option value="anual" ${cultivo.tip_ciclo === 'anual' ? 'selected' : ''}>Anual</option>
+                                                <option value="bianual" ${cultivo.tip_ciclo === 'bianual' ? 'selected' : ''}>Bianual</option>
+                                                <option value="perenne" ${cultivo.tip_ciclo === 'perenne' ? 'selected' : ''}>Perenne</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="editarDiasCosecha" class="form-label">Días hasta Cosecha</label>
+                                            <input type="number" class="form-control" id="editarDiasCosecha" 
+                                                   name="dias_cosecha" value="${cultivo.tip_dias_cosecha || ''}" min="1">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="editarEstado" class="form-label">Estado *</label>
+                                            <select class="form-select" id="editarEstado" name="estado" required>
+                                                <option value="activo" ${cultivo.tip_estado === 'activo' ? 'selected' : ''}>Activo</option>
+                                                <option value="inactivo" ${cultivo.tip_estado === 'inactivo' ? 'selected' : ''}>Inactivo</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <label for="editarDescripcion" class="form-label">Descripción</label>
+                                            <textarea class="form-control" id="editarDescripcion" name="descripcion" 
+                                                      rows="3" placeholder="Descripción del cultivo">${cultivo.tip_descripcion || ''}</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save me-2"></i>Guardar Cambios
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Añadir modal al DOM
+        $('body').append(modalHtml);
+
+        // Configurar evento de submit del formulario
+        $('#formEditarCultivo').on('submit', function(e) {
+            e.preventDefault();
+            guardarCultivoEditado();
+        });
+
+        // Mostrar modal
+        $('#modalEditarCultivo').modal('show');
+
+        // Limpiar modal al cerrarse
+        $('#modalEditarCultivo').on('hidden.bs.modal', function() {
+            $(this).remove();
+        });
+    }
+
+    /**
+     * Guardar cultivo editado
+     */
+    function guardarCultivoEditado() {
+        const formData = new FormData(document.getElementById('formEditarCultivo'));
+        
+        showLoading();
+
+        $.ajax({
+            url: '../AJAX/cultivos_ajax.php',
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                hideLoading();
+                if (response.success) {
+                    showSuccess('Cultivo actualizado exitosamente');
+                    $('#modalEditarCultivo').modal('hide');
+                    // Recargar datos
+                    loadCultivosData();
+                    loadEstadisticas();
+                } else {
+                    showError(response.message || 'Error al actualizar el cultivo');
+                }
+            },
+            error: function(xhr, status, error) {
+                hideLoading();
+                console.error('Error al guardar cultivo:', error);
+                showError('Error de conexión. Intente nuevamente.');
+            }
+        });
     }
 
     /**

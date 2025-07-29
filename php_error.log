@@ -687,3 +687,118 @@ Stack trace:
 #0 C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\AJAX\obtener_cosecha.php(9): require_once()
 #1 {main}
   thrown in C:\inetpub\wwwroot\MonitoreoCultivo\MODELOS\cosechas_m.php on line 8
+[2025-07-29 14:36:23] OPERATION: Listar cultivos | User ID: 1 | Details: Categoría: todas
+[2025-07-29 14:36:23] OPERATION: Obtener estadísticas cultivos | User ID: 1
+[29-Jul-2025 14:36:42 America/New_York] PHP Fatal error:  Uncaught Error: Call to undefined method Conexion::query() in C:\inetpub\wwwroot\MonitoreoCultivo\MODELOS\reportes_m.php:848
+Stack trace:
+#0 C:\inetpub\wwwroot\MonitoreoCultivo\AJAX\reportes_ajax.php(55): Reportes->obtenerRendimientoLotes()
+#1 {main}
+  thrown in C:\inetpub\wwwroot\MonitoreoCultivo\MODELOS\reportes_m.php on line 848
+[29-Jul-2025 14:37:31 America/New_York] PHP Fatal error:  Uncaught Error: Call to undefined method Conexion::query() in C:\inetpub\wwwroot\MonitoreoCultivo\MODELOS\reportes_m.php:848
+Stack trace:
+#0 C:\inetpub\wwwroot\MonitoreoCultivo\AJAX\reportes_ajax.php(55): Reportes->obtenerRendimientoLotes()
+#1 {main}
+  thrown in C:\inetpub\wwwroot\MonitoreoCultivo\MODELOS\reportes_m.php on line 848
+[29-Jul-2025 14:42:51 America/New_York] PHP Fatal error:  Uncaught Error: Call to undefined method Conexion::query() in C:\inetpub\wwwroot\MonitoreoCultivo\MODELOS\reportes_m.php:848
+Stack trace:
+#0 C:\inetpub\wwwroot\MonitoreoCultivo\AJAX\reportes_ajax.php(55): Reportes->obtenerRendimientoLotes()
+#1 {main}
+  thrown in C:\inetpub\wwwroot\MonitoreoCultivo\MODELOS\reportes_m.php on line 848
+[29-Jul-2025 14:45:06 America/New_York] PHP Fatal error:  Uncaught Error: Call to undefined method Conexion::query() in C:\inetpub\wwwroot\MonitoreoCultivo\MODELOS\reportes_m.php:848
+Stack trace:
+#0 C:\inetpub\wwwroot\MonitoreoCultivo\AJAX\reportes_ajax.php(55): Reportes->obtenerRendimientoLotes()
+#1 {main}
+  thrown in C:\inetpub\wwwroot\MonitoreoCultivo\MODELOS\reportes_m.php on line 848
+[29-Jul-2025 14:45:23 America/New_York] PHP Fatal error:  Uncaught Error: Call to undefined method Conexion::ejecutarConsulta() in C:\inetpub\wwwroot\MonitoreoCultivo\MODELOS\reportes_m.php:1386
+Stack trace:
+#0 C:\inetpub\wwwroot\MonitoreoCultivo\AJAX\reportes_ajax.php(203): Reportes->obtenerEstadisticasFitosanitarias()
+#1 {main}
+  thrown in C:\inetpub\wwwroot\MonitoreoCultivo\MODELOS\reportes_m.php on line 1386
+SQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
+                           u.usu_nombre, u.usu_apellido, u.usu_email
+                    FROM lotes l
+                    INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
+                    INNER JOIN usuarios u ON f.fin_propietario = u.usu_id
+                    WHERE 1=1 ORDER BY l.lot_fecha_registro DESC[2025-07-29 16:18:38] OPERATION: Listar cultivos | User ID: 1 | Details: Categoría: todas
+[2025-07-29 16:18:38] OPERATION: Obtener estadísticas cultivos | User ID: 1
+SQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
+                           u.usu_nombre, u.usu_apellido, u.usu_email
+                    FROM lotes l
+                    INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
+                    INNER JOIN usuarios u ON f.fin_propietario = u.usu_id
+                    WHERE 1=1 ORDER BY l.lot_fecha_registro DESCSQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
+                           u.usu_nombre, u.usu_apellido, u.usu_email
+                    FROM lotes l
+                    INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
+                    INNER JOIN usuarios u ON f.fin_propietario = u.usu_id
+                    WHERE 1=1 ORDER BY l.lot_fecha_registro DESC[29-Jul-2025 16:20:02 America/New_York] PHP Fatal error:  Uncaught Error: Call to undefined method Conexion::ejecutarConsulta() in C:\inetpub\wwwroot\MonitoreoCultivo\MODELOS\reportes_m.php:1437
+Stack trace:
+#0 C:\inetpub\wwwroot\MonitoreoCultivo\AJAX\reportes_ajax.php(208): Reportes->obtenerUsuariosActivos()
+#1 {main}
+  thrown in C:\inetpub\wwwroot\MonitoreoCultivo\MODELOS\reportes_m.php on line 1437
+Creando lote - Datos recibidos: Array
+(
+    [nombre] => Sector A
+    [finca_id] => 3
+    [area] => 50
+    [tipo_suelo] => arenoso
+    [ph_suelo] => 5.8
+    [descripcion] => 
+    [action] => crear
+)
+SQL Crear Lote: INSERT INTO lotes (
+                        lot_nombre, lot_finca_id, lot_area, lot_tipo_suelo, 
+                        lot_ph_suelo, lot_descripcion, lot_estado
+                    ) VALUES (
+                        'Sector A', 3, 50, 'arenoso', 5.8, NULL, 
+                        'disponible'
+                    )SQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
+                           u.usu_nombre, u.usu_apellido, u.usu_email
+                    FROM lotes l
+                    INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
+                    INNER JOIN usuarios u ON f.fin_propietario = u.usu_id
+                    WHERE 1=1 ORDER BY l.lot_fecha_registro DESCSQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
+                           u.usu_nombre, u.usu_apellido, u.usu_email
+                    FROM lotes l
+                    INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
+                    INNER JOIN usuarios u ON f.fin_propietario = u.usu_id
+                    WHERE 1=1 ORDER BY l.lot_fecha_registro DESC[2025-07-29 16:27:07] OPERATION: Listar cultivos | User ID: 1 | Details: Categoría: todas
+[2025-07-29 16:27:07] OPERATION: Obtener estadísticas cultivos | User ID: 1
+[2025-07-29 16:27:19] OPERATION: Obtener estadísticas cultivos | User ID: 1
+[2025-07-29 16:27:19] OPERATION: Listar cultivos | User ID: 1 | Details: Categoría: todas
+[2025-07-29 16:29:25] OPERATION: Ver detalle cultivo | User ID: 1 | Details: ID: 10
+[2025-07-29 16:29:38] OPERATION: Ver detalle cultivo | User ID: 1 | Details: ID: 19
+[2025-07-29 16:29:43] OPERATION: Obtener estadísticas cultivos | User ID: 1
+[2025-07-29 16:29:43] OPERATION: Listar cultivos | User ID: 1 | Details: Categoría: todas
+[2025-07-29 16:30:22] OPERATION: Ver detalle cultivo | User ID: 1 | Details: ID: 19
+[2025-07-29 16:30:25] OPERATION: Ver detalle cultivo | User ID: 1 | Details: ID: 19
+[2025-07-29 16:32:09] OPERATION: Listar cultivos | User ID: 1 | Details: Categoría: todas
+[2025-07-29 16:32:09] OPERATION: Obtener estadísticas cultivos | User ID: 1
+SQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
+                           u.usu_nombre, u.usu_apellido, u.usu_email
+                    FROM lotes l
+                    INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
+                    INNER JOIN usuarios u ON f.fin_propietario = u.usu_id
+                    WHERE 1=1 ORDER BY l.lot_fecha_registro DESC[29-Jul-2025 16:38:58 America/New_York] PHP Fatal error:  Uncaught Error: Call to undefined method Conexion::query() in C:\inetpub\wwwroot\MonitoreoCultivo\MODELOS\reportes_m.php:848
+Stack trace:
+#0 C:\inetpub\wwwroot\MonitoreoCultivo\AJAX\reportes_ajax.php(55): Reportes->obtenerRendimientoLotes()
+#1 {main}
+  thrown in C:\inetpub\wwwroot\MonitoreoCultivo\MODELOS\reportes_m.php on line 848
+[29-Jul-2025 16:39:53 America/New_York] PHP Fatal error:  Uncaught Error: Call to undefined method Conexion::ejecutarConsulta() in C:\inetpub\wwwroot\MonitoreoCultivo\MODELOS\reportes_m.php:1386
+Stack trace:
+#0 C:\inetpub\wwwroot\MonitoreoCultivo\AJAX\reportes_ajax.php(203): Reportes->obtenerEstadisticasFitosanitarias()
+#1 {main}
+  thrown in C:\inetpub\wwwroot\MonitoreoCultivo\MODELOS\reportes_m.php on line 1386
+[29-Jul-2025 19:13:27 America/New_York] PHP Fatal error:  Uncaught Error: Call to undefined method Conexion::query() in C:\inetpub\wwwroot\MonitoreoCultivo\MODELOS\reportes_m.php:848
+Stack trace:
+#0 C:\inetpub\wwwroot\MonitoreoCultivo\AJAX\reportes_ajax.php(55): Reportes->obtenerRendimientoLotes()
+#1 {main}
+  thrown in C:\inetpub\wwwroot\MonitoreoCultivo\MODELOS\reportes_m.php on line 848
+[29-Jul-2025 19:16:58 America/New_York] PHP Fatal error:  Uncaught Error: Call to undefined method Conexion::ejecutarConsulta() in C:\inetpub\wwwroot\MonitoreoCultivo\MODELOS\reportes_m.php:1386
+Stack trace:
+#0 C:\inetpub\wwwroot\MonitoreoCultivo\AJAX\reportes_ajax.php(203): Reportes->obtenerEstadisticasFitosanitarias()
+#1 {main}
+  thrown in C:\inetpub\wwwroot\MonitoreoCultivo\MODELOS\reportes_m.php on line 1386
+[2025-07-29 19:34:59] OPERATION: Listar cultivos | User ID: 1 | Details: Categoría: todas
+[2025-07-29 19:34:59] OPERATION: Obtener estadísticas cultivos | User ID: 1
+[2025-07-29 19:35:02] OPERATION: Ver detalle cultivo | User ID: 1 | Details: ID: 19

@@ -819,7 +819,7 @@ class Reportes {
      */
     public function obtenerRendimientoLotes($usuario_id, $rol) {
         try {
-            $mysqli = $this->conexion;
+            $mysqli = $this->conexion->getMysqli();
             
             // Filtros según rol
             $filtro_usuario = "";
@@ -872,7 +872,7 @@ class Reportes {
      */
     public function obtenerCostosPorCategoria($usuario_id, $rol, $filtros = []) {
         try {
-            $mysqli = $this->conexion;
+            $mysqli = $this->conexion->getMysqli();
             
             // Filtros según rol
             $filtro_usuario = "";
@@ -939,7 +939,7 @@ class Reportes {
      */
     public function obtenerEvolucionCostos($usuario_id, $rol, $periodo = '12_meses') {
         try {
-            $mysqli = $this->conexion;
+            $mysqli = $this->conexion->getMysqli();
             
             // Filtros según rol
             $filtro_usuario = "";
@@ -984,7 +984,7 @@ class Reportes {
      */
     public function obtenerCostosDetallados($usuario_id, $rol, $filtros = []) {
         try {
-            $mysqli = $this->conexion;
+            $mysqli = $this->conexion->getMysqli();
             
             // Filtros según rol
             $filtro_usuario = "";
@@ -1361,6 +1361,104 @@ class Reportes {
         }
     }
     
+    /**
+     * Obtener estadísticas fitosanitarias
+     */
+    public function obtenerEstadisticasFitosanitarias($usuario_id, $rol) {
+        try {
+            $filtro_usuario = $this->construirFiltroUsuario($rol, $usuario_id);
+            
+            $query = "
+                SELECT 
+                    COUNT(DISTINCT CASE WHEN mon.mon_plagas_detectadas = 0 AND mon.mon_enfermedades_detectadas = 0 THEN l.lot_id END) as cultivos_sanos,
+                    SUM(mon.mon_plagas_detectadas) as plagas_detectadas,
+                    SUM(mon.mon_enfermedades_detectadas) as enfermedades_activas,
+                    COUNT(DISTINCT act.act_id) as tratamientos_aplicados
+                FROM fincas f
+                LEFT JOIN lotes l ON f.fin_id = l.lot_finca_id
+                LEFT JOIN siembras s ON l.lot_id = s.sie_lote_id
+                LEFT JOIN monitoreo mon ON s.sie_id = mon.mon_siembra_id
+                LEFT JOIN actividades act ON s.sie_id = act.act_siembra_id 
+                    AND act.act_tipo IN ('aplicacion_fungicida', 'aplicacion_insecticida', 'control_biologico')
+                WHERE 1=1 $filtro_usuario
+            ";
+            
+            $resultado = $this->conexion->ejecutarConsulta($query);
+            
+            if ($resultado && $fila = $resultado->fetch_assoc()) {
+                return [
+                    'success' => true,
+                    'estadisticas' => [
+                        'cultivos_sanos' => intval($fila['cultivos_sanos']),
+                        'plagas_detectadas' => intval($fila['plagas_detectadas']),
+                        'enfermedades_activas' => intval($fila['enfermedades_activas']),
+                        'tratamientos_aplicados' => intval($fila['tratamientos_aplicados'])
+                    ]
+                ];
+            }
+            
+            return [
+                'success' => true,
+                'estadisticas' => [
+                    'cultivos_sanos' => 0,
+                    'plagas_detectadas' => 0,
+                    'enfermedades_activas' => 0,
+                    'tratamientos_aplicados' => 0
+                ]
+            ];
+            
+        } catch (Exception $e) {
+            error_log("Error en obtenerEstadisticasFitosanitarias: " . $e->getMessage());
+            return ['success' => false, 'message' => 'Error al obtener estadísticas fitosanitarias'];
+        }
+    }
+
+    /**
+     * Obtener datos de usuarios activos por días
+     */
+    public function obtenerUsuariosActivos($usuario_id, $rol) {
+        try {
+            // Solo administradores pueden ver estadísticas de usuarios
+            if ($rol !== 'administrador') {
+                return ['success' => false, 'message' => 'Acceso denegado'];
+            }
+            
+            $query = "
+                SELECT 
+                    DATE(usu_fecha_creacion) as fecha,
+                    COUNT(*) as usuarios_activos
+                FROM usuarios 
+                WHERE usu_estado = 'activo' 
+                    AND usu_fecha_creacion >= DATE_SUB(CURRENT_DATE, INTERVAL 7 DAY)
+                GROUP BY DATE(usu_fecha_creacion)
+                ORDER BY fecha ASC
+            ";
+            
+            $resultado = $this->conexion->ejecutarConsulta($query);
+            $datos = [];
+            
+            if ($resultado) {
+                while ($fila = $resultado->fetch_assoc()) {
+                    $datos[] = intval($fila['usuarios_activos']);
+                }
+            }
+            
+            // Si no hay datos, llenar con ceros para los últimos 7 días
+            if (empty($datos)) {
+                $datos = [0, 0, 0, 0, 0, 0, 0];
+            }
+            
+            return [
+                'success' => true,
+                'data' => $datos
+            ];
+            
+        } catch (Exception $e) {
+            error_log("Error en obtenerUsuariosActivos: " . $e->getMessage());
+            return ['success' => false, 'message' => 'Error al obtener datos de usuarios activos'];
+        }
+    }
+
     /**
      * Método auxiliar para construir filtro de usuario según rol
      */

@@ -722,12 +722,21 @@ function cargarDatosGraficoSistema() {
  * Cargar datos de usuarios activos
  */
 function cargarDatosUsuariosActivos() {
-    // Simular datos por ahora - en producción vendría del backend
-    if (window.graficoUsuarios) {
-        const datosSimulados = [12, 19, 15, 25, 22, 18, 20];
-        window.graficoUsuarios.data.datasets[0].data = datosSimulados;
-        window.graficoUsuarios.update();
-    }
+    $.ajax({
+        url: '../AJAX/reportes_ajax.php',
+        type: 'GET',
+        data: { accion: 'usuarios_activos' },
+        dataType: 'json',
+        success: function(response) {
+            if (response.success && window.graficoUsuarios) {
+                window.graficoUsuarios.data.datasets[0].data = response.data || [];
+                window.graficoUsuarios.update();
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Error al cargar datos de usuarios activos:', error);
+        }
+    });
 }
 
 /**

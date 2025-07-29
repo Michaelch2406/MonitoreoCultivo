@@ -27,6 +27,7 @@ $(document).ready(function() {
             { orderable: false, targets: [7] } // Columna de acciones no ordenable
         ],
         pageLength: 25,
+        pagingType: "full_numbers",
         lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todos"]],
         dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rtip',
         drawCallback: function() {

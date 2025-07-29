@@ -19,6 +19,7 @@ $(document).ready(function() {
         },
         responsive: true,
         pageLength: 10,
+        pagingType: "full_numbers",
         order: [[0, 'desc']],
         columnDefs: [
             { orderable: false, targets: -1 } // Desactivar ordenamiento en la columna de acciones

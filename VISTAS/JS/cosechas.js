@@ -61,7 +61,8 @@ function initializeDataTable() {
                 searchable: false
             }
         ],
-        dom: 'Bfrtip',
+        dom: '<"d-flex justify-content-between align-items-center mb-3"<"d-flex align-items-center"B><"d-flex align-items-center"f>>rtip',
+        pagingType: "full_numbers",
         buttons: [
             {
                 extend: 'excel',

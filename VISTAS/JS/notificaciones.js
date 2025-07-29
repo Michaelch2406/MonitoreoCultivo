@@ -62,17 +62,34 @@ $(document).ready(function() {
     
     function actualizarContadorNotificaciones(total) {
         const badge = $('#notification-count');
+        const icon = $('.notification-icon');
+        
+        // Validar que total sea un número
+        total = parseInt(total) || 0;
         
         if (total > 0) {
-            badge.text(total > 99 ? '99+' : total);
+            // Mostrar el número correcto, máximo 99+
+            const texto = total > 99 ? '99+' : total.toString();
+            badge.text(texto);
             badge.removeClass('d-none');
             
-            // Añadir animación de pulso si hay notificaciones nuevas
-            $('.notification-icon').addClass('text-warning');
+            // Añadir estilo de notificación activa
+            icon.addClass('text-warning');
+            
+            // Animación sutil cuando hay notificaciones nuevas
+            badge.addClass('animate__animated animate__pulse');
+            setTimeout(() => {
+                badge.removeClass('animate__animated animate__pulse');
+            }, 1000);
         } else {
             badge.addClass('d-none');
-            $('.notification-icon').removeClass('text-warning');
+            icon.removeClass('text-warning');
         }
+        
+        // Actualizar título del elemento para accesibilidad
+        $('#navbarNotifications').attr('title', 
+            total > 0 ? `${total} notificación${total > 1 ? 'es' : ''} sin leer` : 'Sin notificaciones'
+        );
     }
     
     function mostrarNotificaciones(notificaciones) {
@@ -122,9 +139,17 @@ $(document).ready(function() {
         $('#notifications-container').html(`
             <li class="text-center py-3 text-danger">
                 <i class="fas fa-exclamation-triangle me-2"></i>
-                Error al cargar notificaciones
+                <div>Error al cargar notificaciones</div>
+                <small class="text-muted mt-1 d-block">Reintentando en 5 segundos...</small>
             </li>
         `);
+        
+        // Reintentar después de 5 segundos
+        setTimeout(() => {
+            if (!notificacionesActualizando) {
+                cargarNotificaciones();
+            }
+        }, 5000);
     }
     
     function marcarComoLeida(alertaId) {

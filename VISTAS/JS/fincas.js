@@ -47,6 +47,7 @@ function initDataTable() {
             }
         },
         pageLength: 10,
+        pagingType: "full_numbers",
         order: [[0, 'desc']],
         columnDefs: [
             { 

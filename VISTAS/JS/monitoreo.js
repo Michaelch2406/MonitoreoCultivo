@@ -47,6 +47,7 @@ $(document).ready(function() {
             },
             responsive: true,
             pageLength: 25,
+            pagingType: "full_numbers",
             order: [[0, 'desc']], // Ordenar por fecha descendente
             columnDefs: [
                 {

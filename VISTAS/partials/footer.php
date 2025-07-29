@@ -91,27 +91,17 @@
                     </h5>
                     <div class="contact-info">
                         <div class="contact-item">
-                            <i class="fas fa-map-marker-alt contact-icon"></i>
-                            <div class="contact-text">
-                                <strong>Dirección:</strong><br>
-                                Av. Agricultura 123, Ciudad Agrícola<br>
-                                Código Postal: 12345
-                            </div>
-                        </div>
-                        <div class="contact-item">
-                            <i class="fas fa-phone contact-icon"></i>
-                            <div class="contact-text">
-                                <strong>Teléfono:</strong><br>
-                                +1 (555) 123-4567<br>
-                                +1 (555) 987-6543
-                            </div>
-                        </div>
-                        <div class="contact-item">
                             <i class="fas fa-envelope contact-icon"></i>
                             <div class="contact-text">
-                                <strong>Email:</strong><br>
-                                info@agromonitor.com<br>
-                                soporte@agromonitor.com
+                                <strong>Soporte:</strong><br>
+                                <a href="contacto.php" class="footer-link">Formulario de Contacto</a>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-question-circle contact-icon"></i>
+                            <div class="contact-text">
+                                <strong>Ayuda:</strong><br>
+                                <span class="text-muted">Sistema en funcionamiento</span>
                             </div>
                         </div>
                     </div>
@@ -126,7 +116,7 @@
             <div class="col-lg-6">
                 <div class="footer-bottom-left">
                     <p class="copyright">
-                        © <span id="current-year">2024</span> AgroMonitor. 
+                        © <span id="current-year"><?php echo date('Y'); ?></span> AgroMonitor. 
                         <span class="separator">|</span>
                         Todos los derechos reservados.
                         <span class="separator">|</span>

@@ -557,81 +557,8 @@ $conexion = new Conexion();
                                     </thead>
                                     <tbody id="tabla-cultivos">
                                         <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="cultivo-icon bg-success me-2">
-                                                        <i class="fas fa-pepper-hot"></i>
-                                                    </div>
-                                                    <div>
-                                                        <div class="fw-bold">Tomates Cherry</div>
-                                                        <small class="text-muted">Plantado hace 45 días</small>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>Sector A - Lote 3</td>
-                                            <td><span class="badge bg-success">Floración</span></td>
-                                            <td>
-                                                <small>Riego - Hace 2 horas</small>
-                                            </td>
-                                            <td>
-                                                <button class="btn btn-sm btn-outline-primary" title="Ver detalles">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-outline-warning" title="Editar">
-                                                    <i class="fas fa-edit"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="cultivo-icon bg-warning me-2">
-                                                        <i class="fas fa-carrot"></i>
-                                                    </div>
-                                                    <div>
-                                                        <div class="fw-bold">Zanahorias</div>
-                                                        <small class="text-muted">Plantado hace 60 días</small>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>Sector B - Lote 1</td>
-                                            <td><span class="badge bg-warning">Crecimiento</span></td>
-                                            <td>
-                                                <small>Fertilización - Hace 1 día</small>
-                                            </td>
-                                            <td>
-                                                <button class="btn btn-sm btn-outline-primary" title="Ver detalles">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-outline-warning" title="Editar">
-                                                    <i class="fas fa-edit"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="cultivo-icon bg-info me-2">
-                                                        <i class="fas fa-leaf"></i>
-                                                    </div>
-                                                    <div>
-                                                        <div class="fw-bold">Lechuga</div>
-                                                        <small class="text-muted">Plantado hace 25 días</small>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>Sector C - Lote 2</td>
-                                            <td><span class="badge bg-primary">Desarrollo</span></td>
-                                            <td>
-                                                <small>Monitoreo - Hace 3 horas</small>
-                                            </td>
-                                            <td>
-                                                <button class="btn btn-sm btn-outline-primary" title="Ver detalles">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-outline-warning" title="Editar">
-                                                    <i class="fas fa-edit"></i>
-                                                </button>
+                                            <td colspan="5" class="text-center py-3">
+                                                <i class="fas fa-spinner fa-spin me-2"></i>Cargando cultivos...
                                             </td>
                                         </tr>
                                     </tbody>
@@ -753,16 +680,10 @@ $conexion = new Conexion();
                                             <br><small>Gestionar Fincas</small>
                                         </a>
                                     </div>
-                                    <div class="col-6">
-                                        <a href="admin/reportes.php" class="btn btn-outline-warning w-100">
+                                    <div class="col-12">
+                                        <a href="reportes.php" class="btn btn-outline-warning w-100">
                                             <i class="fas fa-chart-bar mb-1"></i>
                                             <br><small>Reportes Sistema</small>
-                                        </a>
-                                    </div>
-                                    <div class="col-6">
-                                        <a href="admin/configuracion.php" class="btn btn-outline-info w-100">
-                                            <i class="fas fa-cog mb-1"></i>
-                                            <br><small>Configuración</small>
                                         </a>
                                     </div>
                                 <?php elseif ($rol_usuario == 'agricultor'): ?>

@@ -82,6 +82,7 @@ function initializeDataTable() {
             language: FINANZAS_CONFIG.dataTables.language,
             responsive: true,
             pageLength: 25,
+            pagingType: "full_numbers",
             order: [[1, 'desc']], // Ordenar por fecha descendente
             columnDefs: [
                 {
@@ -569,6 +570,142 @@ function mostrarModalVerGasto(gasto) {
     // Mostrar modal
     const modal = new bootstrap.Modal(document.getElementById('modalVerGasto'));
     modal.show();
+}
+
+/**
+ * Mostrar modal para editar gasto
+ */
+function mostrarModalEditarGasto(gasto) {
+    // Remover modal existente si existe
+    const modalExistente = document.getElementById('modalEditarGasto');
+    if (modalExistente) {
+        modalExistente.remove();
+    }
+
+    // Crear modal dinámicamente
+    let modalHtml = `
+        <div class="modal fade" id="modalEditarGasto" tabindex="-1">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            <i class="fas fa-edit me-2"></i>Editar Gasto
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <form id="formEditarGasto">
+                        <input type="hidden" id="editarGastoId" name="id" value="${gasto.gas_id}">
+                        <div class="modal-body">
+                            <div class="row">
+                                <!-- Información Básica -->
+                                <div class="col-md-12">
+                                    <h6 class="mb-3"><i class="fas fa-info-circle me-2"></i>Información Básica</h6>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label for="editarFechaGasto" class="form-label">Fecha del Gasto *</label>
+                                        <input type="date" class="form-control" id="editarFechaGasto" name="fecha" value="${gasto.gas_fecha}" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label for="editarTipoGasto" class="form-label">Tipo de Gasto *</label>
+                                        <select class="form-select" id="editarTipoGasto" name="tipo" required>
+                                            <option value="">Seleccionar tipo</option>
+                                            <option value="semillas" ${gasto.gas_tipo === 'semillas' ? 'selected' : ''}>Semillas e Insumos</option>
+                                            <option value="fertilizantes" ${gasto.gas_tipo === 'fertilizantes' ? 'selected' : ''}>Fertilizantes</option>
+                                            <option value="pesticidas" ${gasto.gas_tipo === 'pesticidas' ? 'selected' : ''}>Pesticidas y Fungicidas</option>
+                                            <option value="maquinaria" ${gasto.gas_tipo === 'maquinaria' ? 'selected' : ''}>Maquinaria y Equipo</option>
+                                            <option value="mano_obra" ${gasto.gas_tipo === 'mano_obra' ? 'selected' : ''}>Mano de Obra</option>
+                                            <option value="transporte" ${gasto.gas_tipo === 'transporte' ? 'selected' : ''}>Transporte</option>
+                                            <option value="servicios" ${gasto.gas_tipo === 'servicios' ? 'selected' : ''}>Servicios</option>
+                                            <option value="otros" ${gasto.gas_tipo === 'otros' ? 'selected' : ''}>Otros</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label for="editarMontoGasto" class="form-label">Monto ($) *</label>
+                                        <input type="number" class="form-control" id="editarMontoGasto" name="monto" 
+                                               value="${gasto.gas_monto}" step="0.01" min="0" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label for="editarDescripcionGasto" class="form-label">Descripción</label>
+                                        <textarea class="form-control" id="editarDescripcionGasto" name="descripcion" 
+                                                  rows="3" placeholder="Descripción detallada del gasto">${gasto.gas_descripcion || ''}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>Guardar Cambios
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Añadir al DOM
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+    // Configurar evento de submit del formulario
+    document.getElementById('formEditarGasto').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        await guardarGastoEditado();
+    });
+
+    // Mostrar modal
+    const modal = new bootstrap.Modal(document.getElementById('modalEditarGasto'));
+    modal.show();
+
+    // Limpiar modal al cerrarse
+    modal._element.addEventListener('hidden.bs.modal', function() {
+        document.getElementById('modalEditarGasto').remove();
+    });
+}
+
+/**
+ * Guardar gasto editado
+ */
+async function guardarGastoEditado() {
+    try {
+        mostrarLoading('Guardando cambios...');
+        
+        const formData = new FormData(document.getElementById('formEditarGasto'));
+        
+        const response = await fetch('AJAX/actualizar_gasto.php', {
+            method: 'POST',
+            body: formData
+        });
+        
+        const resultado = await response.json();
+        
+        ocultarLoading();
+        
+        if (resultado.success) {
+            mostrarMensaje('Gasto actualizado exitosamente', 'success');
+            
+            // Cerrar modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('modalEditarGasto'));
+            modal.hide();
+            
+            // Recargar tabla
+            cargarGastos();
+        } else {
+            mostrarMensaje(resultado.message || 'Error al actualizar el gasto', 'error');
+        }
+        
+    } catch (error) {
+        ocultarLoading();
+        console.error('Error al guardar gasto:', error);
+        mostrarMensaje('Error de conexión. Intente nuevamente.', 'error');
+    }
 }
 
 /**

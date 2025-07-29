@@ -57,8 +57,6 @@ function obtenerTextoRolSimple($rol) {
                         </a>
                         <ul class="dropdown-menu dropdown-custom">
                             <li><a class="dropdown-item" href="usuarios.php"><i class="fas fa-users me-2"></i>Gestión de Usuarios</a></li>
-                            <li><a class="dropdown-item" href="admin/configuracion.php"><i class="fas fa-cogs me-2"></i>Configuración Sistema</a></li>
-                            <li><a class="dropdown-item" href="admin/backup.php"><i class="fas fa-database me-2"></i>Backup</a></li>
                         </ul>
                     </li>
                 <?php endif; ?>
@@ -109,14 +107,6 @@ function obtenerTextoRolSimple($rol) {
                     </a>
                     <ul class="dropdown-menu dropdown-custom">
                         <li><a class="dropdown-item" href="monitoreo.php"><i class="fas fa-eye me-2"></i>Monitoreo de Cultivos</a></li>
-                        <?php if ($rol_usuario == 'administrador' || $rol_usuario == 'agricultor'): ?>
-                            <li><a class="dropdown-item" href="monitoreo/nuevo.php"><i class="fas fa-clipboard-check me-2"></i>Nuevo Monitoreo</a></li>
-                        <?php endif; ?>
-                        <li><a class="dropdown-item" href="monitoreo/index.php"><i class="fas fa-history me-2"></i>Historial</a></li>
-                        <li><a class="dropdown-item" href="alertas/index.php"><i class="fas fa-exclamation-triangle me-2"></i>Alertas</a></li>
-                        <?php if ($rol_usuario == 'supervisor'): ?>
-                            <li><a class="dropdown-item" href="supervisor/monitoreo.php"><i class="fas fa-binoculars me-2"></i>Supervisión</a></li>
-                        <?php endif; ?>
                     </ul>
                 </li>
                 
@@ -128,10 +118,8 @@ function obtenerTextoRolSimple($rol) {
                             <i class="fas fa-binoculars me-1"></i>Supervisión
                         </a>
                         <ul class="dropdown-menu dropdown-custom">
-                            <li><a class="dropdown-item" href="supervisor/agricultores.php"><i class="fas fa-users me-2"></i>Agricultores</a></li>
                             <li><a class="dropdown-item" href="fincas.php"><i class="fas fa-map-marked-alt me-2"></i>Fincas Supervisadas</a></li>
                             <li><a class="dropdown-item" href="lotes.php"><i class="fas fa-th-large me-2"></i>Lotes Supervisados</a></li>
-                            <li><a class="dropdown-item" href="supervisor/reportes.php"><i class="fas fa-clipboard-list me-2"></i>Reportes</a></li>
                         </ul>
                     </li>
                 <?php endif; ?>
@@ -145,9 +133,6 @@ function obtenerTextoRolSimple($rol) {
                         </a>
                         <ul class="dropdown-menu dropdown-custom">
                             <li><a class="dropdown-item" href="finanzas.php"><i class="fas fa-chart-line me-2"></i>Control Financiero</a></li>
-                            <li><a class="dropdown-item" href="finanzas.php#gastos"><i class="fas fa-money-bill-wave me-2"></i>Gestión de Gastos</a></li>
-                            <li><a class="dropdown-item" href="finanzas.php#ingresos"><i class="fas fa-coins me-2"></i>Análisis de Ingresos</a></li>
-                            <li><a class="dropdown-item" href="finanzas.php#reportes"><i class="fas fa-file-excel me-2"></i>Reportes Financieros</a></li>
                         </ul>
                     </li>
                 <?php endif; ?>
@@ -159,24 +144,7 @@ function obtenerTextoRolSimple($rol) {
                         <i class="fas fa-chart-line me-1"></i>Reportes
                     </a>
                     <ul class="dropdown-menu dropdown-custom">
-                        <li><a class="dropdown-item" href="reportes.php"><i class="fas fa-tachometer-alt me-2"></i>Dashboard y Reportes</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <?php if ($rol_usuario == 'administrador'): ?>
-                            <li><a class="dropdown-item" href="reportes.php#dashboard"><i class="fas fa-chart-bar me-2"></i>Dashboard Global</a></li>
-                            <li><a class="dropdown-item" href="reportes.php#produccion"><i class="fas fa-seedling me-2"></i>Reportes de Producción</a></li>
-                            <li><a class="dropdown-item" href="reportes.php#financiero"><i class="fas fa-dollar-sign me-2"></i>Reportes Financieros</a></li>
-                            <li><a class="dropdown-item" href="reportes.php#tecnico"><i class="fas fa-cogs me-2"></i>Reportes Técnicos</a></li>
-                        <?php elseif ($rol_usuario == 'agricultor'): ?>
-                            <li><a class="dropdown-item" href="reportes.php#dashboard"><i class="fas fa-chart-bar me-2"></i>Mi Dashboard</a></li>
-                            <li><a class="dropdown-item" href="reportes.php#produccion"><i class="fas fa-seedling me-2"></i>Mis Cultivos</a></li>
-                            <li><a class="dropdown-item" href="reportes.php#financiero"><i class="fas fa-dollar-sign me-2"></i>Análisis Financiero</a></li>
-                            <li><a class="dropdown-item" href="reportes.php#tecnico"><i class="fas fa-cogs me-2"></i>Control Técnico</a></li>
-                        <?php elseif ($rol_usuario == 'supervisor'): ?>
-                            <li><a class="dropdown-item" href="reportes.php#dashboard"><i class="fas fa-chart-bar me-2"></i>Dashboard Supervisión</a></li>
-                            <li><a class="dropdown-item" href="reportes.php#produccion"><i class="fas fa-seedling me-2"></i>Producción</a></li>
-                            <li><a class="dropdown-item" href="reportes.php#financiero"><i class="fas fa-dollar-sign me-2"></i>Estados Financieros</a></li>
-                            <li><a class="dropdown-item" href="reportes.php#tecnico"><i class="fas fa-cogs me-2"></i>Monitoreo Técnico</a></li>
-                        <?php endif; ?>
+                        <li><a class="dropdown-item" href="reportes.php"><i class="fas fa-tachometer-alt me-2"></i>Dashboard y Reportes</a></li>                
                     </ul>
                 </li>
             </ul>
@@ -204,7 +172,7 @@ function obtenerTextoRolSimple($rol) {
                             </li>
                         </div>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item text-center" href="notificaciones.php" id="ver-todas-notificaciones">Ver todas las notificaciones</a></li>
+                        <li><span class="dropdown-item text-center text-muted">No hay notificaciones nuevas</span></li>
                     </ul>
                 </li>
 
@@ -231,12 +199,6 @@ function obtenerTextoRolSimple($rol) {
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="perfil.php" id="nav-perfil">
                             <i class="fas fa-user me-2"></i>Mi Perfil
-                        </a></li>
-                        <li><a class="dropdown-item" href="#" id="nav-configuracion">
-                            <i class="fas fa-cog me-2"></i>Configuración
-                        </a></li>
-                        <li><a class="dropdown-item" href="#" id="nav-ayuda">
-                            <i class="fas fa-question-circle me-2"></i>Ayuda
                         </a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item text-danger" href="logout.php" id="nav-logout">
