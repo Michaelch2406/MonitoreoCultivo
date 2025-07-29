@@ -60,6 +60,10 @@ $permisos_usuario = $permisos[$usuario_actual['rol']] ?? [];
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link href="partials/CSS/navbar.css" rel="stylesheet">
+    
+    <link href="partials/CSS/footer.css" rel="stylesheet">
     <!-- DataTables -->
     <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
     
@@ -317,15 +321,9 @@ $permisos_usuario = $permisos[$usuario_actual['rol']] ?? [];
     <div class="container-fluid">
         <!-- Navegación por pestañas -->
         <ul class="nav nav-tabs" id="reportesTabs" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="dashboard-tab" data-bs-toggle="tab" data-bs-target="#dashboard" type="button" role="tab">
-                    <i class="fas fa-tachometer-alt me-2"></i>Dashboard
-                </button>
-            </li>
-            
             <?php if ($permisos_usuario['reportes_produccion']): ?>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="produccion-tab" data-bs-toggle="tab" data-bs-target="#produccion" type="button" role="tab">
+                <button class="nav-link active" id="produccion-tab" data-bs-toggle="tab" data-bs-target="#produccion" type="button" role="tab">
                     <i class="fas fa-seedling me-2"></i>Producción
                 </button>
             </li>
@@ -333,7 +331,7 @@ $permisos_usuario = $permisos[$usuario_actual['rol']] ?? [];
             
             <?php if ($permisos_usuario['reportes_financieros']): ?>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="financiero-tab" data-bs-toggle="tab" data-bs-target="#financiero" type="button" role="tab">
+                <button class="nav-link <?php echo !$permisos_usuario['reportes_produccion'] ? 'active' : ''; ?>" id="financiero-tab" data-bs-toggle="tab" data-bs-target="#financiero" type="button" role="tab">
                     <i class="fas fa-dollar-sign me-2"></i>Financiero
                 </button>
             </li>
@@ -341,7 +339,7 @@ $permisos_usuario = $permisos[$usuario_actual['rol']] ?? [];
             
             <?php if ($permisos_usuario['reportes_tecnicos']): ?>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="tecnico-tab" data-bs-toggle="tab" data-bs-target="#tecnico" type="button" role="tab">
+                <button class="nav-link <?php echo !$permisos_usuario['reportes_produccion'] && !$permisos_usuario['reportes_financieros'] ? 'active' : ''; ?>" id="tecnico-tab" data-bs-toggle="tab" data-bs-target="#tecnico" type="button" role="tab">
                     <i class="fas fa-cogs me-2"></i>Técnico
                 </button>
             </li>
@@ -350,93 +348,10 @@ $permisos_usuario = $permisos[$usuario_actual['rol']] ?? [];
 
         <!-- Contenido de las pestañas -->
         <div class="tab-content" id="reportesTabContent">
-            <!-- Dashboard -->
-            <div class="tab-pane fade show active" id="dashboard" role="tabpanel">
-                <!-- Estadísticas generales -->
-                <div class="row mb-4" id="estadisticasGenerales">
-                    <div class="col-md-3">
-                        <div class="stats-card">
-                            <div class="stats-number" id="totalFincas">-</div>
-                            <div class="stats-label">Fincas Activas</div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="stats-card">
-                            <div class="stats-number" id="lotesProduccion">-</div>
-                            <div class="stats-label">Lotes en Producción</div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="stats-card">
-                            <div class="stats-number" id="cultivosActivos">-</div>
-                            <div class="stats-label">Cultivos Activos</div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="stats-card">
-                            <div class="stats-number" id="alertasPendientes">-</div>
-                            <div class="stats-label">Alertas Pendientes</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Gráficos del Dashboard -->
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5 class="mb-0">
-                                    <i class="fas fa-chart-line me-2"></i>
-                                    Producción Mensual
-                                </h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="chart-container">
-                                    <canvas id="produccionMensualChart"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5 class="mb-0">
-                                    <i class="fas fa-chart-bar me-2"></i>
-                                    Gastos vs Ingresos
-                                </h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="chart-container">
-                                    <canvas id="gastosIngresosChart"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5 class="mb-0">
-                                    <i class="fas fa-chart-pie me-2"></i>
-                                    Distribución de Cultivos
-                                </h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="chart-container">
-                                    <canvas id="distribucionCultivosChart"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <!-- Reportes de Producción -->
             <?php if ($permisos_usuario['reportes_produccion']): ?>
-            <div class="tab-pane fade" id="produccion" role="tabpanel">
+            <div class="tab-pane fade show active" id="produccion" role="tabpanel">
                 <!-- Filtros de Producción -->
                 <div class="filter-section">
                     <h5><i class="fas fa-filter me-2"></i>Filtros de Búsqueda</h5>
@@ -957,24 +872,14 @@ $permisos_usuario = $permisos[$usuario_actual['rol']] ?? [];
         const ROL_USUARIO = '<?php echo $usuario_actual['rol']; ?>';
         
         // Variables globales para los gráficos
-        let produccionChart, gastosIngresosChart, distribucionChart, flujoCajaChart, rendimientoLoteChart, costosCategoriaChart, costosEvolucionChart, plagasChart, enfermedadesChart, efectividadTratamientosChart;
+        let flujoCajaChart, rendimientoLoteChart, costosCategoriaChart, costosEvolucionChart, plagasChart, enfermedadesChart, efectividadTratamientosChart;
         
         // Inicialización cuando el documento esté listo
         $(document).ready(function() {
-            inicializarDashboard();
             inicializarEventos();
             cargarDatosIniciales();
         });
         
-        function inicializarDashboard() {
-            // Cargar estadísticas generales
-            cargarEstadisticasGenerales();
-            
-            // Inicializar gráficos del dashboard
-            setTimeout(() => {
-                inicializarGraficos();
-            }, 500);
-        }
         
         function inicializarEventos() {
             // Eventos de las pestañas
@@ -1010,127 +915,8 @@ $permisos_usuario = $permisos[$usuario_actual['rol']] ?? [];
             cargarLotesParaFiltro();
         }
         
-        function cargarEstadisticasGenerales() {
-            $.ajax({
-                url: '../AJAX/reportes_ajax.php',
-                method: 'GET',
-                data: { accion: 'dashboard_general' },
-                success: function(response) {
-                    if (response.success) {
-                        const stats = response.estadisticas;
-                        
-                        $('#totalFincas').text(stats.total_fincas || 0);
-                        $('#lotesProduccion').text(stats.lotes_produccion || 0);
-                        $('#alertasPendientes').text(stats.alertas_pendientes || 0);
-                        
-                        // Calcular total de cultivos activos
-                        let totalCultivos = 0;
-                        if (stats.cultivos_estado) {
-                            totalCultivos = Object.values(stats.cultivos_estado)
-                                .reduce((sum, val) => sum + parseInt(val), 0);
-                        }
-                        $('#cultivosActivos').text(totalCultivos);
-                    }
-                },
-                error: function() {
-                    console.error('Error al cargar estadísticas generales');
-                }
-            });
-        }
         
         function inicializarGraficos() {
-            // Gráfico de Producción Mensual
-            const ctx1 = document.getElementById('produccionMensualChart').getContext('2d');
-            produccionChart = new Chart(ctx1, {
-                type: 'line',
-                data: {
-                    labels: [],
-                    datasets: [{
-                        label: 'Producción (kg)',
-                        data: [],
-                        borderColor: '#2E7D32',
-                        backgroundColor: 'rgba(46, 125, 50, 0.1)',
-                        tension: 0.4,
-                        fill: true
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: true
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-            
-            // Gráfico de Gastos vs Ingresos
-            const ctx2 = document.getElementById('gastosIngresosChart').getContext('2d');
-            gastosIngresosChart = new Chart(ctx2, {
-                type: 'bar',
-                data: {
-                    labels: [],
-                    datasets: [
-                        {
-                            label: 'Ingresos',
-                            data: [],
-                            backgroundColor: '#4CAF50',
-                            borderRadius: 4
-                        },
-                        {
-                            label: 'Gastos',
-                            data: [],
-                            backgroundColor: '#FF9800',
-                            borderRadius: 4
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: true
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-            
-            // Gráfico de Distribución de Cultivos
-            const ctx3 = document.getElementById('distribucionCultivosChart').getContext('2d');
-            distribucionChart = new Chart(ctx3, {
-                type: 'doughnut',
-                data: {
-                    labels: [],
-                    datasets: [{
-                        data: [],
-                        backgroundColor: [
-                            '#2E7D32', '#4CAF50', '#81C784', '#1976D2', 
-                            '#FFA726', '#8D6E63', '#FF9800', '#F44336'
-                        ]
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'right'
-                        }
-                    }
-                }
-            });
 
             // Gráfico de Rendimiento por Lote
             const ctx4 = document.getElementById('rendimientoLoteChart');
@@ -1281,65 +1067,9 @@ $permisos_usuario = $permisos[$usuario_actual['rol']] ?? [];
                     }
                 });
             }
-            
-            // Cargar datos para los gráficos
-            cargarDatosGraficos();
+
         }
         
-        function cargarDatosGraficos() {
-            // Cargar producción mensual
-            $.ajax({
-                url: '../AJAX/reportes_ajax.php',
-                method: 'GET',
-                data: { accion: 'produccion_mensual' },
-                success: function(response) {
-                    if (response.success && produccionChart) {
-                        const meses = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
-                                     'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-                        
-                        produccionChart.data.labels = response.produccion.map(item => meses[item.mes - 1]);
-                        produccionChart.data.datasets[0].data = response.produccion.map(item => 
-                            parseFloat(item.cantidad_total) || 0
-                        );
-                        produccionChart.update();
-                    }
-                }
-            });
-            
-            // Cargar gastos vs ingresos
-            $.ajax({
-                url: '../AJAX/reportes_ajax.php',
-                method: 'GET',
-                data: { accion: 'gastos_ingresos' },
-                success: function(response) {
-                    if (response.success && gastosIngresosChart) {
-                        gastosIngresosChart.data.labels = response.datos.map(item => item.periodo);
-                        gastosIngresosChart.data.datasets[0].data = response.datos.map(item => 
-                            parseFloat(item.ingresos) || 0
-                        );
-                        gastosIngresosChart.data.datasets[1].data = response.datos.map(item => 
-                            parseFloat(item.gastos) || 0
-                        );
-                        gastosIngresosChart.update();
-                    }
-                }
-            });
-            
-            // Cargar distribución de cultivos
-            $.ajax({
-                url: '../AJAX/reportes_ajax.php',
-                method: 'GET',
-                data: { accion: 'distribucion_cultivos' },
-                success: function(response) {
-                    if (response.success && distribucionChart) {
-                        distribucionChart.data.labels = response.distribucion.map(item => item.cultivo);
-                        distribucionChart.data.datasets[0].data = response.distribucion.map(item => 
-                            parseInt(item.cantidad) || 0
-                        );
-                        distribucionChart.update();
-                    }
-                }
-            });
 
             // Cargar rendimiento por lote
             $.ajax({

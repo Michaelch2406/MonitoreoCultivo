@@ -42,10 +42,6 @@ session_start();
                                 <span>Análisis en tiempo real</span>
                             </div>
                             <div class="feature-item">
-                                <i class="fas fa-mobile-alt"></i>
-                                <span>Acceso móvil</span>
-                            </div>
-                            <div class="feature-item">
                                 <i class="fas fa-cloud"></i>
                                 <span>Datos en la nube</span>
                             </div>
@@ -165,23 +161,6 @@ session_start();
                             <li><i class="fas fa-check"></i> Pronóstico del clima</li>
                             <li><i class="fas fa-check"></i> Alertas meteorológicas</li>
                             <li><i class="fas fa-check"></i> Optimización de riego</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="400">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-mobile-alt"></i>
-                        </div>
-                        <h3 class="feature-title">Acceso Móvil</h3>
-                        <p class="feature-description">
-                            Monitorea tus cultivos desde cualquier lugar con nuestra 
-                            aplicación móvil optimizada para el campo.
-                        </p>
-                        <ul class="feature-list">
-                            <li><i class="fas fa-check"></i> App móvil nativa</li>
-                            <li><i class="fas fa-check"></i> Modo offline</li>
-                            <li><i class="fas fa-check"></i> Sincronización automática</li>
                         </ul>
                     </div>
                 </div>

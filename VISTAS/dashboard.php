@@ -90,144 +90,449 @@ $conexion = new Conexion();
                 </div>
             </div>
 
-            <!-- Tarjetas de estadísticas principales -->
+            <!-- Tarjetas de estadísticas principales - Basadas en rol -->
             <div class="row stats-cards mb-4">
-                <div class="col-xl-3 col-md-6 mb-4">
-                    <div class="stat-card stat-card-primary">
-                        <div class="stat-card-body">
-                            <div class="stat-content">
-                                <div class="stat-info">
-                                    <h3 class="stat-number" data-target="<?php 
-                                        // Contar usuarios activos
-                                        $stmt = $conexion->getMysqli()->query("SELECT COUNT(*) as total FROM usuarios WHERE usu_estado = 'activo'");
-                                        $result = $stmt ? $stmt->fetch_assoc() : ['total' => 0];
-                                        echo $result['total'];
-                                    ?>">0</h3>
-                                    <p class="stat-label">Usuarios Activos</p>
+                <?php if ($rol_usuario == 'administrador'): ?>
+                    <!-- Estadísticas del Administrador -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="stat-card stat-card-primary">
+                            <div class="stat-card-body">
+                                <div class="stat-content">
+                                    <div class="stat-info">
+                                        <h3 class="stat-number" data-target="<?php 
+                                            $stmt = $conexion->getMysqli()->query("SELECT COUNT(*) as total FROM usuarios WHERE usu_estado = 'activo'");
+                                            $result = $stmt ? $stmt->fetch_assoc() : ['total' => 0];
+                                            echo $result['total'];
+                                        ?>">0</h3>
+                                        <p class="stat-label">Usuarios Activos</p>
+                                    </div>
+                                    <div class="stat-icon">
+                                        <i class="fas fa-users"></i>
+                                    </div>
                                 </div>
-                                <div class="stat-icon">
-                                    <i class="fas fa-users"></i>
+                                <div class="stat-progress">
+                                    <div class="progress-bar" data-percentage="85"></div>
                                 </div>
+                                <small class="stat-description">
+                                    <i class="fas fa-arrow-up text-success me-1"></i>
+                                    15% más que el mes pasado
+                                </small>
                             </div>
-                            <div class="stat-progress">
-                                <div class="progress-bar" data-percentage="85"></div>
-                            </div>
-                            <small class="stat-description">
-                                <i class="fas fa-arrow-up text-success me-1"></i>
-                                15% más que el mes pasado
-                            </small>
                         </div>
                     </div>
-                </div>
 
-                <div class="col-xl-3 col-md-6 mb-4">
-                    <div class="stat-card stat-card-success">
-                        <div class="stat-card-body">
-                            <div class="stat-content">
-                                <div class="stat-info">
-                                    <h3 class="stat-number" data-target="<?php 
-                                        // Contar fincas registradas
-                                        $stmt = $conexion->getMysqli()->query("SELECT COUNT(*) as total FROM fincas WHERE fin_estado = 'activa'");
-                                        $result = $stmt ? $stmt->fetch_assoc() : ['total' => 0];
-                                        echo $result['total'];
-                                    ?>">0</h3>
-                                    <p class="stat-label">Fincas Registradas</p>
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="stat-card stat-card-success">
+                            <div class="stat-card-body">
+                                <div class="stat-content">
+                                    <div class="stat-info">
+                                        <h3 class="stat-number" data-target="<?php 
+                                            $stmt = $conexion->getMysqli()->query("SELECT COUNT(*) as total FROM fincas WHERE fin_estado = 'activa'");
+                                            $result = $stmt ? $stmt->fetch_assoc() : ['total' => 0];
+                                            echo $result['total'];
+                                        ?>">0</h3>
+                                        <p class="stat-label">Fincas Totales</p>
+                                    </div>
+                                    <div class="stat-icon">
+                                        <i class="fas fa-map-marked-alt"></i>
+                                    </div>
                                 </div>
-                                <div class="stat-icon">
-                                    <i class="fas fa-map-marked-alt"></i>
+                                <div class="stat-progress">
+                                    <div class="progress-bar" data-percentage="92"></div>
                                 </div>
+                                <small class="stat-description">
+                                    <i class="fas fa-arrow-up text-success me-1"></i>
+                                    8% más que el trimestre anterior
+                                </small>
                             </div>
-                            <div class="stat-progress">
-                                <div class="progress-bar" data-percentage="92"></div>
-                            </div>
-                            <small class="stat-description">
-                                <i class="fas fa-arrow-up text-success me-1"></i>
-                                8% más que el trimestre anterior
-                            </small>
                         </div>
                     </div>
-                </div>
 
-                <div class="col-xl-3 col-md-6 mb-4">
-                    <div class="stat-card stat-card-warning">
-                        <div class="stat-card-body">
-                            <div class="stat-content">
-                                <div class="stat-info">
-                                    <h3 class="stat-number" data-target="<?php 
-                                        // Contar siembras activas
-                                        $stmt = $conexion->getMysqli()->query("SELECT COUNT(*) as total FROM siembras WHERE sie_estado IN ('sembrada', 'en_crecimiento')");
-                                        $result = $stmt ? $stmt->fetch_assoc() : ['total' => 0];
-                                        echo $result['total'];
-                                    ?>">0</h3>
-                                    <p class="stat-label">Siembras Activas</p>
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="stat-card stat-card-warning">
+                            <div class="stat-card-body">
+                                <div class="stat-content">
+                                    <div class="stat-info">
+                                        <h3 class="stat-number" data-target="<?php 
+                                            $stmt = $conexion->getMysqli()->query("SELECT COUNT(*) as total FROM siembras WHERE sie_estado IN ('sembrada', 'en_crecimiento')");
+                                            $result = $stmt ? $stmt->fetch_assoc() : ['total' => 0];
+                                            echo $result['total'];
+                                        ?>">0</h3>
+                                        <p class="stat-label">Siembras Activas</p>
+                                    </div>
+                                    <div class="stat-icon">
+                                        <i class="fas fa-seedling"></i>
+                                    </div>
                                 </div>
-                                <div class="stat-icon">
-                                    <i class="fas fa-seedling"></i>
+                                <div class="stat-progress">
+                                    <div class="progress-bar" data-percentage="78"></div>
                                 </div>
+                                <small class="stat-description">
+                                    <i class="fas fa-arrow-down text-warning me-1"></i>
+                                    3% menos que la temporada pasada
+                                </small>
                             </div>
-                            <div class="stat-progress">
-                                <div class="progress-bar" data-percentage="78"></div>
-                            </div>
-                            <small class="stat-description">
-                                <i class="fas fa-arrow-down text-warning me-1"></i>
-                                3% menos que la temporada pasada
-                            </small>
                         </div>
                     </div>
-                </div>
 
-                <div class="col-xl-3 col-md-6 mb-4">
-                    <div class="stat-card stat-card-info">
-                        <div class="stat-card-body">
-                            <div class="stat-content">
-                                <div class="stat-info">
-                                    <h3 class="stat-number" data-target="<?php 
-                                        // Contar alertas pendientes
-                                        $stmt = $conexion->getMysqli()->query("SELECT COUNT(*) as total FROM monitoreo WHERE estado = 'pendiente'");
-                                        $result = $stmt ? $stmt->fetch_assoc() : ['total' => 0];
-                                        echo $result['total'];
-                                    ?>">0</h3>
-                                    <p class="stat-label">Tareas Pendientes</p>
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="stat-card stat-card-info">
+                            <div class="stat-card-body">
+                                <div class="stat-content">
+                                    <div class="stat-info">
+                                        <h3 class="stat-number" data-target="<?php 
+                                            $stmt = $conexion->getMysqli()->query("SELECT COUNT(*) as total FROM monitoreo WHERE estado = 'pendiente'");
+                                            $result = $stmt ? $stmt->fetch_assoc() : ['total' => 0];
+                                            echo $result['total'];
+                                        ?>">0</h3>
+                                        <p class="stat-label">Tareas del Sistema</p>
+                                    </div>
+                                    <div class="stat-icon">
+                                        <i class="fas fa-cogs"></i>
+                                    </div>
                                 </div>
-                                <div class="stat-icon">
-                                    <i class="fas fa-tasks"></i>
+                                <div class="stat-progress">
+                                    <div class="progress-bar" data-percentage="98"></div>
                                 </div>
+                                <small class="stat-description">
+                                    <i class="fas fa-check text-success me-1"></i>
+                                    Sistema operativo
+                                </small>
                             </div>
-                            <div class="stat-progress">
-                                <div class="progress-bar" data-percentage="98"></div>
-                            </div>
-                            <small class="stat-description">
-                                <i class="fas fa-check text-success me-1"></i>
-                                Excelente estado general
-                            </small>
                         </div>
                     </div>
-                </div>
+
+                <?php elseif ($rol_usuario == 'agricultor'): ?>
+                    <!-- Estadísticas del Agricultor -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="stat-card stat-card-success">
+                            <div class="stat-card-body">
+                                <div class="stat-content">
+                                    <div class="stat-info">
+                                        <h3 class="stat-number" data-target="<?php 
+                                            $stmt = $conexion->getMysqli()->query("SELECT COUNT(*) as total FROM fincas WHERE fin_propietario = '$usuario_id' AND fin_estado = 'activa'");
+                                            $result = $stmt ? $stmt->fetch_assoc() : ['total' => 0];
+                                            echo $result['total'];
+                                        ?>">0</h3>
+                                        <p class="stat-label">Mis Fincas</p>
+                                    </div>
+                                    <div class="stat-icon">
+                                        <i class="fas fa-home"></i>
+                                    </div>
+                                </div>
+                                <div class="stat-progress">
+                                    <div class="progress-bar" data-percentage="100"></div>
+                                </div>
+                                <small class="stat-description">
+                                    <i class="fas fa-leaf text-success me-1"></i>
+                                    Todas activas
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="stat-card stat-card-warning">
+                            <div class="stat-card-body">
+                                <div class="stat-content">
+                                    <div class="stat-info">
+                                        <h3 class="stat-number" data-target="<?php 
+                                            $stmt = $conexion->getMysqli()->query("SELECT COUNT(*) as total FROM siembras s JOIN lotes l ON s.sie_lote = l.lot_id JOIN fincas f ON l.lot_finca = f.fin_id WHERE f.fin_propietario = '$usuario_id' AND s.sie_estado IN ('sembrada', 'en_crecimiento')");
+                                            $result = $stmt ? $stmt->fetch_assoc() : ['total' => 0];
+                                            echo $result['total'];
+                                        ?>">0</h3>
+                                        <p class="stat-label">Siembras Activas</p>
+                                    </div>
+                                    <div class="stat-icon">
+                                        <i class="fas fa-seedling"></i>
+                                    </div>
+                                </div>
+                                <div class="stat-progress">
+                                    <div class="progress-bar" data-percentage="85"></div>
+                                </div>
+                                <small class="stat-description">
+                                    <i class="fas fa-arrow-up text-success me-1"></i>
+                                    En crecimiento saludable
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="stat-card stat-card-primary">
+                            <div class="stat-card-body">
+                                <div class="stat-content">
+                                    <div class="stat-info">
+                                        <h3 class="stat-number" data-target="<?php 
+                                            $stmt = $conexion->getMysqli()->query("SELECT COUNT(*) as total FROM cosechas c JOIN lotes l ON c.cos_lote = l.lot_id JOIN fincas f ON l.lot_finca = f.fin_id WHERE f.fin_propietario = '$usuario_id' AND MONTH(c.cos_fecha) = MONTH(CURDATE()) AND YEAR(c.cos_fecha) = YEAR(CURDATE())");
+                                            $result = $stmt ? $stmt->fetch_assoc() : ['total' => 0];
+                                            echo $result['total'];
+                                        ?>">0</h3>
+                                        <p class="stat-label">Cosechas Este Mes</p>
+                                    </div>
+                                    <div class="stat-icon">
+                                        <i class="fas fa-apple-alt"></i>
+                                    </div>
+                                </div>
+                                <div class="stat-progress">
+                                    <div class="progress-bar" data-percentage="70"></div>
+                                </div>
+                                <small class="stat-description">
+                                    <i class="fas fa-calendar text-info me-1"></i>
+                                    Mes actual
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="stat-card stat-card-info">
+                            <div class="stat-card-body">
+                                <div class="stat-content">
+                                    <div class="stat-info">
+                                        <h3 class="stat-number" data-target="<?php 
+                                            $stmt = $conexion->getMysqli()->query("SELECT COUNT(*) as total FROM monitoreo m JOIN lotes l ON m.lote_id = l.lot_id JOIN fincas f ON l.lot_finca = f.fin_id WHERE f.fin_propietario = '$usuario_id' AND m.estado = 'pendiente'");
+                                            $result = $stmt ? $stmt->fetch_assoc() : ['total' => 0];
+                                            echo $result['total'];
+                                        ?>">0</h3>
+                                        <p class="stat-label">Tareas Pendientes</p>
+                                    </div>
+                                    <div class="stat-icon">
+                                        <i class="fas fa-tasks"></i>
+                                    </div>
+                                </div>
+                                <div class="stat-progress">
+                                    <div class="progress-bar" data-percentage="95"></div>
+                                </div>
+                                <small class="stat-description">
+                                    <i class="fas fa-check text-success me-1"></i>
+                                    Al día con las tareas
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                <?php elseif ($rol_usuario == 'supervisor'): ?>
+                    <!-- Estadísticas del Supervisor -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="stat-card stat-card-warning">
+                            <div class="stat-card-body">
+                                <div class="stat-content">
+                                    <div class="stat-info">
+                                        <h3 class="stat-number" data-target="<?php 
+                                            $stmt = $conexion->getMysqli()->query("SELECT COUNT(DISTINCT f.fin_id) as total FROM fincas f JOIN supervisor_fincas sf ON f.fin_id = sf.finca_id WHERE sf.supervisor_id = '$usuario_id' AND f.fin_estado = 'activa'");
+                                            $result = $stmt ? $stmt->fetch_assoc() : ['total' => 0];
+                                            echo $result['total'];
+                                        ?>">0</h3>
+                                        <p class="stat-label">Fincas Supervisadas</p>
+                                    </div>
+                                    <div class="stat-icon">
+                                        <i class="fas fa-binoculars"></i>
+                                    </div>
+                                </div>
+                                <div class="stat-progress">
+                                    <div class="progress-bar" data-percentage="88"></div>
+                                </div>
+                                <small class="stat-description">
+                                    <i class="fas fa-eye text-info me-1"></i>
+                                    Bajo supervisión
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="stat-card stat-card-success">
+                            <div class="stat-card-body">
+                                <div class="stat-content">
+                                    <div class="stat-info">
+                                        <h3 class="stat-number" data-target="<?php 
+                                            $stmt = $conexion->getMysqli()->query("SELECT COUNT(DISTINCT u.usu_id) as total FROM usuarios u JOIN fincas f ON u.usu_id = f.fin_propietario JOIN supervisor_fincas sf ON f.fin_id = sf.finca_id WHERE sf.supervisor_id = '$usuario_id' AND u.usu_estado = 'activo'");
+                                            $result = $stmt ? $stmt->fetch_assoc() : ['total' => 0];
+                                            echo $result['total'];
+                                        ?>">0</h3>
+                                        <p class="stat-label">Agricultores Asignados</p>
+                                    </div>
+                                    <div class="stat-icon">
+                                        <i class="fas fa-users"></i>
+                                    </div>
+                                </div>
+                                <div class="stat-progress">
+                                    <div class="progress-bar" data-percentage="92"></div>
+                                </div>
+                                <small class="stat-description">
+                                    <i class="fas fa-handshake text-success me-1"></i>
+                                    Colaboración activa
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="stat-card stat-card-primary">
+                            <div class="stat-card-body">
+                                <div class="stat-content">
+                                    <div class="stat-info">
+                                        <h3 class="stat-number" data-target="<?php 
+                                            $stmt = $conexion->getMysqli()->query("SELECT COUNT(*) as total FROM reportes_supervision rs WHERE rs.supervisor_id = '$usuario_id' AND DATE(rs.fecha_reporte) >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)");
+                                            $result = $stmt ? $stmt->fetch_assoc() : ['total' => 0];
+                                            echo $result['total'];
+                                        ?>">0</h3>
+                                        <p class="stat-label">Reportes Esta Semana</p>
+                                    </div>
+                                    <div class="stat-icon">
+                                        <i class="fas fa-clipboard-list"></i>
+                                    </div>
+                                </div>
+                                <div class="stat-progress">
+                                    <div class="progress-bar" data-percentage="75"></div>
+                                </div>
+                                <small class="stat-description">
+                                    <i class="fas fa-calendar-week text-info me-1"></i>
+                                    Última semana
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="stat-card stat-card-info">
+                            <div class="stat-card-body">
+                                <div class="stat-content">
+                                    <div class="stat-info">
+                                        <h3 class="stat-number" data-target="<?php 
+                                            $stmt = $conexion->getMysqli()->query("SELECT COUNT(*) as total FROM alertas_supervision als WHERE als.supervisor_id = '$usuario_id' AND als.estado = 'pendiente'");
+                                            $result = $stmt ? $stmt->fetch_assoc() : ['total' => 0];
+                                            echo $result['total'];
+                                        ?>">0</h3>
+                                        <p class="stat-label">Alertas Pendientes</p>
+                                    </div>
+                                    <div class="stat-icon">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                    </div>
+                                </div>
+                                <div class="stat-progress">
+                                    <div class="progress-bar" data-percentage="65"></div>
+                                </div>
+                                <small class="stat-description">
+                                    <i class="fas fa-bell text-warning me-1"></i>
+                                    Requieren atención
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
             </div>
 
             <!-- Contenido principal del dashboard -->
             <div class="row">
                 <!-- Panel izquierdo -->
                 <div class="col-lg-8">
-                    <!-- Gráfico de producción -->
-                    <div class="dashboard-card mb-4">
-                        <div class="card-header">
-                            <h5 class="card-title">
-                                <i class="fas fa-chart-line me-2"></i>
-                                Producción Mensual
-                            </h5>
-                            <div class="card-actions">
-                                <select class="form-select form-select-sm" id="periodo-produccion">
-                                    <option value="6m">Últimos 6 meses</option>
-                                    <option value="1y" selected>Último año</option>
-                                    <option value="2y">Últimos 2 años</option>
-                                </select>
+                    <?php if ($rol_usuario == 'administrador'): ?>
+                        <!-- Dashboard de Administrador -->
+                        <!-- Gráfico de estadísticas generales del sistema -->
+                        <div class="dashboard-card mb-4">
+                            <div class="card-header">
+                                <h5 class="card-title">
+                                    <i class="fas fa-chart-bar me-2"></i>
+                                    Estadísticas Generales del Sistema
+                                </h5>
+                                <div class="card-actions">
+                                    <select class="form-select form-select-sm" id="periodo-sistema">
+                                        <option value="7d">Últimos 7 días</option>
+                                        <option value="30d" selected>Últimos 30 días</option>
+                                        <option value="90d">Últimos 3 meses</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="grafico-sistema" height="100"></canvas>
                             </div>
                         </div>
-                        <div class="card-body">
-                            <canvas id="grafico-produccion" height="100"></canvas>
+
+                        <!-- Gráfico de usuarios activos -->
+                        <div class="dashboard-card mb-4">
+                            <div class="card-header">
+                                <h5 class="card-title">
+                                    <i class="fas fa-users me-2"></i>
+                                    Actividad de Usuarios
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="grafico-usuarios" height="80"></canvas>
+                            </div>
                         </div>
-                    </div>
+
+                    <?php elseif ($rol_usuario == 'agricultor'): ?>
+                        <!-- Dashboard del Agricultor -->
+                        <!-- Gráfico de producción -->
+                        <div class="dashboard-card mb-4">
+                            <div class="card-header">
+                                <h5 class="card-title">
+                                    <i class="fas fa-chart-line me-2"></i>
+                                    Mi Producción Mensual
+                                </h5>
+                                <div class="card-actions">
+                                    <select class="form-select form-select-sm" id="periodo-produccion">
+                                        <option value="6m">Últimos 6 meses</option>
+                                        <option value="1y" selected>Último año</option>
+                                        <option value="2y">Últimos 2 años</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="grafico-produccion" height="100"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Gráfico de gastos vs ingresos -->
+                        <div class="dashboard-card mb-4">
+                            <div class="card-header">
+                                <h5 class="card-title">
+                                    <i class="fas fa-chart-pie me-2"></i>
+                                    Gastos vs Ingresos
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="grafico-gastos-ingresos" height="80"></canvas>
+                            </div>
+                        </div>
+
+                    <?php elseif ($rol_usuario == 'supervisor'): ?>
+                        <!-- Dashboard del Supervisor -->
+                        <!-- Gráfico de fincas supervisadas -->
+                        <div class="dashboard-card mb-4">
+                            <div class="card-header">
+                                <h5 class="card-title">
+                                    <i class="fas fa-map-marked-alt me-2"></i>
+                                    Resumen de Fincas Supervisadas
+                                </h5>
+                                <div class="card-actions">
+                                    <select class="form-select form-select-sm" id="periodo-supervision">
+                                        <option value="semana">Esta semana</option>
+                                        <option value="mes" selected>Este mes</option>
+                                        <option value="trimestre">Este trimestre</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="grafico-supervision" height="100"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Gráfico de rendimiento por finca -->
+                        <div class="dashboard-card mb-4">
+                            <div class="card-header">
+                                <h5 class="card-title">
+                                    <i class="fas fa-seedling me-2"></i>
+                                    Rendimiento por Finca
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="grafico-rendimiento" height="80"></canvas>
+                            </div>
+                        </div>
+                    <?php endif; ?>
 
                     <!-- Tabla de cultivos recientes -->
                     <div class="dashboard-card">
@@ -531,6 +836,14 @@ $conexion = new Conexion();
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <script src="JS/global.js"></script>
     <script src="partials/JS/navbar.js"></script>
+    
+    <!-- Configuración del usuario para JavaScript -->
+    <script>
+        window.userRole = '<?php echo $rol_usuario; ?>';
+        window.userId = '<?php echo $usuario_id; ?>';
+        window.userName = '<?php echo htmlspecialchars($nombre_usuario); ?>';
+    </script>
+    
     <script src="JS/dashboard.js"></script>
 </body>
 </html>

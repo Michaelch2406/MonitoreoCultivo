@@ -90,14 +90,64 @@ function configurarFechaActual() {
  * Configurar event listeners
  */
 function configurarEventListeners() {
+    // Event listeners específicos por rol
+    const userRole = window.userRole || 'agricultor';
+    
+    switch (userRole) {
+        case 'administrador':
+            configurarEventListenersAdmin();
+            break;
+        case 'agricultor':
+            configurarEventListenersAgricultor();
+            break;
+        case 'supervisor':
+            configurarEventListenersSupervisor();
+            break;
+    }
+    
+    // Event listeners comunes
+    configurarEventListenersComunes();
+}
+
+/**
+ * Event listeners para administrador
+ */
+function configurarEventListenersAdmin() {
+    // Cambio de período en gráfico del sistema
+    $('#periodo-sistema').on('change', function() {
+        const periodo = $(this).val();
+        cargarDatosGraficoSistema();
+    });
+}
+
+/**
+ * Event listeners para agricultor
+ */
+function configurarEventListenersAgricultor() {
     // Cambio de período en gráfico de producción
     $('#periodo-produccion').on('change', function() {
         const periodo = $(this).val();
         actualizarGraficoProduccion(periodo);
     });
-    
+}
+
+/**
+ * Event listeners para supervisor
+ */
+function configurarEventListenersSupervisor() {
+    // Cambio de período en gráfico de supervisión
+    $('#periodo-supervision').on('change', function() {
+        const periodo = $(this).val();
+        cargarDatosSupervision();
+    });
+}
+
+/**
+ * Event listeners comunes para todos los roles
+ */
+function configurarEventListenersComunes() {
     // Botones de acciones rápidas
-    $('.btn-outline-primary').on('click', function() {
+    $('.btn-outline-primary, .btn-outline-success, .btn-outline-warning, .btn-outline-info').on('click', function() {
         const accion = $(this).find('small').text().trim();
         manejarAccionRapida(accion);
     });
@@ -195,7 +245,24 @@ function animarContador($elemento, valorFinal) {
  */
 function inicializarGraficos() {
     if (typeof Chart !== 'undefined') {
-        crearGraficoProduccion();
+        // Determinar qué gráficos crear según el rol del usuario
+        const userRole = window.userRole || 'agricultor'; // Obtener del HTML
+        
+        switch (userRole) {
+            case 'administrador':
+                crearGraficoSistema();
+                crearGraficoUsuarios();
+                break;
+            case 'agricultor':
+                crearGraficoProduccion();
+                crearGraficoGastosIngresos();
+                break;
+            case 'supervisor':
+                crearGraficoSupervision();
+                crearGraficoRendimiento();
+                break;
+        }
+        
         graficosInicializados = true;
     } else {
         AgroMonitor.log('Chart.js no está disponible', 'warning');
@@ -293,11 +360,11 @@ function actualizarGraficoProduccion(periodo) {
     
     // Cargar datos reales desde la base de datos
     $.ajax({
-        url: '../AJAX/dashboard_ajax.php',
-        type: 'POST',
+        url: '../AJAX/reportes_ajax.php',
+        type: 'GET',
         data: { 
-            action: 'get_grafico_produccion',
-            periodo: periodo 
+            accion: 'produccion_mensual',
+            año: new Date().getFullYear()
         },
         dataType: 'json',
         success: function(response) {
@@ -306,11 +373,7 @@ function actualizarGraficoProduccion(periodo) {
                 window.graficoProduccion.data = response.data;
                 window.graficoProduccion.update('active');
                 
-                if (response.message) {
-                    AgroMonitor.alerta(response.message, 'info', 3000);
-                } else {
-                    AgroMonitor.log('Gráfico actualizado exitosamente', 'success');
-                }
+                AgroMonitor.log('Gráfico de producción actualizado exitosamente', 'success');
             } else {
                 console.error('Error al cargar datos del gráfico:', response.message);
                 AgroMonitor.alerta('Error al cargar datos del gráfico', 'error', 3000);
@@ -319,6 +382,411 @@ function actualizarGraficoProduccion(periodo) {
         error: function(xhr, status, error) {
             console.error('Error AJAX al cargar gráfico:', error);
             AgroMonitor.alerta('Error de conexión al cargar gráfico', 'error', 3000);
+        }
+    });
+}
+
+/**
+ * =====================================================
+ * GRÁFICOS ESPECÍFICOS POR ROL
+ * =====================================================
+ */
+
+/**
+ * Crear gráfico del sistema (Administrador)
+ */
+function crearGraficoSistema() {
+    const ctx = document.getElementById('grafico-sistema');
+    if (!ctx) return;
+    
+    const datosIniciales = {
+        labels: ['Usuarios', 'Fincas', 'Siembras', 'Cosechas', 'Actividades', 'Reportes'],
+        datasets: [{
+            label: 'Estadísticas del Sistema',
+            data: [0, 0, 0, 0, 0, 0],
+            backgroundColor: [
+                'rgba(46, 125, 50, 0.8)',
+                'rgba(76, 175, 80, 0.8)',
+                'rgba(129, 199, 132, 0.8)',
+                'rgba(255, 167, 38, 0.8)',
+                'rgba(33, 150, 243, 0.8)',
+                'rgba(156, 39, 176, 0.8)'
+            ],
+            borderColor: [
+                'rgba(46, 125, 50, 1)',
+                'rgba(76, 175, 80, 1)',
+                'rgba(129, 199, 132, 1)',
+                'rgba(255, 167, 38, 1)',
+                'rgba(33, 150, 243, 1)',
+                'rgba(156, 39, 176, 1)'
+            ],
+            borderWidth: 2
+        }]
+    };
+    
+    window.graficoSistema = new Chart(ctx, {
+        type: 'doughnut',
+        data: datosIniciales,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        padding: 20,
+                        usePointStyle: true
+                    }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(46, 125, 50, 0.9)',
+                    titleColor: '#fff',
+                    bodyColor: '#fff',
+                    callbacks: {
+                        label: function(context) {
+                            return context.label + ': ' + context.parsed;
+                        }
+                    }
+                }
+            }
+        }
+    });
+    
+    // Cargar datos reales
+    cargarDatosGraficoSistema();
+}
+
+/**
+ * Crear gráfico de usuarios activos (Administrador)
+ */
+function crearGraficoUsuarios() {
+    const ctx = document.getElementById('grafico-usuarios');
+    if (!ctx) return;
+    
+    const datosIniciales = {
+        labels: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
+        datasets: [{
+            label: 'Usuarios Activos',
+            data: [0, 0, 0, 0, 0, 0, 0],
+            backgroundColor: 'rgba(76, 175, 80, 0.2)',
+            borderColor: 'rgba(76, 175, 80, 1)',
+            borderWidth: 2,
+            fill: true,
+            tension: 0.4,
+            pointBackgroundColor: 'rgba(76, 175, 80, 1)',
+            pointBorderColor: '#fff',
+            pointBorderWidth: 2,
+            pointRadius: 5
+        }]
+    };
+    
+    window.graficoUsuarios = new Chart(ctx, {
+        type: 'line',
+        data: datosIniciales,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)'
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        }
+    });
+    
+    // Cargar datos reales
+    cargarDatosUsuariosActivos();
+}
+
+/**
+ * Crear gráfico de gastos vs ingresos (Agricultor)
+ */
+function crearGraficoGastosIngresos() {
+    const ctx = document.getElementById('grafico-gastos-ingresos');
+    if (!ctx) return;
+    
+    const datosIniciales = {
+        labels: ['Gastos', 'Ingresos'],
+        datasets: [{
+            label: 'Comparativo Financiero',
+            data: [0, 0],
+            backgroundColor: [
+                'rgba(244, 67, 54, 0.8)',  // Rojo para gastos
+                'rgba(76, 175, 80, 0.8)'   // Verde para ingresos
+            ],
+            borderColor: [
+                'rgba(244, 67, 54, 1)',
+                'rgba(76, 175, 80, 1)'
+            ],
+            borderWidth: 2
+        }]
+    };
+    
+    window.graficoGastosIngresos = new Chart(ctx, {
+        type: 'pie',
+        data: datosIniciales,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        padding: 20,
+                        usePointStyle: true
+                    }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(46, 125, 50, 0.9)',
+                    titleColor: '#fff',
+                    bodyColor: '#fff',
+                    callbacks: {
+                        label: function(context) {
+                            return context.label + ': $' + context.parsed.toLocaleString();
+                        }
+                    }
+                }
+            }
+        }
+    });
+    
+    // Cargar datos reales
+    cargarDatosGastosIngresos();
+}
+
+/**
+ * Crear gráfico de supervisión (Supervisor)
+ */
+function crearGraficoSupervision() {
+    const ctx = document.getElementById('grafico-supervision');
+    if (!ctx) return;
+    
+    const datosIniciales = {
+        labels: ['Fincas OK', 'Requieren Atención', 'En Proceso', 'Sin Revisar'],
+        datasets: [{
+            label: 'Estado de Supervisión',
+            data: [0, 0, 0, 0],
+            backgroundColor: [
+                'rgba(76, 175, 80, 0.8)',   // Verde - OK
+                'rgba(255, 193, 7, 0.8)',   // Amarillo - Atención
+                'rgba(33, 150, 243, 0.8)',  // Azul - En proceso
+                'rgba(158, 158, 158, 0.8)'  // Gris - Sin revisar
+            ],
+            borderColor: [
+                'rgba(76, 175, 80, 1)',
+                'rgba(255, 193, 7, 1)',
+                'rgba(33, 150, 243, 1)',
+                'rgba(158, 158, 158, 1)'
+            ],
+            borderWidth: 2
+        }]
+    };
+    
+    window.graficoSupervision = new Chart(ctx, {
+        type: 'doughnut',
+        data: datosIniciales,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        padding: 15,
+                        usePointStyle: true,
+                        font: {
+                            size: 12
+                        }
+                    }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(46, 125, 50, 0.9)',
+                    titleColor: '#fff',
+                    bodyColor: '#fff'
+                }
+            }
+        }
+    });
+    
+    // Cargar datos reales
+    cargarDatosSupervision();
+}
+
+/**
+ * Crear gráfico de rendimiento por finca (Supervisor)
+ */
+function crearGraficoRendimiento() {
+    const ctx = document.getElementById('grafico-rendimiento');
+    if (!ctx) return;
+    
+    const datosIniciales = {
+        labels: ['Finca A', 'Finca B', 'Finca C', 'Finca D', 'Finca E'],
+        datasets: [{
+            label: 'Rendimiento (kg/ha)',
+            data: [0, 0, 0, 0, 0],
+            backgroundColor: 'rgba(76, 175, 80, 0.8)',
+            borderColor: 'rgba(76, 175, 80, 1)',
+            borderWidth: 2,
+            borderRadius: 5,
+            borderSkipped: false
+        }]
+    };
+    
+    window.graficoRendimiento = new Chart(ctx, {
+        type: 'bar',
+        data: datosIniciales,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(46, 125, 50, 0.9)',
+                    titleColor: '#fff',
+                    bodyColor: '#fff',
+                    callbacks: {
+                        label: function(context) {
+                            return 'Rendimiento: ' + context.parsed.y + ' kg/ha';
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)'
+                    },
+                    ticks: {
+                        callback: function(value) {
+                            return value + ' kg/ha';
+                        }
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        }
+    });
+    
+    // Cargar datos reales
+    cargarDatosRendimiento();
+}
+
+/**
+ * =====================================================
+ * FUNCIONES DE CARGA DE DATOS PARA GRÁFICOS
+ * =====================================================
+ */
+
+/**
+ * Cargar datos para gráfico del sistema
+ */
+function cargarDatosGraficoSistema() {
+    $.ajax({
+        url: '../AJAX/reportes_ajax.php',
+        type: 'GET',
+        data: { accion: 'dashboard_general' },
+        dataType: 'json',
+        success: function(response) {
+            if (response.success && window.graficoSistema) {
+                window.graficoSistema.data.datasets[0].data = response.data;
+                window.graficoSistema.update();
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Error al cargar datos del sistema:', error);
+        }
+    });
+}
+
+/**
+ * Cargar datos de usuarios activos
+ */
+function cargarDatosUsuariosActivos() {
+    // Simular datos por ahora - en producción vendría del backend
+    if (window.graficoUsuarios) {
+        const datosSimulados = [12, 19, 15, 25, 22, 18, 20];
+        window.graficoUsuarios.data.datasets[0].data = datosSimulados;
+        window.graficoUsuarios.update();
+    }
+}
+
+/**
+ * Cargar datos de gastos vs ingresos
+ */
+function cargarDatosGastosIngresos() {
+    $.ajax({
+        url: '../AJAX/reportes_ajax.php',
+        type: 'GET',
+        data: { accion: 'gastos_ingresos', periodo: '12_meses' },
+        dataType: 'json',
+        success: function(response) {
+            if (response.success && window.graficoGastosIngresos) {
+                window.graficoGastosIngresos.data.datasets[0].data = [
+                    response.gastos_total || 0,
+                    response.ingresos_total || 0
+                ];
+                window.graficoGastosIngresos.update();
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Error al cargar datos financieros:', error);
+        }
+    });
+}
+
+/**
+ * Cargar datos de supervisión
+ */
+function cargarDatosSupervision() {
+    // Simular datos por ahora - en producción vendría del backend
+    if (window.graficoSupervision) {
+        const datosSimulados = [8, 3, 2, 1]; // Fincas OK, Atención, En proceso, Sin revisar
+        window.graficoSupervision.data.datasets[0].data = datosSimulados;
+        window.graficoSupervision.update();
+    }
+}
+
+/**
+ * Cargar datos de rendimiento
+ */
+function cargarDatosRendimiento() {
+    $.ajax({
+        url: '../AJAX/reportes_ajax.php',
+        type: 'GET',
+        data: { accion: 'rendimiento_lotes' },
+        dataType: 'json',
+        success: function(response) {
+            if (response.success && window.graficoRendimiento) {
+                const labels = response.data.map(item => item.nombre || 'Finca');
+                const datos = response.data.map(item => parseFloat(item.rendimiento) || 0);
+                
+                window.graficoRendimiento.data.labels = labels;
+                window.graficoRendimiento.data.datasets[0].data = datos;
+                window.graficoRendimiento.update();
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Error al cargar datos de rendimiento:', error);
         }
     });
 }
