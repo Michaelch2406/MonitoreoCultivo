@@ -570,3 +570,4 @@ SQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
                     WHERE 1=1 AND f.fin_propietario = 2 ORDER BY l.lot_fecha_registro DESC[2025-07-28 23:33:58] OPERATION: Listar cultivos | User ID: 2 | Details: Categoría: todas
 [2025-07-28 23:33:58] OPERATION: Obtener estadísticas cultivos | User ID: 2
 [28-Jul-2025 23:34:25 America/New_York] Login exitoso para usuario: admin@sistemacultivos.com - IP: ::1
+[29-Jul-2025 03:11:16 America/New_York] Login exitoso para usuario: admin@sistemacultivos.com - IP: ::1

@@ -72,15 +72,6 @@
                                         <p>Análisis completo del rendimiento y productividad de tus cultivos</p>
                                     </div>
                                 </div>
-                                <div class="feature-item">
-                                    <div class="feature-icon">
-                                        <i class="fas fa-mobile-alt"></i>
-                                    </div>
-                                    <div class="feature-content">
-                                        <h4>Acceso Móvil</h4>
-                                        <p>Gestiona tus cultivos desde cualquier dispositivo, en cualquier momento</p>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                         

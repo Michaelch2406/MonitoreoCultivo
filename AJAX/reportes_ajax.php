@@ -153,6 +153,46 @@ try {
             echo json_encode($resultado);
             break;
 
+        case 'control_plagas':
+            $filtros = [
+                'fecha_inicio' => $_GET['fecha_inicio'] ?? null,
+                'fecha_fin' => $_GET['fecha_fin'] ?? null,
+                'lote_id' => $_GET['lote_id'] ?? null
+            ];
+            $filtros = array_filter($filtros);
+            $resultado = $reportes_modelo->obtenerControlPlagas($usuario_id, $rol, $filtros);
+            echo json_encode($resultado);
+            break;
+
+        case 'control_enfermedades':
+            $filtros = [
+                'fecha_inicio' => $_GET['fecha_inicio'] ?? null,
+                'fecha_fin' => $_GET['fecha_fin'] ?? null,
+                'lote_id' => $_GET['lote_id'] ?? null
+            ];
+            $filtros = array_filter($filtros);
+            $resultado = $reportes_modelo->obtenerControlEnfermedades($usuario_id, $rol, $filtros);
+            echo json_encode($resultado);
+            break;
+
+        case 'efectividad_tratamientos':
+            $periodo = $_GET['periodo'] ?? '12_meses';
+            $resultado = $reportes_modelo->obtenerEfectividadTratamientos($usuario_id, $rol, $periodo);
+            echo json_encode($resultado);
+            break;
+
+        case 'uso_insumos':
+            $filtros = [
+                'fecha_inicio' => $_GET['fecha_inicio'] ?? null,
+                'fecha_fin' => $_GET['fecha_fin'] ?? null,
+                'tipo_insumo' => $_GET['tipo_insumo'] ?? null,
+                'cultivo_id' => $_GET['cultivo_id'] ?? null
+            ];
+            $filtros = array_filter($filtros);
+            $resultado = $reportes_modelo->obtenerUsoInsumos($usuario_id, $rol, $filtros);
+            echo json_encode($resultado);
+            break;
+
         default:
             echo json_encode(['success' => false, 'message' => 'Acción no válida']);
             break;

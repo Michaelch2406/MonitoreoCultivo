@@ -281,7 +281,7 @@ $permisos_usuario = $permisos[$usuario_actual['rol']] ?? [];
     <?php include_once('partials/navbar.php'); ?>
 
     <!-- Header Principal -->
-    <div class="main-header">
+    <div class="main-header" style="margin-top: 80px;">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-8">
@@ -662,6 +662,11 @@ $permisos_usuario = $permisos[$usuario_actual['rol']] ?? [];
                             <i class="fas fa-shield-alt me-2"></i>Control Fitosanitario
                         </button>
                     </li>
+                    <li class="nav-item">
+                        <button class="nav-link" id="insumos-subtab" data-bs-toggle="pill" data-bs-target="#insumos-content">
+                            <i class="fas fa-flask me-2"></i>Uso de Insumos
+                        </button>
+                    </li>
                 </ul>
 
                 <div class="tab-content">
@@ -842,6 +847,152 @@ $permisos_usuario = $permisos[$usuario_actual['rol']] ?? [];
                                                 <th>Efectividad</th>
                                                 <th>Fecha Seguimiento</th>
                                                 <th>Responsable</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Uso de Insumos -->
+                    <div class="tab-pane fade" id="insumos-content">
+                        <!-- Filtros para Uso de Insumos -->
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-filter me-2"></i>
+                                    Filtros de Búsqueda - Uso de Insumos
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label for="fechaInicioInsumos" class="form-label">Fecha Inicio</label>
+                                        <input type="date" class="form-control" id="fechaInicioInsumos">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="fechaFinInsumos" class="form-label">Fecha Fin</label>
+                                        <input type="date" class="form-control" id="fechaFinInsumos">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="tipoInsumo" class="form-label">Tipo de Insumo</label>
+                                        <select class="form-select" id="tipoInsumo">
+                                            <option value="">Todos los tipos</option>
+                                            <option value="semillas">Semillas</option>
+                                            <option value="fertilizantes">Fertilizantes</option>
+                                            <option value="pesticidas">Pesticidas</option>
+                                            <option value="herbicidas">Herbicidas</option>
+                                            <option value="fungicidas">Fungicidas</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="cultivoInsumos" class="form-label">Cultivo</label>
+                                        <select class="form-select" id="cultivoInsumos">
+                                            <option value="">Todos los cultivos</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-12">
+                                        <button type="button" class="btn btn-primary" onclick="cargarReporteInsumos()">
+                                            <i class="fas fa-search me-2"></i>Buscar
+                                        </button>
+                                        <button type="button" class="btn btn-secondary ms-2" onclick="limpiarFiltrosInsumos()">
+                                            <i class="fas fa-eraser me-2"></i>Limpiar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Estadísticas de Uso de Insumos -->
+                        <div class="row mb-4">
+                            <div class="col-md-3">
+                                <div class="stats-card bg-primary-light">
+                                    <div class="stats-number text-primary" id="total-insumos">-</div>
+                                    <div class="stats-label">Total Insumos</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stats-card bg-success-light">
+                                    <div class="stats-number text-success" id="costo-insumos">$-</div>
+                                    <div class="stats-label">Costo Total</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stats-card bg-warning-light">
+                                    <div class="stats-number text-warning" id="promedio-costo">$-</div>
+                                    <div class="stats-label">Costo Promedio</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stats-card bg-info-light">
+                                    <div class="stats-number text-info" id="lotes-aplicados">-</div>
+                                    <div class="stats-label">Lotes Aplicados</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Gráfico de Distribución de Insumos -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">
+                                            <i class="fas fa-chart-pie me-2"></i>
+                                            Distribución por Tipo de Insumo
+                                        </h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="chart-container">
+                                            <canvas id="tipoInsumosChart"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">
+                                            <i class="fas fa-chart-bar me-2"></i>
+                                            Costo por Cultivo
+                                        </h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="chart-container">
+                                            <canvas id="costoCultivoChart"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tabla de Uso de Insumos -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Detalle de Uso de Insumos</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="loading-spinner" id="loadingInsumos">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Cargando...</span>
+                                    </div>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-hover" id="tablaInsumos">
+                                        <thead>
+                                            <tr>
+                                                <th>Tipo</th>
+                                                <th>Nombre del Insumo</th>
+                                                <th>Cultivo</th>
+                                                <th>Cantidad Total</th>
+                                                <th>Unidad</th>
+                                                <th>Costo Total</th>
+                                                <th>Costo Unitario</th>
+                                                <th>Lotes Aplicados</th>
+                                                <th>Eficiencia de Uso</th>
                                             </tr>
                                         </thead>
                                         <tbody></tbody>
@@ -1392,6 +1543,574 @@ $permisos_usuario = $permisos[$usuario_actual['rol']] ?? [];
         function cargarReportesTecnicos() {
             cargarHistorialActividades();
             cargarRegistroMonitoreo();
+            cargarGraficosControlFitosanitario();
+        }
+        
+        function cargarReporteInsumos(filtros = {}) {
+            $('#loadingInsumos').show();
+            
+            // Obtener filtros del formulario si no se proporcionan
+            if (Object.keys(filtros).length === 0) {
+                filtros = {
+                    fecha_inicio: $('#fechaInicioInsumos').val() || null,
+                    fecha_fin: $('#fechaFinInsumos').val() || null,
+                    tipo_insumo: $('#tipoInsumo').val() || null,
+                    cultivo_id: $('#cultivoInsumos').val() || null
+                };
+            }
+            
+            $.ajax({
+                url: '../AJAX/reportes_ajax.php',
+                method: 'GET',
+                data: { accion: 'uso_insumos', ...filtros },
+                success: function(response) {
+                    $('#loadingInsumos').hide();
+                    
+                    if (response.success) {
+                        // Actualizar estadísticas
+                        actualizarEstadisticasInsumos(response.insumos);
+                        
+                        // Actualizar gráficos
+                        cargarGraficosInsumos(response.insumos);
+                        
+                        // Destruir DataTable existente si existe
+                        if ($.fn.DataTable.isDataTable('#tablaInsumos')) {
+                            $('#tablaInsumos').DataTable().destroy();
+                        }
+                        
+                        // Limpiar tbody
+                        $('#tablaInsumos tbody').empty();
+                        
+                        // Agregar filas
+                        response.insumos.forEach(insumo => {
+                            const eficiencia = calcularEficienciaInsumo(insumo);
+                            const fila = `
+                                <tr>
+                                    <td><span class="badge bg-secondary">${insumo.tipo_insumo}</span></td>
+                                    <td>${insumo.nombre_insumo}</td>
+                                    <td>${insumo.cultivo || 'N/A'}</td>
+                                    <td>${parseFloat(insumo.cantidad_total).toFixed(2)}</td>
+                                    <td>${insumo.unidad_medida || 'unidad'}</td>
+                                    <td class="text-success">$${parseFloat(insumo.costo_total).toFixed(2)}</td>
+                                    <td class="text-info">$${parseFloat(insumo.costo_unitario).toFixed(2)}</td>
+                                    <td>${insumo.lotes_aplicados}</td>
+                                    <td>
+                                        <div class="progress" style="height: 20px;">
+                                            <div class="progress-bar bg-${eficiencia.color}" role="progressbar" 
+                                                style="width: ${eficiencia.porcentaje}%" 
+                                                title="${eficiencia.texto}">
+                                                ${eficiencia.porcentaje}%
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            `;
+                            $('#tablaInsumos tbody').append(fila);
+                        });
+                        
+                        // Inicializar DataTable
+                        $('#tablaInsumos').DataTable({
+                            language: {
+                                url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json'
+                            },
+                            responsive: true,
+                            pageLength: 25,
+                            order: [[5, 'desc']] // Ordenar por costo total descendente
+                        });
+                    } else {
+                        mostrarAlerta('error', response.message);
+                    }
+                },
+                error: function() {
+                    $('#loadingInsumos').hide();
+                    mostrarAlerta('error', 'Error al cargar el reporte de uso de insumos');
+                }
+            });
+        }
+        
+        function actualizarEstadisticasInsumos(insumos) {
+            const totalInsumos = insumos.length;
+            const costoTotal = insumos.reduce((sum, item) => sum + parseFloat(item.costo_total || 0), 0);
+            const promedioCosto = totalInsumos > 0 ? costoTotal / totalInsumos : 0;
+            const lotesAplicados = [...new Set(insumos.map(item => item.lotes_aplicados))].reduce((a, b) => a + b, 0);
+            
+            $('#total-insumos').text(totalInsumos);
+            $('#costo-insumos').text('$' + costoTotal.toFixed(2));
+            $('#promedio-costo').text('$' + promedioCosto.toFixed(2));
+            $('#lotes-aplicados').text(lotesAplicados);
+        }
+        
+        function cargarGraficosInsumos(insumos) {
+            // Gráfico de distribución por tipo
+            cargarGraficoTipoInsumos(insumos);
+            
+            // Gráfico de costo por cultivo
+            cargarGraficoCostoCultivo(insumos);
+        }
+        
+        function cargarGraficoTipoInsumos(insumos) {
+            const tipoData = insumos.reduce((acc, item) => {
+                acc[item.tipo_insumo] = (acc[item.tipo_insumo] || 0) + parseFloat(item.costo_total || 0);
+                return acc;
+            }, {});
+            
+            const ctx = document.getElementById('tipoInsumosChart');
+            if (ctx) {
+                // Destruir gráfico existente si existe
+                if (window.tipoInsumosChart) {
+                    window.tipoInsumosChart.destroy();
+                }
+                
+                window.tipoInsumosChart = new Chart(ctx.getContext('2d'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: Object.keys(tipoData),
+                        datasets: [{
+                            data: Object.values(tipoData),
+                            backgroundColor: [
+                                'rgba(76, 175, 80, 0.8)',
+                                'rgba(33, 150, 243, 0.8)', 
+                                'rgba(255, 193, 7, 0.8)',
+                                'rgba(156, 39, 176, 0.8)',
+                                'rgba(255, 152, 0, 0.8)'
+                            ],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return context.label + ': $' + context.parsed.toFixed(2);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+        
+        function cargarGraficoCostoCultivo(insumos) {
+            const cultivoData = insumos.reduce((acc, item) => {
+                const cultivo = item.cultivo || 'Sin especificar';
+                acc[cultivo] = (acc[cultivo] || 0) + parseFloat(item.costo_total || 0);
+                return acc;
+            }, {});
+            
+            const ctx = document.getElementById('costoCultivoChart');
+            if (ctx) {
+                // Destruir gráfico existente si existe
+                if (window.costoCultivoChart) {
+                    window.costoCultivoChart.destroy();
+                }
+                
+                window.costoCultivoChart = new Chart(ctx.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: Object.keys(cultivoData),
+                        datasets: [{
+                            label: 'Costo Total ($)',
+                            data: Object.values(cultivoData),
+                            backgroundColor: 'rgba(76, 175, 80, 0.8)',
+                            borderColor: 'rgba(76, 175, 80, 1)',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return '$' + value.toFixed(2);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+        
+        function calcularEficienciaInsumo(insumo) {
+            // Calcular eficiencia basada en costo por lote
+            const costoPorLote = parseFloat(insumo.costo_total) / Math.max(insumo.lotes_aplicados, 1);
+            
+            let porcentaje, color, texto;
+            
+            if (costoPorLote <= 100) {
+                porcentaje = 90;
+                color = 'success';
+                texto = 'Muy eficiente';
+            } else if (costoPorLote <= 200) {
+                porcentaje = 75;
+                color = 'info';
+                texto = 'Eficiente';
+            } else if (costoPorLote <= 300) {
+                porcentaje = 60;
+                color = 'warning';
+                texto = 'Moderado';
+            } else {
+                porcentaje = 40;
+                color = 'danger';
+                texto = 'Revisar';
+            }
+            
+            return { porcentaje, color, texto };
+        }
+        
+        function limpiarFiltrosInsumos() {
+            $('#fechaInicioInsumos').val('');
+            $('#fechaFinInsumos').val('');
+            $('#tipoInsumo').val('');
+            $('#cultivoInsumos').val('');
+            
+            // Recargar datos sin filtros
+            cargarReporteInsumos();
+        }
+        
+        function cargarGraficosControlFitosanitario() {
+            // Cargar los tres gráficos de control fitosanitario
+            cargarGraficoPlagas();
+            cargarGraficoEnfermedades();
+            cargarGraficoEfectividadTratamientos();
+        }
+        
+        function cargarGraficoPlagas() {
+            $.ajax({
+                url: '../AJAX/reportes_ajax.php',
+                method: 'GET',
+                data: { accion: 'control_plagas' },
+                success: function(response) {
+                    if (response.success) {
+                        // Si el gráfico ya existe, destruirlo
+                        if (plagasChart) {
+                            plagasChart.destroy();
+                        }
+                        
+                        const ctx = document.getElementById('plagasChart').getContext('2d');
+                        plagasChart = new Chart(ctx, {
+                            type: 'doughnut',
+                            data: {
+                                labels: response.plagas.map(item => item.tipo_plaga || 'Sin especificar'),
+                                datasets: [{
+                                    label: 'Incidencia de Plagas',
+                                    data: response.plagas.map(item => parseInt(item.cantidad) || 0),
+                                    backgroundColor: [
+                                        'rgba(76, 175, 80, 0.8)',   // Verde - Nivel bajo
+                                        'rgba(255, 193, 7, 0.8)',   // Amarillo - Nivel medio
+                                        'rgba(255, 152, 0, 0.8)',   // Naranja - Nivel alto
+                                        'rgba(244, 67, 54, 0.8)',   // Rojo - Nivel crítico
+                                        'rgba(158, 158, 158, 0.8)'  // Gris - Sin datos
+                                    ],
+                                    borderColor: [
+                                        'rgba(76, 175, 80, 1)',
+                                        'rgba(255, 193, 7, 1)',
+                                        'rgba(255, 152, 0, 1)',
+                                        'rgba(244, 67, 54, 1)',
+                                        'rgba(158, 158, 158, 1)'
+                                    ],
+                                    borderWidth: 2
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: {
+                                        position: 'bottom',
+                                        labels: {
+                                            padding: 20,
+                                            usePointStyle: true,
+                                            font: {
+                                                size: 12
+                                            }
+                                        }
+                                    },
+                                    tooltip: {
+                                        backgroundColor: 'rgba(46, 125, 50, 0.9)',
+                                        titleColor: '#fff',
+                                        bodyColor: '#fff',
+                                        borderColor: '#2E7D32',
+                                        borderWidth: 1,
+                                        callbacks: {
+                                            label: function(context) {
+                                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                                const percentage = ((context.parsed * 100) / total).toFixed(1);
+                                                return `${context.label}: ${context.parsed} casos (${percentage}%)`;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    } else {
+                        // Mostrar gráfico vacío con mensaje
+                        mostrarGraficoVacio('plagasChart', 'No hay datos de plagas disponibles');
+                    }
+                },
+                error: function() {
+                    mostrarGraficoVacio('plagasChart', 'Error al cargar datos de plagas');
+                }
+            });
+        }
+        
+        function cargarGraficoEnfermedades() {
+            $.ajax({
+                url: '../AJAX/reportes_ajax.php',
+                method: 'GET',
+                data: { accion: 'control_enfermedades' },
+                success: function(response) {
+                    if (response.success) {
+                        // Si el gráfico ya existe, destruirlo
+                        if (enfermedadesChart) {
+                            enfermedadesChart.destroy();
+                        }
+                        
+                        const ctx = document.getElementById('enfermedadesChart').getContext('2d');
+                        enfermedadesChart = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: response.enfermedades.map(item => item.tipo_enfermedad || 'Sin especificar'),
+                                datasets: [{
+                                    label: 'Casos de Enfermedades',
+                                    data: response.enfermedades.map(item => parseInt(item.cantidad) || 0),
+                                    backgroundColor: 'rgba(244, 67, 54, 0.8)',
+                                    borderColor: 'rgba(244, 67, 54, 1)',
+                                    borderWidth: 2,
+                                    borderRadius: 5,
+                                    borderSkipped: false
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: {
+                                        display: false
+                                    },
+                                    tooltip: {
+                                        backgroundColor: 'rgba(46, 125, 50, 0.9)',
+                                        titleColor: '#fff',
+                                        bodyColor: '#fff',
+                                        borderColor: '#2E7D32',
+                                        borderWidth: 1,
+                                        callbacks: {
+                                            label: function(context) {
+                                                return `Casos detectados: ${context.parsed.y}`;
+                                            }
+                                        }
+                                    }
+                                },
+                                scales: {
+                                    y: {
+                                        beginAtZero: true,
+                                        title: {
+                                            display: true,
+                                            text: 'Número de Casos'
+                                        },
+                                        grid: {
+                                            color: 'rgba(0, 0, 0, 0.1)'
+                                        },
+                                        ticks: {
+                                            stepSize: 1
+                                        }
+                                    },
+                                    x: {
+                                        title: {
+                                            display: true,
+                                            text: 'Tipo de Enfermedad'
+                                        },
+                                        grid: {
+                                            display: false
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    } else {
+                        // Mostrar gráfico vacío con mensaje
+                        mostrarGraficoVacio('enfermedadesChart', 'No hay datos de enfermedades disponibles');
+                    }
+                },
+                error: function() {
+                    mostrarGraficoVacio('enfermedadesChart', 'Error al cargar datos de enfermedades');
+                }
+            });
+        }
+        
+        function cargarGraficoEfectividadTratamientos() {
+            $.ajax({
+                url: '../AJAX/reportes_ajax.php',
+                method: 'GET',
+                data: { accion: 'efectividad_tratamientos' },
+                success: function(response) {
+                    if (response.success) {
+                        // Si el gráfico ya existe, destruirlo
+                        if (efectividadTratamientosChart) {
+                            efectividadTratamientosChart.destroy();
+                        }
+                        
+                        const ctx = document.getElementById('efectividadTratamientosChart').getContext('2d');
+                        efectividadTratamientosChart = new Chart(ctx, {
+                            type: 'line',
+                            data: {
+                                labels: response.tratamientos.map(item => item.mes || 'Mes'),
+                                datasets: [
+                                    {
+                                        label: 'Tratamientos Aplicados',
+                                        data: response.tratamientos.map(item => parseInt(item.aplicados) || 0),
+                                        borderColor: 'rgba(33, 150, 243, 1)',
+                                        backgroundColor: 'rgba(33, 150, 243, 0.1)',
+                                        fill: false,
+                                        tension: 0.4,
+                                        pointBackgroundColor: 'rgba(33, 150, 243, 1)',
+                                        pointBorderColor: '#fff',
+                                        pointBorderWidth: 2,
+                                        pointRadius: 5
+                                    },
+                                    {
+                                        label: 'Tratamientos Efectivos',
+                                        data: response.tratamientos.map(item => parseInt(item.efectivos) || 0),
+                                        borderColor: 'rgba(76, 175, 80, 1)',
+                                        backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                                        fill: true,
+                                        tension: 0.4,
+                                        pointBackgroundColor: 'rgba(76, 175, 80, 1)',
+                                        pointBorderColor: '#fff',
+                                        pointBorderWidth: 2,
+                                        pointRadius: 5
+                                    }
+                                ]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: {
+                                        display: true,
+                                        position: 'top',
+                                        labels: {
+                                            padding: 20,
+                                            usePointStyle: true
+                                        }
+                                    },
+                                    tooltip: {
+                                        backgroundColor: 'rgba(46, 125, 50, 0.9)',
+                                        titleColor: '#fff',
+                                        bodyColor: '#fff',
+                                        borderColor: '#2E7D32',
+                                        borderWidth: 1,
+                                        callbacks: {
+                                            afterBody: function(tooltipItems) {
+                                                const index = tooltipItems[0].dataIndex;
+                                                const aplicados = response.tratamientos[index].aplicados || 0;
+                                                const efectivos = response.tratamientos[index].efectivos || 0;
+                                                const efectividad = aplicados > 0 ? ((efectivos / aplicados) * 100).toFixed(1) : 0;
+                                                return `Efectividad: ${efectividad}%`;
+                                            }
+                                        }
+                                    }
+                                },
+                                scales: {
+                                    y: {
+                                        beginAtZero: true,
+                                        title: {
+                                            display: true,
+                                            text: 'Número de Tratamientos'
+                                        },
+                                        grid: {
+                                            color: 'rgba(0, 0, 0, 0.1)'
+                                        },
+                                        ticks: {
+                                            stepSize: 1
+                                        }
+                                    },
+                                    x: {
+                                        title: {
+                                            display: true,
+                                            text: 'Período'
+                                        },
+                                        grid: {
+                                            display: false
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    } else {
+                        // Mostrar gráfico vacío con mensaje
+                        mostrarGraficoVacio('efectividadTratamientosChart', 'No hay datos de tratamientos disponibles');
+                    }
+                },
+                error: function() {
+                    mostrarGraficoVacio('efectividadTratamientosChart', 'Error al cargar datos de tratamientos');
+                }
+            });
+        }
+        
+        function mostrarGraficoVacio(canvasId, mensaje) {
+            const ctx = document.getElementById(canvasId);
+            if (ctx) {
+                const chart = new Chart(ctx.getContext('2d'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Sin datos'],
+                        datasets: [{
+                            data: [1],
+                            backgroundColor: ['rgba(158, 158, 158, 0.3)'],
+                            borderColor: ['rgba(158, 158, 158, 0.5)'],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                enabled: false
+                            }
+                        }
+                    },
+                    plugins: [{
+                        beforeDraw: function(chart) {
+                            const ctx = chart.ctx;
+                            const width = chart.width;
+                            const height = chart.height;
+                            
+                            ctx.restore();
+                            ctx.font = '16px Arial';
+                            ctx.fillStyle = '#666';
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'middle';
+                            ctx.fillText(mensaje, width / 2, height / 2);
+                            ctx.save();
+                        }
+                    }]
+                });
+                
+                // Guardar referencia del gráfico
+                if (canvasId === 'plagasChart') plagasChart = chart;
+                else if (canvasId === 'enfermedadesChart') enfermedadesChart = chart;
+                else if (canvasId === 'efectividadTratamientosChart') efectividadTratamientosChart = chart;
+            }
         }
         
         function cargarHistorialActividades() {
@@ -1528,8 +2247,17 @@ $permisos_usuario = $permisos[$usuario_actual['rol']] ?? [];
                     break;
                 case '#tecnico':
                     const subPestañaTecnico = $('#tecnicoSubTabs .nav-link.active').attr('id');
-                    tipoReporte = subPestañaTecnico === 'monitoreo-subtab' ? 'monitoreo' : 'actividades';
-                    filtros = {};
+                    switch(subPestañaTecnico) {
+                        case 'monitoreo-subtab':
+                            tipoReporte = 'monitoreo';
+                            break;
+                        case 'insumos-subtab':
+                            tipoReporte = 'uso_insumos';
+                            filtros = obtenerFiltrosInsumos();
+                            break;
+                        default:
+                            tipoReporte = 'actividades';
+                    }
                     break;
                 default:
                     mostrarAlerta('warning', 'Selecciona un reporte específico para exportar');
@@ -1559,6 +2287,15 @@ $permisos_usuario = $permisos[$usuario_actual['rol']] ?? [];
                 fecha_fin: $('#fechaFinProduccion').val() || null,
                 cultivo_id: $('#cultivoProduccion').val() || null,
                 lote_id: $('#loteProduccion').val() || null
+            };
+        }
+        
+        function obtenerFiltrosInsumos() {
+            return {
+                fecha_inicio: $('#fechaInicioInsumos').val() || null,
+                fecha_fin: $('#fechaFinInsumos').val() || null,
+                tipo_insumo: $('#tipoInsumo').val() || null,
+                cultivo_id: $('#cultivoInsumos').val() || null
             };
         }
         

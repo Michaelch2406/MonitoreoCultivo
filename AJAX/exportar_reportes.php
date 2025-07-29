@@ -193,6 +193,91 @@ try {
             ];
             break;
             
+        case 'uso_insumos':
+            $resultado = $reportes_modelo->obtenerUsoInsumos(
+                $usuario_actual['id'], 
+                $usuario_actual['rol'], 
+                is_array($filtros) ? $filtros : []
+            );
+            
+            if (!$resultado['success']) {
+                throw new Exception($resultado['message']);
+            }
+            
+            $datos = $resultado['insumos'];
+            $titulo = 'Uso de Insumos';
+            $columnas = [
+                'tipo_insumo' => 'Tipo',
+                'nombre_insumo' => 'Nombre del Insumo',
+                'cultivo' => 'Cultivo',
+                'cantidad_total' => 'Cantidad Total',
+                'unidad_medida' => 'Unidad',
+                'costo_total' => 'Costo Total ($)',
+                'costo_unitario' => 'Costo Unitario ($)',
+                'lotes_aplicados' => 'Lotes Aplicados'
+            ];
+            break;
+            
+        case 'control_plagas':
+            $resultado = $reportes_modelo->obtenerControlPlagas(
+                $usuario_actual['id'], 
+                $usuario_actual['rol'], 
+                is_array($filtros) ? $filtros : []
+            );
+            
+            if (!$resultado['success']) {
+                throw new Exception($resultado['message']);
+            }
+            
+            $datos = $resultado['plagas'];
+            $titulo = 'Control de Plagas';
+            $columnas = [
+                'tipo_plaga' => 'Tipo de Plaga',
+                'cantidad' => 'Casos Detectados',
+                'severidad_promedio' => 'Severidad Promedio'
+            ];
+            break;
+            
+        case 'control_enfermedades':
+            $resultado = $reportes_modelo->obtenerControlEnfermedades(
+                $usuario_actual['id'], 
+                $usuario_actual['rol'], 
+                is_array($filtros) ? $filtros : []
+            );
+            
+            if (!$resultado['success']) {
+                throw new Exception($resultado['message']);
+            }
+            
+            $datos = $resultado['enfermedades'];
+            $titulo = 'Control de Enfermedades';
+            $columnas = [
+                'tipo_enfermedad' => 'Tipo de Enfermedad',
+                'cantidad' => 'Casos Detectados',
+                'severidad_promedio' => 'Severidad Promedio'
+            ];
+            break;
+            
+        case 'efectividad_tratamientos':
+            $resultado = $reportes_modelo->obtenerEfectividadTratamientos(
+                $usuario_actual['id'], 
+                $usuario_actual['rol'], 
+                $_GET['periodo'] ?? '12_meses'
+            );
+            
+            if (!$resultado['success']) {
+                throw new Exception($resultado['message']);
+            }
+            
+            $datos = $resultado['tratamientos'];
+            $titulo = 'Efectividad de Tratamientos';
+            $columnas = [
+                'mes' => 'Período',
+                'aplicados' => 'Tratamientos Aplicados',
+                'efectivos' => 'Tratamientos Efectivos'
+            ];
+            break;
+            
         default:
             throw new Exception('Tipo de reporte no válido');
     }

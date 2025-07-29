@@ -61,10 +61,6 @@ session_start();
                                     <i class="fas fa-rocket me-2"></i>
                                     Comenzar Gratis
                                 </a>
-                                <a href="#caracteristicas" class="btn btn-outline-light btn-lg btn-hero-outline">
-                                    <i class="fas fa-play me-2"></i>
-                                    Ver Demo
-                                </a>
                             <?php endif; ?>
                         </div>
                     </div>

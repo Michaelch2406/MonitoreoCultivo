@@ -54,7 +54,7 @@ $usuario_actual = $usuario_logueado ? obtenerUsuarioActual() : null;
                         <div class="contact-quick-info">
                             <div class="quick-info-item">
                                 <i class="fas fa-phone text-success"></i>
-                                <span>+1 (555) 123-4567</span>
+                                <span>(+593) 123-4567</span>
                             </div>
                             <div class="quick-info-item">
                                 <i class="fas fa-clock text-primary"></i>
@@ -78,7 +78,7 @@ $usuario_actual = $usuario_logueado ? obtenerUsuarioActual() : null;
                             <h5>Nuestra Oficina</h5>
                             <p>Av. Agricultura 123<br>
                             Ciudad Agrícola, CA 12345<br>
-                            Colombia</p>
+                            Ecuador</p>
                         </div>
                     </div>
                 </div>
@@ -89,9 +89,9 @@ $usuario_actual = $usuario_logueado ? obtenerUsuarioActual() : null;
                         </div>
                         <div class="contact-content">
                             <h5>Teléfonos</h5>
-                            <p><strong>Principal:</strong> +1 (555) 123-4567<br>
-                            <strong>Soporte:</strong> +1 (555) 987-6543<br>
-                            <strong>WhatsApp:</strong> +1 (555) 456-7890</p>
+                            <p><strong>Principal:</strong> (+593) 989972254<br>
+                            <strong>Soporte:</strong> (+593) 987-6543<br>
+                            <strong>WhatsApp:</strong> (+593) 456-7890</p>
                         </div>
                     </div>
                 </div>
@@ -281,7 +281,7 @@ $usuario_actual = $usuario_logueado ? obtenerUsuarioActual() : null;
                                     <i class="fas fa-phone text-danger"></i>
                                     <div>
                                         <strong>Línea de Emergencia</strong>
-                                        <div>+1 (555) 911-AGRO</div>
+                                        <div>+1 (+593) 911-AGRO</div>
                                     </div>
                                 </div>
                                 <div class="emergency-item">
@@ -336,7 +336,7 @@ $usuario_actual = $usuario_logueado ? obtenerUsuarioActual() : null;
                                     </h2>
                                     <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionFAQ">
                                         <div class="accordion-body">
-                                            Puedes solicitar una demo gratuita seleccionando "Solicitar Demo" en el formulario de contacto o llamando directamente a nuestro equipo de ventas al +1 (555) 123-4567.
+                                            Puedes solicitar una demo gratuita seleccionando "Solicitar Demo" en el formulario de contacto o llamando directamente a nuestro equipo de ventas al (+593) 123-4567.
                                         </div>
                                     </div>
                                 </div>
