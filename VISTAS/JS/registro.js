@@ -194,20 +194,22 @@ function validateStep1() {
         setFieldSuccess('#apellido');
     }
     
-    if (!rol) {
-        setFieldError('#rol', 'Debes seleccionar un rol');
-        isValid = false;
-    } else {
+    // El rol ya está establecido como valor por defecto, no necesita validación adicional
+    if (rol) {
         setFieldSuccess('#rol');
     }
     
-    // Validar tel�fono si est� presente
+    // Validar tel�fono si est� presente (campo opcional)
     const telefono = $('#telefono').val().trim();
-    if (telefono && !validatePhone(telefono)) {
+    if (telefono.length > 0 && !validatePhone(telefono)) {
         setFieldError('#telefono', 'Formato de tel�fono inv�lido');
         isValid = false;
-    } else if (telefono) {
+    } else if (telefono.length > 0) {
         setFieldSuccess('#telefono');
+    } else {
+        // Si el campo está vacío, limpiar cualquier error previo
+        $('#telefono').removeClass('is-invalid is-valid');
+        $('#telefono').siblings('.invalid-feedback').text('');
     }
     
     return isValid;
@@ -646,8 +648,10 @@ function validateEmail(email) {
 }
 
 function validatePhone(phone) {
-    const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
-    return phoneRegex.test(phone.replace(/[\s\-\(\)]/g, ''));
+    // Regex más flexible que acepta números internacionales comunes
+    const phoneRegex = /^[\+]?[\d\s\-\(\)]{7,20}$/;
+    const cleanPhone = phone.replace(/[\s\-\(\)]/g, '');
+    return phoneRegex.test(phone) && cleanPhone.length >= 7;
 }
 
 function validatePassword(password) {

@@ -1,0 +1,421 @@
+================================================================================
+                 GUÍA DE ROLES Y NAVEGACIÓN - AGROMONITOR
+                    Sistema de Monitoreo de Cultivos
+================================================================================
+
+📋 TABLA DE CONTENIDO:
+1. RESUMEN DE LOS 3 ROLES DEL SISTEMA
+2. DATOS DE PRUEBA POR ROL
+3. NAVEGACIÓN PASO A PASO POR ROL
+4. FLUJOS DE TRABAJO TÍPICOS
+5. CASOS DE PRUEBA ESPECÍFICOS
+6. VERIFICACIÓN DE PERMISOS
+
+================================================================================
+🎭 1. RESUMEN DE LOS 3 ROLES DEL SISTEMA
+================================================================================
+
+🔴 ADMINISTRADOR (Control Total)
+================================
+PERMISOS:
+✅ Gestión completa de usuarios (crear, editar, eliminar)
+✅ Gestión completa de cultivos del sistema
+✅ Ver y gestionar TODAS las fincas, lotes y siembras
+✅ Acceso completo a reportes globales
+✅ Configuraciones del sistema
+
+ACCESO A:
+- Dashboard con estadísticas globales
+- Módulo de Usuarios
+- Módulo de Cultivos
+- Todas las fincas y lotes del sistema
+- Reportes consolidados
+- Configuraciones avanzadas
+
+🟢 AGRICULTOR (Propietario de Datos)
+====================================
+PERMISOS:
+✅ Gestión de SUS PROPIAS fincas (crear, editar, eliminar)
+✅ Gestión de SUS PROPIOS lotes (crear, editar, eliminar)
+✅ Gestión de SUS PROPIAS siembras (crear, editar, eliminar)
+✅ Ver cultivos del sistema (solo lectura)
+❌ NO puede gestionar usuarios
+❌ NO puede ver datos de otros agricultores
+
+ACCESO A:
+- Dashboard personal
+- Sus fincas únicamente
+- Sus lotes únicamente
+- Sus siembras únicamente
+- Reportes de su producción
+- Configuración de perfil
+
+🟡 SUPERVISOR (Solo Lectura)
+============================
+PERMISOS:
+✅ Ver TODOS los datos del sistema (fincas, lotes, siembras)
+✅ Ver lista de usuarios
+✅ Acceso a reportes globales
+❌ NO puede crear nada
+❌ NO puede editar nada
+❌ NO puede eliminar nada
+
+ACCESO A:
+- Dashboard con vista global
+- Ver todas las fincas (solo lectura)
+- Ver todos los lotes (solo lectura)
+- Ver todas las siembras (solo lectura)
+- Reportes completos del sistema
+- Lista de usuarios (solo vista)
+
+================================================================================
+👥 2. DATOS DE PRUEBA POR ROL
+================================================================================
+
+🔴 ADMINISTRADOR - Datos de Prueba:
+===================================
+Email: admin@agromonitor.com
+Password: Admin123!
+Nombre: Carlos
+Apellido: Administrador
+Teléfono: +54 11 1234-5678
+
+TAREAS A REALIZAR:
+1. Crear 2 usuarios agricultores
+2. Crear 1 usuario supervisor  
+3. Crear 3 tipos de cultivos
+4. Supervisar actividad del sistema
+5. Generar reportes globales
+
+🟢 AGRICULTOR 1 - Datos de Prueba:
+==================================
+Email: agricultor1@gmail.com
+Password: Agri123!
+Nombre: María
+Apellido: González
+Teléfono: +54 11 2345-6789
+
+TAREAS A REALIZAR:
+1. Crear 2 fincas: "Finca San José" y "Campo Norte"
+2. En Finca San José: crear 3 lotes (Lote A, B, C)
+3. En Campo Norte: crear 2 lotes (Lote 1, Lote 2)
+4. Planificar 5 siembras diferentes
+5. Generar reportes de su producción
+
+🟢 AGRICULTOR 2 - Datos de Prueba:
+==================================
+Email: agricultor2@hotmail.com
+Password: Agri456!
+Nombre: Pedro
+Apellido: Martínez
+Teléfono: +54 11 3456-7890
+
+TAREAS A REALIZAR:
+1. Crear 1 finca: "Estancia La Esperanza"
+2. Crear 4 lotes en la finca
+3. Planificar 3 siembras en diferentes lotes
+4. Intentar ver datos del Agricultor 1 (debe fallar)
+5. Generar sus propios reportes
+
+🟡 SUPERVISOR - Datos de Prueba:
+================================
+Email: supervisor@empresa.com
+Password: Super123!
+Nombre: Ana
+Apellido: Supervisora
+Teléfono: +54 11 4567-8901
+
+TAREAS A REALIZAR:
+1. Revisar dashboard global
+2. Ver todas las fincas del sistema
+3. Analizar siembras de todos los agricultores
+4. Generar reportes consolidados
+5. Intentar crear algo (debe fallar)
+
+================================================================================
+🗺️ 3. NAVEGACIÓN PASO A PASO POR ROL
+================================================================================
+
+🔴 COMO ADMINISTRADOR - Flujo Completo:
+=======================================
+
+PASO 1: Registro/Login
+- Ir a: /VISTAS/registro.php
+- Completar datos del administrador
+- Cambiar rol en BD a 'administrador'
+- Login en: /VISTAS/login.php
+
+PASO 2: Dashboard Administrador
+- URL: /VISTAS/dashboard.php
+- VERÁS: "Bienvenido Carlos - Rol: Administrador"
+- ELEMENTOS: Estadísticas globales, usuarios activos, total fincas
+
+PASO 3: Gestión de Usuarios
+- Ir a: /VISTAS/usuarios.php
+- ACCIONES DISPONIBLES:
+  * ➕ Crear nuevo usuario
+  * ✏️ Editar usuarios existentes
+  * 🗑️ Eliminar usuarios
+  * 👁️ Ver detalles completos
+  * 🔄 Cambiar roles
+
+PASO 4: Gestión de Cultivos
+- Ir a: /VISTAS/cultivos.php
+- ACCIONES DISPONIBLES:
+  * ➕ Crear nuevos tipos de cultivos
+  * ✏️ Editar cultivos existentes
+  * 🗑️ Eliminar cultivos
+  * 📊 Ver estadísticas de uso
+
+PASO 5: Supervisión Global
+- Ir a: /VISTAS/fincas.php
+- VER: TODAS las fincas de TODOS los usuarios
+- ACCIONES: Editar, eliminar cualquier finca
+
+- Ir a: /VISTAS/siembras.php  
+- VER: TODAS las siembras del sistema
+- ACCIONES: Gestión completa
+
+PASO 6: Reportes Globales
+- Ir a: /VISTAS/reportes.php
+- DISPONIBLE: Reportes de producción, financieros y técnicos
+- ALCANCE: Datos de todo el sistema
+
+🟢 COMO AGRICULTOR - Flujo Completo:
+====================================
+
+PASO 1: Registro y Primer Acceso
+- Registro en: /VISTAS/registro.php
+- Automáticamente asignado como 'agricultor'
+- Login automático al dashboard
+
+PASO 2: Dashboard Personal
+- URL: /VISTAS/dashboard.php
+- VERÁS: "Bienvenido [Tu Nombre] - Rol: Agricultor"
+- ELEMENTOS: TUS estadísticas (inicialmente vacías)
+
+PASO 3: Crear Primera Finca
+- Ir a: /VISTAS/fincas.php
+- Clic en "➕ Nueva Finca"
+- Completar formulario:
+  * Nombre: "Mi Primera Finca"
+  * Ubicación: "Buenos Aires, Argentina"
+  * Área: 50 hectáreas
+  * Tipo de suelo: "Franco"
+- Guardar
+
+PASO 4: Crear Lotes en la Finca
+- Desde la finca creada → "Ver Lotes"
+- O ir a: /VISTAS/lotes.php
+- Crear 3 lotes:
+  * Lote Norte: 15 hectáreas
+  * Lote Sur: 20 hectáreas  
+  * Lote Este: 15 hectáreas
+
+PASO 5: Planificar Siembras
+- Ir a: /VISTAS/siembras.php
+- Crear siembras para cada lote:
+  * Lote Norte → Trigo (2 hectáreas)
+  * Lote Sur → Soja (5 hectáreas)
+  * Lote Este → Maíz (3 hectáreas)
+
+PASO 6: Ver Progreso
+- Volver a Dashboard
+- AHORA VERÁS: Estadísticas actualizadas
+- Fincas: 1, Lotes: 3, Siembras: 3
+
+PASO 7: Generar Reportes
+- Ir a: /VISTAS/reportes.php
+- SOLO VES: Tus propios datos
+- Generar reporte de producción personal
+
+🟡 COMO SUPERVISOR - Flujo Completo:
+====================================
+
+PASO 1: Acceso al Sistema
+- Login con credenciales de supervisor
+- Dashboard con vista global
+
+PASO 2: Dashboard Supervisor
+- URL: /VISTAS/dashboard.php
+- VERÁS: "Bienvenido Ana - Rol: Supervisor"
+- ELEMENTOS: Estadísticas de TODOS los agricultores
+
+PASO 3: Consulta de Fincas
+- Ir a: /VISTAS/fincas.php
+- VER: Lista de TODAS las fincas
+- ACCIONES DISPONIBLES: ❌ Ninguna (solo lectura)
+- NO HAY botones de: Crear, Editar, Eliminar
+
+PASO 4: Análisis de Lotes
+- Ir a: /VISTAS/lotes.php
+- VER: Todos los lotes de todos los agricultores
+- INFORMACIÓN: Área total, tipos de suelo, distribución
+
+PASO 5: Seguimiento de Siembras
+- Ir a: /VISTAS/siembras.php
+- VER: Todas las siembras del sistema
+- ANÁLISIS: Cultivos más utilizados, fechas de siembra
+
+PASO 6: Reportes Consolidados
+- Ir a: /VISTAS/reportes.php
+- ACCESO: Reportes globales del sistema
+- DATOS: Producción total, eficiencia por agricultor
+
+PASO 7: Intentar Crear (Prueba de Permisos)
+- Intentar crear nueva finca → ERROR 403
+- Intentar editar siembra → Botones no visibles
+- Confirmar que solo tiene acceso de lectura
+
+================================================================================
+🔄 4. FLUJOS DE TRABAJO TÍPICOS
+================================================================================
+
+FLUJO A: Nuevo Agricultor se Registra
+======================================
+1. Registro → Asignación automática rol 'agricultor'
+2. Login → Dashboard vacío
+3. Crear primera finca → Lotes → Siembras
+4. Dashboard se actualiza con estadísticas
+5. Generar primer reporte personal
+
+FLUJO B: Administrador Gestiona Sistema
+=======================================
+1. Login como admin
+2. Crear usuarios de prueba (agricultor + supervisor)
+3. Configurar cultivos disponibles
+4. Supervisar creación de contenido
+5. Generar reportes globales
+6. Gestionar permisos si es necesario
+
+FLUJO C: Supervisor Monitorea Actividad
+=======================================
+1. Login como supervisor
+2. Dashboard → Ver métricas globales
+3. Fincas → Analizar distribución geográfica
+4. Siembras → Identificar tendencias
+5. Reportes → Generar análisis consolidado
+6. Identificar agricultores más productivos
+
+FLUJO D: Interacción Entre Roles
+================================
+1. Agricultor 1 crea contenido
+2. Agricultor 2 crea su propio contenido
+3. Supervisor ve ambos conjuntos de datos
+4. Administrador supervisa todo el proceso
+5. Cada rol mantiene sus limitaciones
+
+================================================================================
+🧪 5. CASOS DE PRUEBA ESPECÍFICOS
+================================================================================
+
+CASO 1: Verificar Aislamiento de Datos
+=======================================
+OBJETIVO: Confirmar que cada agricultor solo ve sus datos
+
+PASOS:
+1. Login como Agricultor 1 → Crear 2 fincas
+2. Login como Agricultor 2 → Crear 1 finca
+3. Volver como Agricultor 1
+4. Ir a /VISTAS/fincas.php
+5. RESULTADO ESPERADO: Solo ver sus 2 fincas
+
+CASO 2: Verificar Permisos de Supervisor
+=========================================
+OBJETIVO: Confirmar que supervisor no puede modificar
+
+PASOS:
+1. Login como supervisor
+2. Ir a cualquier módulo (fincas, lotes, siembras)
+3. RESULTADO ESPERADO: No ver botones de crear/editar/eliminar
+4. Intentar acceder directamente a formularios
+5. RESULTADO ESPERADO: Error o redirección
+
+CASO 3: Verificar Poder del Administrador
+==========================================
+OBJETIVO: Confirmar acceso total del administrador
+
+PASOS:
+1. Login como administrador
+2. Ir a cada módulo del sistema
+3. RESULTADO ESPERADO: Ver todos los datos
+4. RESULTADO ESPERADO: Tener todas las acciones disponibles
+5. Crear, editar y eliminar contenido de prueba
+
+CASO 4: Verificar Reportes por Rol
+===================================
+OBJETIVO: Confirmar que reportes respetan permisos
+
+PASOS:
+1. Como agricultor: Ver solo sus reportes
+2. Como supervisor: Ver reportes globales (lectura)
+3. Como administrador: Ver y exportar todo
+4. Verificar filtros y datos mostrados
+
+================================================================================
+✅ 6. VERIFICACIÓN DE PERMISOS
+================================================================================
+
+CHECKLIST ADMINISTRADOR:
+========================
+□ Puede crear usuarios
+□ Puede editar cualquier usuario
+□ Puede eliminar usuarios (excepto a sí mismo)
+□ Ve todas las fincas del sistema
+□ Puede editar cualquier finca
+□ Ve todas las siembras
+□ Acceso completo a reportes
+□ Puede configurar cultivos
+
+CHECKLIST AGRICULTOR:
+====================
+□ Solo ve sus propias fincas
+□ Puede crear nuevas fincas
+□ Solo puede editar sus fincas
+□ No ve fincas de otros usuarios
+□ Solo ve sus propios lotes y siembras
+□ Reportes limitados a sus datos
+□ No puede acceder a gestión de usuarios
+□ No puede crear cultivos del sistema
+
+CHECKLIST SUPERVISOR:
+====================
+□ Ve todas las fincas (solo lectura)
+□ Ve todos los lotes (solo lectura)
+□ Ve todas las siembras (solo lectura)
+□ NO puede crear nada
+□ NO puede editar nada
+□ NO puede eliminar nada
+□ Acceso a reportes globales
+□ Ve lista de usuarios (solo lectura)
+
+================================================================================
+🎯 OBJETIVOS DE LAS PRUEBAS
+================================================================================
+
+Al completar esta guía habrás verificado:
+✅ Los 3 roles funcionan según sus permisos
+✅ El aislamiento de datos funciona correctamente
+✅ La navegación es apropiada para cada rol
+✅ Los reportes muestran datos según permisos
+✅ Las acciones CRUD respetan las restricciones
+✅ El sistema es seguro y estable
+
+================================================================================
+📞 SOPORTE Y RESOLUCIÓN DE PROBLEMAS
+================================================================================
+
+Si encuentras problemas:
+1. Verificar que el rol esté correctamente asignado en la base de datos
+2. Limpiar cache del navegador
+3. Cerrar sesión y volver a iniciar
+4. Verificar que la sesión PHP tenga los datos correctos
+5. Revisar logs de PHP para errores
+
+¡Buenas pruebas! 🚀
+
+================================================================================
+Creado: $(date)
+Sistema: AgroMonitor v1.0
+Documento: Guía de Roles y Navegación
+================================================================================

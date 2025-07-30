@@ -98,3 +98,75 @@ Stack trace:
 Stack trace:
 #0 {main}
   thrown in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\precios.php on line 6
+SQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
+                           u.usu_nombre, u.usu_apellido, u.usu_email
+                    FROM lotes l
+                    INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
+                    INNER JOIN usuarios u ON f.fin_propietario = u.usu_id
+                    WHERE 1=1 AND f.fin_propietario = 2 ORDER BY l.lot_fecha_registro DESC[30-Jul-2025 00:53:38 America/New_York] Login exitoso para usuario: admin@sistemacultivos.com - IP: ::1
+[2025-07-30 00:53:51] OPERATION: Obtener estadísticas cultivos | User ID: 1
+[2025-07-30 00:53:51] OPERATION: Listar cultivos | User ID: 1 | Details: Categoría: todas
+[2025-07-30 00:53:57] OPERATION: Ver detalle cultivo | User ID: 1 | Details: ID: 19
+[2025-07-30 00:54:00] OPERATION: Ver detalle cultivo | User ID: 1 | Details: ID: 19
+[30-Jul-2025 10:54:16 America/New_York] Login exitoso para usuario: admin@sistemacultivos.com - IP: ::1
+[30-Jul-2025 10:59:07 America/New_York] Login exitoso para usuario: alejandroc@gmail.com - IP: ::1
+[30-Jul-2025 10:59:39 America/New_York] Login exitoso para usuario: maicolchasiguano@gmail.com - IP: ::1
+[2025-07-30 10:59:58] OPERATION: Obtener estadísticas cultivos | User ID: 2
+[2025-07-30 10:59:58] OPERATION: Listar cultivos | User ID: 2 | Details: Categoría: todas
+SQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
+                           u.usu_nombre, u.usu_apellido, u.usu_email
+                    FROM lotes l
+                    INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
+                    INNER JOIN usuarios u ON f.fin_propietario = u.usu_id
+                    WHERE 1=1 AND f.fin_propietario = 2 ORDER BY l.lot_fecha_registro DESCSQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
+                           u.usu_nombre, u.usu_apellido, u.usu_email
+                    FROM lotes l
+                    INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
+                    INNER JOIN usuarios u ON f.fin_propietario = u.usu_id
+                    WHERE 1=1 AND f.fin_propietario = 2 ORDER BY l.lot_fecha_registro DESC[30-Jul-2025 11:00:30 America/New_York] PHP Warning:  Undefined array key "fin_propietario" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\lotes.php on line 287
+[30-Jul-2025 11:00:30 America/New_York] PHP Warning:  Undefined array key "fin_propietario" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\lotes.php on line 297
+[30-Jul-2025 11:00:30 America/New_York] PHP Warning:  Undefined array key "fin_propietario" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\lotes.php on line 287
+[30-Jul-2025 11:00:30 America/New_York] PHP Warning:  Undefined array key "fin_propietario" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\lotes.php on line 297
+[30-Jul-2025 11:00:30 America/New_York] PHP Warning:  Undefined array key "fin_propietario" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\lotes.php on line 287
+[30-Jul-2025 11:00:30 America/New_York] PHP Warning:  Undefined array key "fin_propietario" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\lotes.php on line 297
+[30-Jul-2025 11:00:30 America/New_York] PHP Warning:  Undefined array key "fin_propietario" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\lotes.php on line 287
+[30-Jul-2025 11:00:30 America/New_York] PHP Warning:  Undefined array key "fin_propietario" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\lotes.php on line 297
+[30-Jul-2025 11:00:30 America/New_York] PHP Warning:  Undefined array key "fin_propietario" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\lotes.php on line 287
+[30-Jul-2025 11:00:30 America/New_York] PHP Warning:  Undefined array key "fin_propietario" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\lotes.php on line 297
+SQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
+                           u.usu_nombre, u.usu_apellido, u.usu_email
+                    FROM lotes l
+                    INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
+                    INNER JOIN usuarios u ON f.fin_propietario = u.usu_id
+                    WHERE 1=1 AND f.fin_propietario = 2 ORDER BY l.lot_fecha_registro DESC[30-Jul-2025 11:00:46 America/New_York] PHP Warning:  Undefined array key "fin_propietario" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\lotes.php on line 287
+[30-Jul-2025 11:00:46 America/New_York] PHP Warning:  Undefined array key "fin_propietario" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\lotes.php on line 297
+[30-Jul-2025 11:00:46 America/New_York] PHP Warning:  Undefined array key "fin_propietario" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\lotes.php on line 287
+[30-Jul-2025 11:00:46 America/New_York] PHP Warning:  Undefined array key "fin_propietario" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\lotes.php on line 297
+[30-Jul-2025 11:00:46 America/New_York] PHP Warning:  Undefined array key "fin_propietario" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\lotes.php on line 287
+[30-Jul-2025 11:00:46 America/New_York] PHP Warning:  Undefined array key "fin_propietario" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\lotes.php on line 297
+[30-Jul-2025 11:00:46 America/New_York] PHP Warning:  Undefined array key "fin_propietario" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\lotes.php on line 287
+[30-Jul-2025 11:00:46 America/New_York] PHP Warning:  Undefined array key "fin_propietario" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\lotes.php on line 297
+[30-Jul-2025 11:00:46 America/New_York] PHP Warning:  Undefined array key "fin_propietario" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\lotes.php on line 287
+[30-Jul-2025 11:00:46 America/New_York] PHP Warning:  Undefined array key "fin_propietario" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\lotes.php on line 297
+SQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
+                           u.usu_nombre, u.usu_apellido, u.usu_email
+                    FROM lotes l
+                    INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
+                    INNER JOIN usuarios u ON f.fin_propietario = u.usu_id
+                    WHERE 1=1 ORDER BY l.lot_fecha_registro DESCSQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
+                           u.usu_nombre, u.usu_apellido, u.usu_email
+                    FROM lotes l
+                    INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
+                    INNER JOIN usuarios u ON f.fin_propietario = u.usu_id
+                    WHERE 1=1 AND f.fin_propietario = 2 ORDER BY l.lot_fecha_registro DESC[30-Jul-2025 11:01:11 America/New_York] PHP Warning:  Undefined array key "fin_propietario" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\lotes.php on line 287
+[30-Jul-2025 11:01:11 America/New_York] PHP Warning:  Undefined array key "fin_propietario" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\lotes.php on line 297
+[30-Jul-2025 11:01:11 America/New_York] PHP Warning:  Undefined array key "fin_propietario" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\lotes.php on line 287
+[30-Jul-2025 11:01:11 America/New_York] PHP Warning:  Undefined array key "fin_propietario" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\lotes.php on line 297
+[30-Jul-2025 11:01:11 America/New_York] PHP Warning:  Undefined array key "fin_propietario" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\lotes.php on line 287
+[30-Jul-2025 11:01:11 America/New_York] PHP Warning:  Undefined array key "fin_propietario" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\lotes.php on line 297
+[30-Jul-2025 11:01:11 America/New_York] PHP Warning:  Undefined array key "fin_propietario" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\lotes.php on line 287
+[30-Jul-2025 11:01:11 America/New_York] PHP Warning:  Undefined array key "fin_propietario" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\lotes.php on line 297
+[30-Jul-2025 11:01:11 America/New_York] PHP Warning:  Undefined array key "fin_propietario" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\lotes.php on line 287
+[30-Jul-2025 11:01:11 America/New_York] PHP Warning:  Undefined array key "fin_propietario" in C:\inetpub\wwwroot\MonitoreoCultivo\VISTAS\lotes.php on line 297
+[2025-07-30 11:01:24] OPERATION: Listar cultivos | User ID: 3 | Details: Categoría: todas
+[2025-07-30 11:01:24] OPERATION: Obtener estadísticas cultivos | User ID: 3
