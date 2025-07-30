@@ -1,0 +1,564 @@
+================================================================================
+                    GUÍA COMPLETA DE PRUEBAS - SISTEMA AGROMONITOR
+================================================================================
+
+ÍNDICE:
+1. USUARIOS DE PRUEBA
+2. PRUEBAS COMO ADMINISTRADOR
+3. PRUEBAS COMO SUPERVISOR
+4. PRUEBAS COMO AGRICULTOR
+5. FLUJO COMPLETO DEL SISTEMA
+6. DATOS DE PRUEBA DETALLADOS
+
+================================================================================
+1. USUARIOS DE PRUEBA
+================================================================================
+
+ADMINISTRADOR:
+- Email: admin@agromonitor.com
+- Password: admin123
+- Nombre: Juan Carlos
+- Apellido: Rodríguez
+- Teléfono: +57 310 123 4567
+
+SUPERVISOR:
+- Email: supervisor@agromonitor.com
+- Password: super123
+- Nombre: María Elena
+- Apellido: Gómez
+- Teléfono: +57 320 234 5678
+
+AGRICULTOR:
+- Email: agricultor@agromonitor.com
+- Password: agri123
+- Nombre: Carlos Alberto
+- Apellido: Jiménez
+- Teléfono: +57 315 345 6789
+
+================================================================================
+2. PRUEBAS COMO ADMINISTRADOR
+================================================================================
+
+A. LOGIN Y DASHBOARD
+1. Acceder a: http://localhost/MonitoreoCultivo/VISTAS/login.php
+2. Usar credenciales de administrador
+3. Verificar que el dashboard muestre estadísticas generales del sistema
+
+B. GESTIÓN DE USUARIOS
+1. Ir a: Usuarios
+2. Crear nuevos usuarios con estos datos:
+
+NUEVO AGRICULTOR:
+- Nombre: Pedro José
+- Apellido: Martín
+- Email: pedro.martin@email.com
+- Teléfono: +57 301 111 2222
+- Rol: agricultor
+- Estado: activo
+
+NUEVO SUPERVISOR:
+- Nombre: Ana Lucía
+- Apellido: Torres
+- Email: ana.torres@email.com
+- Teléfono: +57 302 333 4444
+- Rol: supervisor
+- Estado: activo
+
+C. GESTIÓN DE TIPOS DE CULTIVOS
+1. Ir a: Cultivos
+2. Registrar estos tipos de cultivos:
+
+CULTIVO 1 - BRÓCOLI:
+- Nombre: Brócoli Verde
+- Nombre Científico: Brassica oleracea var. italica
+- Categoría: hortalizas
+- Ciclo de Vida: anual
+- Días hasta Cosecha: 75
+- Temperatura Mínima: 15°C
+- Temperatura Máxima: 25°C
+- pH Mínimo: 6.0
+- pH Máximo: 7.2
+- Tipo de Suelo: Franco arcilloso
+- Precipitación: 500-700mm anuales
+- Densidad de Siembra: 35,000 plantas/ha
+- Profundidad de Siembra: 1 cm
+- Descripción: Hortaliza rica en vitaminas, ideal para clima fresco
+
+CULTIVO 2 - QUINUA:
+- Nombre: Quinua Real
+- Nombre Científico: Chenopodium quinoa
+- Categoría: cereales
+- Ciclo de Vida: anual
+- Días hasta Cosecha: 150
+- Temperatura Mínima: 8°C
+- Temperatura Máxima: 22°C
+- pH Mínimo: 6.0
+- pH Máximo: 8.5
+- Tipo de Suelo: Franco arenoso
+- Precipitación: 300-500mm anuales
+- Densidad de Siembra: 12 kg/ha
+- Profundidad de Siembra: 2-3 cm
+- Descripción: Pseudocereal andino, alto valor nutricional
+
+CULTIVO 3 - LENTEJA:
+- Nombre: Lenteja Común
+- Nombre Científico: Lens culinaris
+- Categoría: leguminosas
+- Ciclo de Vida: anual
+- Días hasta Cosecha: 100
+- Temperatura Mínima: 10°C
+- Temperatura Máxima: 25°C
+- pH Mínimo: 6.0
+- pH Máximo: 7.5
+- Tipo de Suelo: Franco limoso
+- Precipitación: 350-500mm anuales
+- Densidad de Siembra: 120 kg/ha
+- Profundidad de Siembra: 3-4 cm
+- Descripción: Leguminosa rica en proteínas, mejora fertilidad del suelo
+
+CULTIVO 4 - ESPINACA:
+- Nombre: Espinaca Lisa
+- Nombre Científico: Spinacia oleracea
+- Categoría: hortalizas
+- Ciclo de Vida: anual
+- Días hasta Cosecha: 50
+- Temperatura Mínima: 5°C
+- Temperatura Máxima: 20°C
+- pH Mínimo: 6.5
+- pH Máximo: 7.5
+- Tipo de Suelo: Franco
+- Precipitación: 400-600mm anuales
+- Densidad de Siembra: 25 kg/ha
+- Profundidad de Siembra: 1-2 cm
+- Descripción: Hoja verde rica en hierro, ciclo corto
+
+D. GESTIÓN DE FINCAS
+1. Ir a: Fincas
+2. Registrar estas fincas:
+
+FINCA 1:
+- Nombre: El Despertar
+- Propietario: Carlos Alberto Jiménez (agricultor)
+- Ubicación: Vereda Las Flores, Cundinamarca
+- Área Total: 18.2 hectáreas
+- Tipo de Terreno: Ondulado
+- Descripción: Finca familiar con tradición en cultivos orgánicos
+- Estado: activa
+
+FINCA 2:
+- Nombre: Monte Verde
+- Propietario: Pedro José Martín (agricultor)
+- Ubicación: Vereda Alto Andino, Boyacá
+- Área Total: 22.5 hectáreas
+- Tipo de Terreno: Montañoso
+- Descripción: Finca de altura especializada en cultivos andinos
+- Estado: activa
+
+E. GESTIÓN DE LOTES
+1. Ir a: Lotes
+2. Crear lotes para cada finca:
+
+LOTES FINCA "EL DESPERTAR":
+Lote 1:
+- Nombre: Sector Oriental
+- Finca: El Despertar
+- Área: 4.5 hectáreas
+- Tipo de Suelo: Franco arcilloso
+- pH: 6.7
+- Descripción: Lote con excelente exposición solar matutina
+- Estado: disponible
+
+Lote 2:
+- Nombre: Sector Occidental
+- Finca: El Despertar
+- Área: 5.2 hectáreas
+- Tipo de Suelo: Franco limoso
+- pH: 6.9
+- Descripción: Lote protegido del viento, ideal para hortalizas
+- Estado: disponible
+
+LOTES FINCA "MONTE VERDE":
+Lote 1:
+- Nombre: Terraza Alta
+- Finca: Monte Verde
+- Área: 6.8 hectáreas
+- Tipo de Suelo: Franco arenoso
+- pH: 6.3
+- Descripción: Lote en terraza, ideal para cultivos andinos
+- Estado: disponible
+
+Lote 2:
+- Nombre: Terraza Media
+- Finca: Monte Verde
+- Área: 7.1 hectáreas
+- Tipo de Suelo: Franco
+- pH: 6.8
+- Descripción: Lote con sistema de riego tecnificado
+- Estado: disponible
+
+================================================================================
+3. PRUEBAS COMO SUPERVISOR
+================================================================================
+
+A. LOGIN Y DASHBOARD
+1. Cerrar sesión del administrador
+2. Iniciar sesión como supervisor
+3. Verificar dashboard con estadísticas de supervisión
+
+B. SUPERVISIÓN DE FINCAS
+1. Ir a: Fincas
+2. Verificar que puede ver las fincas asignadas
+3. Revisar detalles de cada finca
+
+C. CREACIÓN DE MONITOREOS
+1. Ir a: Monitoreo
+2. Crear nuevo monitoreo:
+
+MONITOREO 1:
+- Siembra: Brócoli Verde - Sector Oriental (seleccionar de la lista)
+- Fecha de Observación: (fecha actual)
+- Altura Promedio: 28.5 cm
+- Estado General: bueno
+- Porcentaje de Germinación: 89%
+- Color del Follaje: verde claro
+- Presencia de Plagas: leve
+- Tipo de Plagas: mosca blanca
+- Presencia de Enfermedades: ninguna
+- Condición del Clima: nublado
+- Humedad del Suelo: húmedo
+- Observaciones: Plantas desarrollándose correctamente. Se observa leve presencia de mosca blanca en hojas externas. Buen vigor vegetativo.
+
+D. REVISIÓN DE REPORTES
+1. Ir a: Reportes
+2. Generar reportes de las fincas supervisadas
+3. Exportar en diferentes formatos (PDF, Excel)
+
+================================================================================
+4. PRUEBAS COMO AGRICULTOR
+================================================================================
+
+A. LOGIN Y DASHBOARD
+1. Cerrar sesión del supervisor
+2. Iniciar sesión como agricultor (Carlos Alberto Jiménez)
+3. Verificar dashboard personal con sus fincas
+
+B. GESTIÓN DE SIEMBRAS
+1. Ir a: Siembras
+2. Crear nuevas siembras:
+
+SIEMBRA 1:
+- Lote: Sector Oriental (Finca El Despertar)
+- Tipo de Cultivo: Brócoli Verde
+- Fecha de Siembra: (hace 35 días de la fecha actual)
+- Área Sembrada: 3.8 hectáreas
+- Cantidad de Semilla: 2.5 kg
+- Método de Siembra: trasplante
+- Distancia entre Surcos: 0.5 metros
+- Distancia entre Plantas: 0.35 metros
+- Profundidad: 1 cm
+- Estado: en_crecimiento
+- Notas: Primera siembra de brócoli en esta temporada, semilla certificada
+
+SIEMBRA 2:
+- Lote: Sector Occidental (Finca El Despertar)
+- Tipo de Cultivo: Espinaca Lisa
+- Fecha de Siembra: (hace 25 días)
+- Área Sembrada: 2.2 hectáreas
+- Cantidad de Semilla: 55 kg
+- Método de Siembra: directa
+- Distancia entre Surcos: 0.3 metros
+- Distancia entre Plantas: 0.1 metros
+- Profundidad: 2 cm
+- Estado: desarrollo_vegetativo
+- Notas: Espinaca para corte continuo, excelente germinación
+
+C. MONITOREO DE CULTIVOS
+1. Ir a: Monitoreo
+2. Crear monitoreos para sus siembras:
+
+MONITOREO BRÓCOLI:
+- Siembra: Brócoli Verde - Sector Oriental
+- Fecha: (fecha actual)
+- Altura Promedio: 31.2 cm
+- Estado General: excelente
+- Porcentaje de Germinación: 92%
+- Color del Follaje: verde intenso
+- Presencia de Plagas: ninguna
+- Presencia de Enfermedades: ninguna
+- Condición del Clima: soleado
+- Humedad del Suelo: húmedo
+- Observaciones: Excelente desarrollo. Plantas formando cabezas pequeñas. Sin problemas fitosanitarios.
+
+MONITOREO ESPINACA:
+- Siembra: Espinaca Lisa - Sector Occidental
+- Fecha: (fecha actual)
+- Altura Promedio: 12.8 cm
+- Estado General: bueno
+- Porcentaje de Germinación: 85%
+- Color del Follaje: verde brillante
+- Presencia de Plagas: leve
+- Tipo de Plagas: minador de hoja
+- Presencia de Enfermedades: ninguna
+- Condición del Clima: fresco
+- Humedad del Suelo: húmedo
+- Observaciones: Plantas listas para primer corte. Presencia mínima de minador de hoja.
+
+D. REGISTRO DE ACTIVIDADES
+1. Ir a: Actividades
+2. Registrar actividades realizadas:
+
+ACTIVIDAD 1 - FERTILIZACIÓN:
+- Siembra: Brócoli Verde - Sector Oriental
+- Tipo: fertilización
+- Fecha: (hace 7 días)
+- Descripción: Aplicación de abono orgánico compostado
+- Productos Utilizados: Compost orgánico (800 kg)
+- Costo: $65,000
+- Responsable: Carlos Alberto Jiménez
+- Estado: completada
+- Notas: Fertilización orgánica para mejorar estructura del suelo
+
+ACTIVIDAD 2 - CONTROL FITOSANITARIO:
+- Siembra: Espinaca Lisa - Sector Occidental
+- Tipo: fumigación
+- Fecha: (hace 3 días)
+- Descripción: Control preventivo con productos orgánicos
+- Productos Utilizados: Aceite de neem (2 litros)
+- Costo: $28,000
+- Responsable: Carlos Alberto Jiménez
+- Estado: completada
+- Notas: Aplicación preventiva contra minador de hoja
+
+E. REGISTRO DE COSECHAS
+1. Ir a: Cosechas
+2. Registrar cosechas (para espinaca que tiene ciclo corto):
+
+COSECHA ESPINACA:
+- Siembra: Espinaca Lisa - Sector Occidental
+- Fecha de Cosecha: (fecha actual)
+- Cantidad Cosechada: 320 kg
+- Unidad: kilogramos
+- Calidad: primera
+- Precio de Venta Unitario: $3,200/kg
+- Comprador: Mercado Orgánico Central
+- Método de Cosecha: manual selectiva
+- Condiciones Climáticas: fresco y seco
+- Notas: Primer corte de espinaca, hojas tiernas de excelente calidad
+
+F. GESTIÓN FINANCIERA
+1. Ir a: Finanzas
+2. Registrar gastos e ingresos:
+
+GASTO - SEMILLAS:
+- Tipo: gasto
+- Categoría: insumos
+- Concepto: Semillas brócoli certificadas
+- Monto: $185,000
+- Fecha: (fecha de siembra brócoli)
+- Proveedor: Semillas Andinas S.A.S
+- Método de Pago: transferencia
+- Cultivo Relacionado: Brócoli Verde
+- Notas: Semillas híbridas resistentes a enfermedades
+
+GASTO - INSUMOS ORGÁNICOS:
+- Tipo: gasto
+- Categoría: insumos
+- Concepto: Compost orgánico certificado
+- Monto: $75,000
+- Fecha: (fecha de fertilización)
+- Proveedor: Abonos Ecológicos del Campo
+- Método de Pago: efectivo
+- Cultivo Relacionado: Brócoli Verde
+- Notas: Compost maduro, certificación orgánica
+
+INGRESO - VENTA ESPINACA:
+- Tipo: ingreso
+- Categoría: ventas
+- Concepto: Venta espinaca orgánica primer corte
+- Monto: $1,024,000
+- Fecha: (fecha de venta)
+- Cliente: Mercado Orgánico Central
+- Método de Pago: transferencia
+- Cultivo Relacionado: Espinaca Lisa
+- Notas: 320 kg a $3,200/kg, producto orgánico certificado
+
+================================================================================
+5. FLUJO COMPLETO DEL SISTEMA (EJEMPLO CON QUINUA)
+================================================================================
+
+COMO AGRICULTOR - CICLO COMPLETO QUINUA:
+
+1. CREAR SIEMBRA DE QUINUA:
+- Lote: Terraza Alta (Finca Monte Verde)
+- Tipo de Cultivo: Quinua Real
+- Fecha de Siembra: (hace 60 días)
+- Área Sembrada: 4.5 hectáreas
+- Cantidad de Semilla: 54 kg (12 kg/ha)
+- Método de Siembra: directa
+- Distancia entre Surcos: 0.4 metros
+- Distancia entre Plantas: 0.15 metros
+- Profundidad: 3 cm
+- Estado: floración
+- Notas: Quinua adaptada a altura, semilla criolla seleccionada
+
+2. REGISTRAR ACTIVIDADES DE MANEJO:
+
+PREPARACIÓN DEL SUELO:
+- Tipo: preparación_suelo
+- Fecha: (hace 65 días)
+- Descripción: Arado y rastrillado del terreno
+- Costo: $180,000
+- Notas: Preparación con maquinaria propia
+
+SIEMBRA:
+- Tipo: siembra
+- Fecha: (hace 60 días)
+- Descripción: Siembra directa con sembradora
+- Productos: Semilla quinua criolla (54 kg)
+- Costo: $162,000
+- Notas: Siembra en surcos, densidad 12 kg/ha
+
+FERTILIZACIÓN ORGÁNICA:
+- Tipo: fertilización
+- Fecha: (hace 45 días)
+- Descripción: Aplicación de humus de lombriz
+- Productos: Humus de lombriz (1,800 kg)
+- Costo: $90,000
+- Notas: Fertilización orgánica al voleo
+
+DESHIERBE:
+- Tipo: deshierbe
+- Fecha: (hace 30 días)
+- Descripción: Control manual de malezas
+- Costo: $120,000 (mano de obra)
+- Notas: Deshierbe selectivo, 8 jornales
+
+3. MONITOREOS PERIÓDICOS:
+
+MONITOREO 1 (hace 45 días):
+- Altura Promedio: 15.2 cm
+- Estado General: bueno
+- Porcentaje de Germinación: 78%
+- Color del Follaje: verde claro
+- Presencia de Plagas: ninguna
+- Presencia de Enfermedades: ninguna
+- Observaciones: Germinación uniforme, plantas establecidas
+
+MONITOREO 2 (hace 30 días):
+- Altura Promedio: 45.8 cm
+- Estado General: excelente
+- Porcentaje de Germinación: 78%
+- Color del Follaje: verde intenso
+- Presencia de Plagas: leve
+- Tipo de Plagas: áfidos
+- Presencia de Enfermedades: ninguna
+- Observaciones: Excelente desarrollo vegetativo, control preventivo de áfidos
+
+MONITOREO 3 (actual):
+- Altura Promedio: 85.3 cm
+- Estado General: excelente
+- Color del Follaje: verde con tonos rojizos
+- Presencia de Plagas: ninguna
+- Presencia de Enfermedades: ninguna
+- Observaciones: Plantas en plena floración, panojas desarrollándose
+
+4. REGISTRO DE COSECHA (después de 150 días):
+- Cantidad: 2,700 kg (600 kg/ha)
+- Calidad: primera
+- Precio: $8,500/kg
+- Cliente: Cooperativa Andina de Quinua
+- Ingresos: $22,950,000
+
+================================================================================
+6. DATOS DE PRUEBA ADICIONALES
+================================================================================
+
+PROVEEDORES ESPECIALIZADOS:
+- Semillas Andinas S.A.S - Teléfono: +57 1 234 5678
+- Abonos Ecológicos del Campo - Teléfono: +57 1 345 6789
+- Insumos Orgánicos La Montaña - Teléfono: +57 1 456 7890
+- Tecnología Verde Ltda - Teléfono: +57 1 567 8901
+
+COMPRADORES ESPECIALIZADOS:
+- Mercado Orgánico Central - Teléfono: +57 310 111 2222
+- Cooperativa Andina de Quinua - Teléfono: +57 320 333 4444
+- Distribuidora Productos Sanos - Teléfono: +57 315 555 6666
+- Exportadora Alimentos Andinos - Teléfono: +57 318 777 8888
+
+PRECIOS DE MERCADO REALISTAS:
+- Brócoli: $2,800 - $3,500 por kg
+- Quinua: $7,500 - $9,200 por kg
+- Lenteja: $5,200 - $6,800 por kg
+- Espinaca: $2,900 - $3,800 por kg
+
+COSTOS DE PRODUCCIÓN:
+- Semillas Brócoli: $185,000 por hectárea
+- Semillas Quinua: $36,000 por hectárea (12 kg/ha a $3,000/kg)
+- Semillas Lenteja: $360,000 por hectárea (120 kg/ha a $3,000/kg)
+- Semillas Espinaca: $625,000 por hectárea (25 kg/ha a $25,000/kg)
+
+INSUMOS ORGÁNICOS:
+- Compost orgánico: $750 por kg
+- Humus de lombriz: $50 por kg
+- Aceite de neem: $14,000 por litro
+- Extracto de ajo: $8,500 por litro
+
+JORNALES Y MANO DE OBRA:
+- Jornal rural: $50,000 por día
+- Preparación suelo (maquinaria): $40,000 por hectárea
+- Siembra manual: 2 jornales por hectárea
+- Deshierbe: 3-4 jornales por hectárea
+- Cosecha manual: 4-6 jornales por hectárea
+
+================================================================================
+SECUENCIA RECOMENDADA DE PRUEBAS:
+================================================================================
+
+DÍA 1 - CONFIGURACIÓN INICIAL (ADMINISTRADOR):
+1. Crear tipos de cultivos (Brócoli, Quinua, Lenteja, Espinaca)
+2. Crear usuarios adicionales
+3. Crear fincas y lotes
+4. Verificar permisos y accesos
+
+DÍA 2 - ESTABLECIMIENTO DE CULTIVOS (AGRICULTOR):
+1. Crear siembras en diferentes lotes
+2. Registrar actividades de establecimiento
+3. Crear primeros monitoreos
+4. Registrar gastos iniciales
+
+DÍA 3 - SEGUIMIENTO Y SUPERVISIÓN:
+1. Como supervisor: crear monitoreos de supervisión
+2. Como agricultor: registrar actividades de manejo
+3. Crear monitoreos de seguimiento
+4. Registrar gastos adicionales
+
+DÍA 4 - COSECHAS Y FINANZAS:
+1. Registrar cosechas de cultivos de ciclo corto (espinaca)
+2. Registrar ventas e ingresos
+3. Generar reportes financieros
+4. Verificar balances y rentabilidad
+
+DÍA 5 - REPORTES Y ANÁLISIS:
+1. Como admin: generar reportes generales del sistema
+2. Como supervisor: crear reportes de supervisión
+3. Como agricultor: revisar reportes de producción
+4. Exportar reportes en diferentes formatos
+
+================================================================================
+VERIFICACIONES IMPORTANTES:
+================================================================================
+
+✓ Todos los cultivos deben tener ciclos y fechas coherentes
+✓ Los monitoreos deben reflejar el estado real según días transcurridos
+✓ Los precios deben estar dentro de rangos de mercado realistas
+✓ Las actividades deben seguir el orden lógico del proceso productivo
+✓ Los gastos deben registrarse antes o durante las actividades
+✓ Los ingresos solo después de ventas confirmadas
+✓ Verificar que los cálculos automáticos sean correctos
+✓ Probar todos los permisos por rol
+✓ Verificar exportación de reportes
+✓ Comprobar alertas automáticas del sistema
+
+================================================================================
+FIN DE LA GUÍA DE PRUEBAS
+================================================================================

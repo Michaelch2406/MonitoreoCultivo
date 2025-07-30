@@ -819,3 +819,63 @@ Stack trace:
 #0 C:\inetpub\wwwroot\MonitoreoCultivo\AJAX\reportes_ajax.php(208): Reportes->obtenerUsuariosActivos()
 #1 {main}
   thrown in C:\inetpub\wwwroot\MonitoreoCultivo\MODELOS\reportes_m.php on line 1437
+[29-Jul-2025 20:06:48 America/New_York] PHP Fatal error:  Uncaught Error: Call to undefined method Conexion::ejecutarConsulta() in C:\inetpub\wwwroot\MonitoreoCultivo\MODELOS\reportes_m.php:1437
+Stack trace:
+#0 C:\inetpub\wwwroot\MonitoreoCultivo\AJAX\reportes_ajax.php(208): Reportes->obtenerUsuariosActivos()
+#1 {main}
+  thrown in C:\inetpub\wwwroot\MonitoreoCultivo\MODELOS\reportes_m.php on line 1437
+[2025-07-29 20:07:35] OPERATION: Obtener estadísticas cultivos | User ID: 1
+[2025-07-29 20:07:35] OPERATION: Listar cultivos | User ID: 1 | Details: Categoría: todas
+[29-Jul-2025 20:07:41 America/New_York] PHP Fatal error:  Uncaught Error: Call to undefined method Conexion::ejecutarConsulta() in C:\inetpub\wwwroot\MonitoreoCultivo\MODELOS\reportes_m.php:1437
+Stack trace:
+#0 C:\inetpub\wwwroot\MonitoreoCultivo\AJAX\reportes_ajax.php(208): Reportes->obtenerUsuariosActivos()
+#1 {main}
+  thrown in C:\inetpub\wwwroot\MonitoreoCultivo\MODELOS\reportes_m.php on line 1437
+[29-Jul-2025 20:10:00 America/New_York] Error en la consulta SQL: Unknown column 'usu_fecha_creacion' in 'field list' (SQL: 
+                SELECT 
+                    DATE(usu_fecha_creacion) as fecha,
+                    COUNT(*) as usuarios_activos
+                FROM usuarios 
+                WHERE usu_estado = 'activo' 
+                    AND usu_fecha_creacion >= DATE_SUB(CURRENT_DATE, INTERVAL 7 DAY)
+                GROUP BY DATE(usu_fecha_creacion)
+                ORDER BY fecha ASC
+            )
+SQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
+                           u.usu_nombre, u.usu_apellido, u.usu_email
+                    FROM lotes l
+                    INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
+                    INNER JOIN usuarios u ON f.fin_propietario = u.usu_id
+                    WHERE 1=1 ORDER BY l.lot_fecha_registro DESC[29-Jul-2025 20:14:30 America/New_York] Login exitoso para usuario: alejandroc@gmail.com - IP: ::1
+[2025-07-29 20:15:57] OPERATION: Listar cultivos | User ID: 3 | Details: Categoría: todas
+[2025-07-29 20:15:57] OPERATION: Obtener estadísticas cultivos | User ID: 3
+[2025-07-29 20:16:29] OPERATION: Ver detalle cultivo | User ID: 3 | Details: ID: 27
+SQL Listar Lotes: SELECT l.*, f.fin_nombre, f.fin_area_total,
+                           u.usu_nombre, u.usu_apellido, u.usu_email
+                    FROM lotes l
+                    INNER JOIN fincas f ON l.lot_finca_id = f.fin_id
+                    INNER JOIN usuarios u ON f.fin_propietario = u.usu_id
+                    WHERE 1=1 AND (f.fin_propietario IN (
+                    SELECT usu_id FROM usuarios WHERE usu_estado = 'activo' AND usu_rol = 'agricultor'
+                )) ORDER BY l.lot_fecha_registro DESC[2025-07-29 20:20:41] OPERATION: Listar cultivos | User ID: 3 | Details: Categoría: todas
+[2025-07-29 20:20:41] OPERATION: Obtener estadísticas cultivos | User ID: 3
+[29-Jul-2025 20:22:15 America/New_York] Login exitoso para usuario: maicolchasiguano@gmail.com - IP: ::1
+[29-Jul-2025 20:22:28 America/New_York] Monitoreo creado por usuario: maicolchasiguano@gmail.com - IP: ::1
+[29-Jul-2025 20:35:07 America/New_York] PHP Notice:  session_start(): ps_files_cleanup_dir: opendir(C:\Windows\Temp\) failed: No error (0) in C:\inetpub\wwwroot\MonitoreoCultivo\AJAX\notificaciones_ajax.php on line 8
+[2025-07-29 20:37:14] OPERATION: Listar cultivos | User ID: 1 | Details: Categoría: todas
+[2025-07-29 20:37:14] OPERATION: Obtener estadísticas cultivos | User ID: 1
+[29-Jul-2025 20:46:57 America/New_York] Datos recibidos para actualizar finca ID 10: Array
+(
+    [finca_id] => 10
+    [nombre] => Finca Agrícola "San José"
+    [area_total] => 950.00
+    [ubicacion] => 5VWW+83H, Unnamed Road
+    [latitud] => 0.21401000
+    [longitud] => -79.10958000
+    [propietario_id] => 2
+    [descripcion] => Granja grande
+    [estado] => activa
+    [action] => actualizar
+)
+
+[29-Jul-2025 20:46:57 America/New_York] SQL Update Finca: UPDATE fincas SET fin_nombre = 'Finca Agrícola \"San José\"', fin_ubicacion = '5VWW+83H, Unnamed Road', fin_latitud = 0.21401, fin_longitud = -79.10958, fin_area_total = 950, fin_descripcion = 'Granja grande', fin_propietario = 2, fin_estado = 'activa' WHERE fin_id = 10

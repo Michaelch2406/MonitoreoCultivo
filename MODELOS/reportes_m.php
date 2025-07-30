@@ -1383,7 +1383,7 @@ class Reportes {
                 WHERE 1=1 $filtro_usuario
             ";
             
-            $resultado = $this->conexion->ejecutarConsulta($query);
+            $resultado = $this->conexion->ejecutarSP($query);
             
             if ($resultado && $fila = $resultado->fetch_assoc()) {
                 return [
@@ -1425,16 +1425,16 @@ class Reportes {
             
             $query = "
                 SELECT 
-                    DATE(usu_fecha_creacion) as fecha,
+                    DATE(usu_fecha_registro) as fecha,
                     COUNT(*) as usuarios_activos
                 FROM usuarios 
                 WHERE usu_estado = 'activo' 
-                    AND usu_fecha_creacion >= DATE_SUB(CURRENT_DATE, INTERVAL 7 DAY)
-                GROUP BY DATE(usu_fecha_creacion)
+                    AND usu_fecha_registro >= DATE_SUB(CURRENT_DATE, INTERVAL 7 DAY)
+                GROUP BY DATE(usu_fecha_registro)
                 ORDER BY fecha ASC
             ";
             
-            $resultado = $this->conexion->ejecutarConsulta($query);
+            $resultado = $this->conexion->ejecutarSP($query);
             $datos = [];
             
             if ($resultado) {

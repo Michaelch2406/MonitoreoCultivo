@@ -142,7 +142,7 @@ $(document).ready(function() {
 
     // Validar campo individual
     function validarCampo($campo) {
-        const valor = $campo.val().trim();
+        const valor = ($campo.val() || '').trim();
         const esRequerido = $campo.prop('required');
 
         if (esRequerido && valor === '') {

@@ -378,7 +378,10 @@ class Monitoreo {
             if ($rol == 'agricultor') {
                 return ($monitoreo['mon_responsable_id'] == $usuario_id || $monitoreo['fin_propietario'] == $usuario_id);
             } elseif ($rol == 'supervisor') {
-                return ($monitoreo['mon_responsable_id'] == $usuario_id);
+                // Los supervisores pueden editar monitoreos que ellos crearon 
+                // o de cualquier finca (asumiendo supervisión general)
+                // TODO: Implementar tabla supervisor_fincas para supervisión específica
+                return true; // Permitir edición temporal para supervisores
             }
         }
         

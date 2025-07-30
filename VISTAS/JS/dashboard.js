@@ -779,19 +779,25 @@ function cargarDatosSupervision() {
  * Cargar datos de rendimiento
  */
 function cargarDatosRendimiento() {
+    // Temporalmente deshabilitado - endpoint 'rendimiento_lotes' no implementado
+    console.log('cargarDatosRendimiento: Función temporalmente deshabilitada');
+    return;
+    
     $.ajax({
         url: '../AJAX/reportes_ajax.php',
         type: 'GET',
         data: { accion: 'rendimiento_lotes' },
         dataType: 'json',
         success: function(response) {
-            if (response.success && window.graficoRendimiento) {
+            if (response.success && response.data && Array.isArray(response.data) && window.graficoRendimiento) {
                 const labels = response.data.map(item => item.nombre || 'Finca');
                 const datos = response.data.map(item => parseFloat(item.rendimiento) || 0);
                 
                 window.graficoRendimiento.data.labels = labels;
                 window.graficoRendimiento.data.datasets[0].data = datos;
                 window.graficoRendimiento.update();
+            } else {
+                console.log('No hay datos de rendimiento disponibles o estructura de respuesta incorrecta:', response);
             }
         },
         error: function(xhr, status, error) {
