@@ -1,0 +1,230 @@
+/* 
+ * CSS para la página de Planes de Precios
+ * AgroMonitor - Sistema de Monitoreo de Cultivos
+ */
+
+/* Paleta de Colores - AgroMonitor */
+:root {
+    --primary-green: #2E7D32;      /* Verde Principal - Hojas maduras */
+    --secondary-green: #4CAF50;    /* Verde Secundario - Crecimiento */
+    --light-green: #81C784;        /* Verde Claro - Brotes nuevos */
+    --earth-brown: #8D6E63;        /* Marrón Tierra - Suelo fértil */
+    --water-blue: #1976D2;         /* Azul Agua - Riego e hidratación */
+    --sun-yellow: #FFA726;         /* Amarillo Sol - Energía solar */
+    --white: #FFFFFF;              /* Blanco - Pureza y claridad */
+    --light-gray: #F5F5F5;         /* Gris Claro - Fondos suaves */
+    --text-gray: #424242;          /* Gris Texto - Legibilidad */
+    --hover-green: #1B5E20;        /* Verde Hover - Interacciones */
+    --shadow-light: rgba(46, 125, 50, 0.1);
+    --shadow-medium: rgba(46, 125, 50, 0.2);
+    --shadow-heavy: rgba(46, 125, 50, 0.3);
+    --error-red: #F44336;          /* Rojo Error - Alertas */
+    --success-green: #4CAF50;      /* Verde Éxito - Confirmaciones */
+    --warning-orange: #FF9800;     /* Naranja Advertencia - Precauciones */
+}
+
+body {
+    background-color: var(--light-gray);
+    color: var(--text-gray);
+}
+
+/* Header de la página de precios */
+.precios-header {
+    background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+    color: var(--white);
+    padding: 4rem 0;
+    text-align: center;
+    border-bottom: 5px solid var(--sun-yellow);
+}
+
+.precios-header h1 {
+    font-weight: 700;
+    text-shadow: 2px 2px 4px var(--shadow-heavy);
+}
+
+.precios-header p {
+    font-size: 1.25rem;
+    opacity: 0.9;
+}
+
+/* Sección de los planes */
+.precios-section {
+    padding: 5rem 0;
+}
+
+.pricing-card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px var(--shadow-light);
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+}
+
+.pricing-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px var(--shadow-medium);
+}
+
+/* Tarjeta recomendada */
+.pricing-card.recommended {
+    border: 3px solid var(--sun-yellow);
+    transform: scale(1.05);
+    box-shadow: 0 15px 50px var(--shadow-medium);
+}
+
+.pricing-card.recommended:hover {
+    transform: scale(1.05) translateY(-10px);
+}
+
+.recommended-badge {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--sun-yellow);
+    color: var(--white);
+    padding: 0.5rem 1.5rem;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    box-shadow: 0 5px 10px rgba(255, 167, 38, 0.4);
+}
+
+/* Header de la tarjeta */
+.pricing-card .pricing-header {
+    color: var(--white);
+    padding: 2rem;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    text-align: center;
+}
+
+.plan-name {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.price-display {
+    margin-bottom: 0.5rem;
+}
+
+.price-amount {
+    font-size: 3.5rem;
+    font-weight: 700;
+}
+
+.price-period {
+    font-size: 1rem;
+    font-weight: 300;
+    opacity: 0.8;
+}
+
+.price-anual {
+    font-size: 0.9rem;
+    font-weight: 500;
+    opacity: 0.9;
+    margin: 0;
+}
+
+/* Cuerpo de la tarjeta */
+.card-body {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.plan-description {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    min-height: 80px; /* Para alinear verticalmente los botones */
+}
+
+.plan-features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-grow: 1;
+}
+
+.plan-features li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+.plan-features li i {
+    color: var(--secondary-green);
+    font-size: 1.2rem;
+    margin-right: 0.75rem;
+}
+
+/* Footer de la tarjeta */
+.card-footer {
+    background-color: transparent;
+    border-top: none;
+    padding: 2rem;
+}
+
+.btn-elegir-plan {
+    background-color: var(--primary-green);
+    color: var(--white);
+    border: none;
+    padding: 0.875rem 1.5rem;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-elegir-plan:hover {
+    background-color: var(--hover-green);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px var(--shadow-medium);
+}
+
+.pricing-card.recommended .btn-elegir-plan {
+    background-color: var(--sun-yellow);
+    color: var(--white);
+}
+
+.pricing-card.recommended .btn-elegir-plan:hover {
+    background-color: #e69500; /* Un amarillo más oscuro para el hover */
+}
+
+/* Media Queries para Responsividad */
+@media (max-width: 991.98px) {
+    .pricing-card.recommended {
+        transform: scale(1); /* Desactivar el zoom en tablet para evitar problemas de layout */
+    }
+    .pricing-card {
+        margin-bottom: 2rem;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .precios-header {
+        padding: 3rem 0;
+    }
+    .precios-header h1 {
+        font-size: 2.5rem;
+    }
+    .precios-section {
+        padding: 3rem 0;
+    }
+    .pricing-card {
+        margin-bottom: 2rem;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .price-amount {
+        font-size: 2.8rem;
+    }
+    .plan-name {
+        font-size: 1.5rem;
+    }
+}

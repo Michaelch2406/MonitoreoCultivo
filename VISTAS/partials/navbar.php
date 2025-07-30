@@ -217,12 +217,7 @@ function obtenerTextoRolSimple($rol) {
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#características">
-                        <i class="fas fa-star me-1"></i>Características
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#precios">
+                    <a class="nav-link" href="precios.php">
                         <i class="fas fa-dollar-sign me-1"></i>Precios
                     </a>
                 </li>
